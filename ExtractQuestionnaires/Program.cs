@@ -19,13 +19,13 @@ namespace ExtractQuestionnaires
                     default:
                     {
                         Console.WriteLine(@"Press ENTER to process a directory. Press ESC to close the console.");
-                        key = Console.ReadKey().Key;             
+                        key = Console.ReadKey().Key;
                         continue;
                     }
                     case ConsoleKey.Enter:
                     {
                         Process();
-                        continue;
+                        goto default;
                     }
                     case ConsoleKey.Escape:
                     {
