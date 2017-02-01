@@ -1,9 +1,8 @@
 ﻿using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QuestionnaireExtractionLibrary;
 
-namespace QuestionnaireExtractionLibraryTests
+namespace AD.Questionnaires.Tests
 {
     /// <summary>
     /// Testing: DocToDocxFactory

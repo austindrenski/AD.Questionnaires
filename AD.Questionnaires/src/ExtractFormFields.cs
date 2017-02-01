@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace QuestionnaireExtractionLibrary
+namespace AD.Questionnaires
 {
     internal static class ExtractFormFields
     {

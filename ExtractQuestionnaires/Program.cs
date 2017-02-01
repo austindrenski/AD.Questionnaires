@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using AD.Questionnaires;
 using JetBrains.Annotations;
-using QuestionnaireExtractionLibrary;
 
 namespace ExtractQuestionnaires
 {
@@ -10,9 +10,28 @@ namespace ExtractQuestionnaires
         [PublicAPI]
         internal static void Main()
         {
+            ConsoleKey key = ConsoleKey.Enter;
             while (true)
             {
-                Process();
+                // ReSharper disable once SwitchStatementMissingSomeCases
+                switch (key)
+                {
+                    default:
+                    {
+                        Console.WriteLine(@"Press ENTER to process a directory. Press ESC to close the console.");
+                        key = Console.ReadKey().Key;             
+                        continue;
+                    }
+                    case ConsoleKey.Enter:
+                    {
+                        Process();
+                        continue;
+                    }
+                    case ConsoleKey.Escape:
+                    {
+                        return;
+                    }
+                }
             }
         }
 
@@ -29,6 +48,10 @@ namespace ExtractQuestionnaires
                 sw.Start();
                 switch (type)
                 {
+                    default:
+                    {
+                        return;
+                    }
                     case "0":
                     {
                         ContentControlQuestionnaireFactory.ExtractFromDirectory(directory);
@@ -50,7 +73,6 @@ namespace ExtractQuestionnaires
                 Console.WriteLine();
                 Console.WriteLine($"An error occured during extraction. {e.Message}");
                 Console.WriteLine();
-                Console.ReadLine();
             }
         }
     }

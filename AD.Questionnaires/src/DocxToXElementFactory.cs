@@ -6,11 +6,10 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using AjdExtensions;
-using AjdExtensions.IO;
+using AD.IO;
 using JetBrains.Annotations;
 
-namespace QuestionnaireExtractionLibrary
+namespace AD.Questionnaires
 {
     /// <summary>
     /// Provides methods to open a Microsoft Word document as an XElement.

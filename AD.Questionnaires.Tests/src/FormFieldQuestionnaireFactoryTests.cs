@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using AjdExtensions;
-using AjdExtensions.IO;
+using AD.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QuestionnaireExtractionLibrary;
 
-namespace QuestionnaireExtractionLibraryTests
+namespace AD.Questionnaires.Tests
 {
     /// <summary>
     /// Testing: FormFieldQuestionnaireFactory

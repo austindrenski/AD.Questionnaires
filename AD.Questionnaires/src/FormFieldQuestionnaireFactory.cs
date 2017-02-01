@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using AjdExtensions.IO;
+using AD.IO;
 using JetBrains.Annotations;
 
-namespace QuestionnaireExtractionLibrary
+namespace AD.Questionnaires
 {
     /// <summary>
     /// Provides methods to extract form field data from Microsoft Word documents (.doc or .docx).
@@ -21,8 +20,8 @@ namespace QuestionnaireExtractionLibrary
         /// <exception cref="System.AggregateException"/>
         /// <exception cref="System.ArgumentException"/>
         /// <exception cref="System.ArgumentNullException"/>
-        /// <exception cref="IOException"/>
-        /// <exception cref="PathTooLongException"/>
+        /// <exception cref="System.IO.IOException"/>
+        /// <exception cref="System.IO.PathTooLongException"/>
         /// <exception cref="System.Security.SecurityException"/>
         /// <exception cref="System.UnauthorizedAccessException"/>
         public static void ExtractFromDirectory(DirectoryPath directoryPath)

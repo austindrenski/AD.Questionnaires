@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using AjdExtensions.IO;
+using AD.IO;
 using JetBrains.Annotations;
 
-namespace QuestionnaireExtractionLibrary
+namespace AD.Questionnaires
 {
     /// <summary>
     /// Provides methods to extract content control data from Microsoft Word documents (.docx).
@@ -81,7 +81,7 @@ namespace QuestionnaireExtractionLibrary
                     response.Value = element.Element("sdtContent")?
                                             .Descendants("t")
                                             .Select(x => x.Value)
-                                            .Aggregate((x, s) => s += x)
+                                            .Aggregate((x, s) => s + x)
                                             .Contains("☒")
                                             .ToString() ?? "False";
                 }
@@ -90,7 +90,7 @@ namespace QuestionnaireExtractionLibrary
                     response.Value = element.Element("sdtContent")?
                                             .Descendants("t")
                                             .Select(x => x.Value)
-                                            .Aggregate((x, s) => s += x) ?? "";
+                                            .Aggregate((x, s) => s + x) ?? "";
                 }
                 questionnaire.Add(response);
             }

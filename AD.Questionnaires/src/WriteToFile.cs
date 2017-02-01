@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using AjdExtensions.IO;
-using AjdExtensions.Text;
-using AjdExtensions.Xml;
+using AD.IO;
+using AD.Xml;
 
-namespace QuestionnaireExtractionLibrary
+namespace AD.Questionnaires
 {
     internal static class WriteToFile
     {

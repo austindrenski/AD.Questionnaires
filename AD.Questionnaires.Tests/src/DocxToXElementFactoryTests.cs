@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using AjdExtensions;
-using AjdExtensions.IO;
+using AD.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QuestionnaireExtractionLibrary;
 
-namespace QuestionnaireExtractionLibraryTests
+namespace AD.Questionnaires.Tests
 {
     /// <summary>
     /// Testing: DocxToXElementFactory

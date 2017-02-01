@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.Office.Interop.Word;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace QuestionnaireExtractionLibraryTests
+namespace AD.Questionnaires.Tests
 {
     public class ArrangeUnitTests
     {
