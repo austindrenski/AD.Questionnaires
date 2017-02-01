@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -20,7 +19,7 @@ namespace AD.Questionnaires
         /// <summary>
         /// Represents the 'w:' prefix seen in raw OpenXML documents. This constant is needed to extract attributes.
         /// </summary>
-        private const string OpenXmlNamespace = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}";
+        private static readonly XNamespace OpenXmlNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
 
         /// <summary>
         /// Opens Microsoft Word documents (.docx) as simplified XElements. 
@@ -65,51 +64,9 @@ namespace AD.Questionnaires
         /// <exception cref="NotSupportedException"/>
         /// <exception cref="InvalidDataException"/>
         /// <exception cref="ObjectDisposedException"/>
-        public static XElement Open(string filePath)
+        public static XElement Open(DocxFilePath filePath)
         {
-            return OpenWordDocument(filePath).Root.CreateXmlFromOpenXml();
-        }
-
-        /// <summary>
-        /// Opens a Microsoft Word document (.docx) as an XDocument. The returned XDocument receives no additional processing.
-        /// This method is provided for advanced modification of a Microsoft Word document. Simpler cases should use one of the Open(...) methods.
-        /// </summary>
-        /// <param name="filePath">The file path of the .docx file to be opened. The file name is stored as an attribure of the root element.</param>
-        /// <returns>An XDocument whose root element is the document root of the Microsoft Word document.</returns>
-        /// <exception cref="ArgumentException"/>
-        /// <exception cref="ArgumentNullException"/>
-        /// <exception cref="PathTooLongException"/>
-        /// <exception cref="DirectoryNotFoundException"/>
-        /// <exception cref="IOException"/>
-        /// <exception cref="UnauthorizedAccessException"/>
-        /// <exception cref="FileNotFoundException"/>
-        /// <exception cref="NotSupportedException"/>
-        /// <exception cref="InvalidDataException"/>
-        /// <exception cref="ObjectDisposedException"/>
-        public static XDocument OpenWordDocument(string filePath)
-        {
-            if (!File.Exists(filePath))
-            {
-                throw new FileNotFoundException();
-            }
-            if (Path.GetExtension(filePath) != ".docx")
-            {
-                throw new ArgumentException("File must be a Microsoft Word document (.docx).");
-            }
-            if (filePath.Contains('~'))
-            {
-                throw new ArgumentException("File path contains a tilda character. It may be invalid.");
-            }
-            XDocument document;
-            using (ZipArchive file = ZipFile.OpenRead(filePath))
-            {
-                using (Stream stream = file.GetEntry("word/document.xml").Open())
-                {
-                    document = XDocument.Load(stream);
-                }
-            }
-            document.Root?.SetAttributeValue("fileName", Path.GetFileNameWithoutExtension(filePath));
-            return document;
+            return filePath.ReadAsXml().CreateXmlFromOpenXml();
         }
 
         /// <summary>
