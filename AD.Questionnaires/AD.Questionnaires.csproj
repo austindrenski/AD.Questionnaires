@@ -54,12 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\ContentControlQuestionnaireFactory.cs" />
-    <Compile Include="src\DocToDocxFactory.cs" />
-    <Compile Include="src\DocxToXElementFactory.cs" />
+    <Compile Include="src\TryConvertDocToDocx.cs" />
+    <Compile Include="src\CreateXmlFromOpenXml.cs" />
+    <Compile Include="src\ExtractContentControls.cs" />
     <Compile Include="src\ExtractFormFields.cs" />
-    <Compile Include="src\FormFieldQuestionnaireFactory.cs" />
-    <Compile Include="src\XmlMinification.cs" />
+    <Compile Include="src\QuestionnaireFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

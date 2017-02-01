@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using AD.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AD.Questionnaires.Tests
@@ -17,13 +18,13 @@ namespace AD.Questionnaires.Tests
         public void TryConvertDirectoryTest()
         {
             // Arrange
-            string directory = FileDirectory;
-            string docFile = FormFieldDocTestFile;
-            string docxFile = FormFieldDocxTestFile;
-            string skipFile = BrokenTestFile;
+            DirectoryPath directory = FileDirectory;
+            FilePath docFile = FormFieldDocTestFile;
+            DocxFilePath docxFile = FormFieldDocxTestFile;
+            FilePath skipFile = BrokenTestFile;
 
             // Act
-            DocToDocxFactory.TryConvertDirectory(directory);
+            directory.TryConvertDocToDocx();
 
             // Assert
             bool doc = File.Exists(Path.ChangeExtension(docFile, ".docx"));
@@ -39,10 +40,10 @@ namespace AD.Questionnaires.Tests
         public void TryConvertFileTestDoc() 
         {
             // Arrange
-            string docFile = FormFieldDocTestFile;
+            FilePath docFile = FormFieldDocTestFile;
 
             // Act
-            DocToDocxFactory.TryConvertFile(docFile);
+            docFile.TryConvertDocToDocx();
 
             // Assert
             bool doc = File.Exists(Path.ChangeExtension(docFile, ".docx"));
@@ -56,10 +57,10 @@ namespace AD.Questionnaires.Tests
         public void TryConvertFileTestDocx()
         {
             // Arrange
-            string docxFile = FormFieldDocxTestFile;
+            FilePath docxFile = FormFieldDocxTestFile;
 
             // Act
-            DocToDocxFactory.TryConvertFile(docxFile);
+            docxFile.TryConvertDocToDocx();
 
             // Assert
             bool docx = File.Exists(Path.ChangeExtension(docxFile, ".docx"));
@@ -73,12 +74,12 @@ namespace AD.Questionnaires.Tests
         public void TryConvertFileTestSkip()
         {
             // Arrange
-            string directory = FileDirectory;
-            string skipFile = BrokenTestFile;
+            DirectoryPath directory = FileDirectory;
+            FilePath skipFile = BrokenTestFile;
             int directoryCount = Directory.EnumerateFiles(directory).Count();
 
             // Act
-            DocToDocxFactory.TryConvertFile(skipFile);
+            skipFile.TryConvertDocToDocx();
 
             // Assert
             bool skip = Directory.EnumerateFiles(directory).Count() == directoryCount;

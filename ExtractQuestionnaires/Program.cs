@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using AD.IO;
 using AD.Questionnaires;
 using JetBrains.Annotations;
 
@@ -41,7 +42,7 @@ namespace ExtractQuestionnaires
             try
             {
                 Console.WriteLine(@"Enter path containing questionnaires:");
-                string directory = Console.ReadLine();
+                DirectoryPath directory = Console.ReadLine();
                 Console.WriteLine(@"Content controls (0) or form fields (1)?");
                 string type = Console.ReadLine();
                 Stopwatch sw = new Stopwatch();
@@ -54,12 +55,12 @@ namespace ExtractQuestionnaires
                     }
                     case "0":
                     {
-                        ContentControlQuestionnaireFactory.ExtractFromDirectory(directory);
+                        QuestionnaireFactory.ProcessContentControls(directory);
                         break;
                     }
                     case "1":
                     {
-                        FormFieldQuestionnaireFactory.ExtractFromDirectory(directory);
+                        QuestionnaireFactory.ProcessFormFields(directory);
                         break;
                     }
                 }

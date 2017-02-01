@@ -22,7 +22,7 @@ namespace AD.Questionnaires.Tests
             DirectoryPath directory = FileDirectory;
 
             // Act
-            ContentControlQuestionnaireFactory.ExtractFromDirectory(directory);
+            QuestionnaireFactory.ProcessContentControls(directory);
 
             // Assert
             IEnumerable<string> files = Directory.EnumerateFiles(Directory.GetParent(directory).FullName).ToArray();
@@ -40,7 +40,7 @@ namespace AD.Questionnaires.Tests
             DirectoryPath directory = EmptyDirectory;
 
             // Act
-            ContentControlQuestionnaireFactory.ExtractFromDirectory(directory);
+            QuestionnaireFactory.ProcessContentControls(directory);
 
             // Assert
             IEnumerable<string> files = Directory.EnumerateFiles(Directory.GetParent(directory).FullName).ToArray();
