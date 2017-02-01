@@ -29,7 +29,7 @@ namespace AD.Questionnaires
         /// <exception cref="System.UnauthorizedAccessException"/>
         /// <exception cref="FileNotFoundException"/>
         /// <exception cref="System.AggregateException"/>
-        public static IEnumerable<FilePath> TryConvertDirectory(DirectoryPath directoryPath)
+        public static IEnumerable<DocxFilePath> TryConvertDirectory(DirectoryPath directoryPath)
         {
             IEnumerable<string> directory = Directory.EnumerateFiles(directoryPath).ToArray();
             if (!directory.Any())
@@ -37,7 +37,7 @@ namespace AD.Questionnaires
                 throw new FileNotFoundException("Directory is empty.");
             }
             Parallel.ForEach(directory.Where(x => (Path.GetExtension(x) == ".doc" || Path.GetExtension(x) == ".docx") && !x.Contains('~')), TryConvertFile);
-            return Directory.EnumerateFiles(directoryPath, "*.docx").Where(x => !x.Contains('~')).Select(x => new FilePath(x));
+            return Directory.EnumerateFiles(directoryPath, "*.docx").Where(x => !x.Contains('~')).Select(x => new DocxFilePath(x));
         }
 
         /// <summary>

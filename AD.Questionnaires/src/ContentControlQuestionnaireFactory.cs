@@ -30,12 +30,13 @@ namespace AD.Questionnaires
         /// <exception cref="System.UnauthorizedAccessException"/>
         public static void ExtractFromDirectory(DirectoryPath directoryPath)
         {
-            IEnumerable<FilePath> files = DocToDocxFactory.TryConvertDirectory(directoryPath);
+            IEnumerable<DocxFilePath> files = DocToDocxFactory.TryConvertDirectory(directoryPath);
+
             IEnumerable<XElement> elements = DocxToXElementFactory.Open(files)
                                                                   .ExtractContentControls()
                                                                   .ToArray();
-            elements.WriteXml(directoryPath);
-            elements.WriteDelimited(directoryPath);
+            elements.WriteXml(directoryPath + ".xml");
+            elements.WriteDelimited(directoryPath + ".csv");
         }
 
         /// <summary>

@@ -59,7 +59,6 @@
     <Compile Include="src\DocxToXElementFactory.cs" />
     <Compile Include="src\ExtractFormFields.cs" />
     <Compile Include="src\FormFieldQuestionnaireFactory.cs" />
-    <Compile Include="src\WriteToFile.cs" />
     <Compile Include="src\XmlMinification.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -36,7 +36,7 @@ namespace AD.Questionnaires.Tests
         public void OpenTestMultipleDocx()
         {
             // Arrange
-            IEnumerable<FilePath> docxFiles = AllDocxTestFiles.Select(x => new FilePath(x));
+            IEnumerable<DocxFilePath> docxFiles = AllDocxTestFiles.Select(x => new DocxFilePath(x));
 
             // Act
             IEnumerable<XElement> elements = DocxToXElementFactory.Open(docxFiles).ToArray();
@@ -53,7 +53,7 @@ namespace AD.Questionnaires.Tests
         public void OpenTestMultipleMixed()
         {
             // Arrange
-            IEnumerable<FilePath> docxFiles = MixedTestFiles.Select(x => new FilePath(x));
+            IEnumerable<DocxFilePath> docxFiles = MixedTestFiles.Select(x => new DocxFilePath(x));
 
             // Act
             IEnumerable<XElement> elements = DocxToXElementFactory.Open(docxFiles).ToArray();
