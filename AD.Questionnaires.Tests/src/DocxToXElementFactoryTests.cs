@@ -42,7 +42,7 @@ namespace AD.Questionnaires.Tests
             IEnumerable<XElement> elements = DocxToXElementFactory.Open(docxFiles).ToArray();
 
             // Assert
-            Assert.IsTrue(elements.All(x => x.Name == "document") && (elements.Count() == 3) && elements.All(x => x.HasElements));
+            Assert.IsTrue(elements.All(x => x.Name == "document") && elements.Count() == 3 && elements.All(x => x.HasElements));
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace AD.Questionnaires.Tests
             IEnumerable<XElement> elements = DocxToXElementFactory.Open(docxFiles).ToArray();
 
             // Assert
-            Assert.IsTrue(elements.All(x => x.Name == "document") && (elements.Count() == 3) && elements.All(x => x.HasElements));
+            Assert.IsTrue(elements.All(x => x.Name == "document") && elements.Count() == 3 && elements.All(x => x.HasElements));
         }
 
         /// <summary>
@@ -69,13 +69,13 @@ namespace AD.Questionnaires.Tests
         public void OpenWordDocumentTestDocx()
         {
             // Arrange
-            string docx = FormFieldDocxTestFile;
+            DocxFilePath docx = FormFieldDocxTestFile;
 
             // Act
-            XDocument document = DocxToXElementFactory.OpenWordDocument(docx);
+            XElement document = docx.ReadAsXml();
 
             // Assert
-            Assert.IsTrue((document.Root?.Name.LocalName == "document") && document.Root.HasElements);
+            Assert.IsTrue(document.Name.LocalName == "document" && document.HasElements);
         }
 
         /// <summary>
@@ -86,13 +86,13 @@ namespace AD.Questionnaires.Tests
         public void OpenWordDocumentTestDoc()
         {
             // Arrange
-            string doc = FormFieldDocTestFile;
+            DocxFilePath doc = FormFieldDocTestFile;
 
             // Act
-            XDocument document = DocxToXElementFactory.OpenWordDocument(doc);
+            XElement document = doc.ReadAsXml();
 
             // Assert
-            Assert.IsTrue((document.Root?.Name.LocalName == "document") && document.Root.HasElements);
+            Assert.IsTrue(document.Name.LocalName == "document" && document.HasElements);
         }
 
         /// <summary>
@@ -103,13 +103,13 @@ namespace AD.Questionnaires.Tests
         public void OpenWordDocumentTestOther()
         {
             // Arrange
-            string broken = BrokenTestFile;
+            DocxFilePath broken = BrokenTestFile;
 
             // Act
-            XDocument document = DocxToXElementFactory.OpenWordDocument(broken);
+            XElement document = broken.ReadAsXml();
 
             // Assert
-            Assert.IsTrue((document.Root?.Name.LocalName == "document") && document.Root.HasElements);
+            Assert.IsTrue(document.Name.LocalName == "document" && document.HasElements);
         }     
     }
 }
