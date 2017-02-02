@@ -11,3 +11,16 @@ C:\Users\austin.drenski\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\b
 C:\Users\austin.drenski\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\obj\Debug\AD.Questionnaires.Tests.csprojResolveAssemblyReference.cache
 C:\Users\austin.drenski\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\obj\Debug\AD.Questionnaires.Tests.dll
 C:\Users\austin.drenski\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\obj\Debug\AD.Questionnaires.Tests.pdb
+C:\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\bin\Debug\AD.Questionnaires.Tests.dll
+C:\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\bin\Debug\AD.Questionnaires.Tests.pdb
+C:\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\bin\Debug\AD.IO.dll
+C:\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\bin\Debug\AD.Questionnaires.dll
+C:\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\bin\Debug\JetBrains.Annotations.dll
+C:\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\bin\Debug\AD.Questionnaires.pdb
+C:\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\bin\Debug\AD.IO.xml
+C:\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\bin\Debug\JetBrains.Annotations.xml
+C:\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\obj\Debug\AD.Questionnaires.Tests.csprojResolveAssemblyReference.cache
+C:\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\obj\Debug\AD.Questionnaires.Tests.dll
+C:\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\obj\Debug\AD.Questionnaires.Tests.pdb
+C:\Source\Repos\AD.Questionnaires\AD.Questionnaires.Tests\bin\Debug\AD.Questionnaires.xml

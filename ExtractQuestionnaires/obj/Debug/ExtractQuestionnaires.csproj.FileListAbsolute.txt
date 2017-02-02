@@ -11,3 +11,16 @@ C:\Users\austin.drenski\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\bin
 C:\Users\austin.drenski\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\obj\Debug\ExtractQuestionnaires.csprojResolveAssemblyReference.cache
 C:\Users\austin.drenski\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\obj\Debug\ExtractQuestionnaires.exe
 C:\Users\austin.drenski\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\obj\Debug\ExtractQuestionnaires.pdb
+C:\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\bin\Debug\ExtractQuestionnaires.exe.config
+C:\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\bin\Debug\ExtractQuestionnaires.exe
+C:\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\bin\Debug\ExtractQuestionnaires.pdb
+C:\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\bin\Debug\AD.IO.dll
+C:\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\bin\Debug\AD.Questionnaires.dll
+C:\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\bin\Debug\JetBrains.Annotations.dll
+C:\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\bin\Debug\AD.Questionnaires.pdb
+C:\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\bin\Debug\AD.IO.xml
+C:\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\bin\Debug\JetBrains.Annotations.xml
+C:\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\obj\Debug\ExtractQuestionnaires.csprojResolveAssemblyReference.cache
+C:\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\obj\Debug\ExtractQuestionnaires.exe
+C:\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\obj\Debug\ExtractQuestionnaires.pdb
+C:\Source\Repos\AD.Questionnaires\ExtractQuestionnaires\bin\Debug\AD.Questionnaires.xml
