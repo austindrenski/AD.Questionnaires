@@ -24,8 +24,9 @@ namespace AD.Questionnaires
         /// <returns>An XElement cleaned of namespaces and attributes.</returns>
         /// <exception cref="System.ArgumentException"/>
         /// <exception cref="System.ArgumentNullException"/>
+        [NotNull]
         [Pure]
-        public static XElement CreateXmlFromOpenXml(this XElement element)
+        public static XElement CreateXmlFromOpenXml([NotNull] this XElement element)
         {
             XElement newElement = 
                 element.HasElements 
@@ -56,6 +57,7 @@ namespace AD.Questionnaires
         /// <param name="elements">The root elements of the XML objects being transformed.</param>
         /// <returns>An XElement cleaned of namespaces and attributes.</returns>
         /// <exception cref="System.ArgumentNullException"/>
+        [NotNull]
         [Pure]
         public static IEnumerable<XElement> CreateXmlFromOpenXml(this IEnumerable<XElement> elements)
         {
@@ -71,6 +73,7 @@ namespace AD.Questionnaires
         /// <exception cref="System.AggregateException"/>
         /// <exception cref="System.ArgumentNullException"/>
         /// <exception cref="System.OperationCanceledException"/>
+        [NotNull]
         [Pure]
         public static ParallelQuery<XElement> CreateXmlFromOpenXml(this ParallelQuery<XElement> elements)
         {

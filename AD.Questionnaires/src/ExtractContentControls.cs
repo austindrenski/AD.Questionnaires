@@ -5,6 +5,9 @@ using JetBrains.Annotations;
 
 namespace AD.Questionnaires
 {
+    /// <summary>
+    /// Extension methods to extract content control data from XML.
+    /// </summary>
     [PublicAPI]
     public static class ExtractContentControlsExtensions 
     {
@@ -15,8 +18,9 @@ namespace AD.Questionnaires
         /// <returns>An XElement whose root is a questionnaire element.</returns>
         /// <exception cref="System.ArgumentNullException"/>
         /// <exception cref="System.InvalidOperationException"/>
+        [NotNull]
         [Pure]
-        public static XElement ExtractContentControls(this XElement document)
+        public static XElement ExtractContentControls([NotNull] this XElement document)
         {
             XElement questionnaire = 
                 new XElement("questionnaire",
@@ -60,8 +64,10 @@ namespace AD.Questionnaires
         /// <exception cref="System.ArgumentException"/>
         /// <exception cref="System.ArgumentNullException"/>
         /// <exception cref="System.InvalidOperationException"/>
+        [ItemNotNull]
+        [NotNull]
         [Pure]
-        public static IEnumerable<XElement> ExtractContentControls(this IEnumerable<XElement> documents)
+        public static IEnumerable<XElement> ExtractContentControls([NotNull] this IEnumerable<XElement> documents)
         {
             return documents.Select(x => x.ExtractContentControls());
         }
@@ -75,8 +81,10 @@ namespace AD.Questionnaires
         /// <exception cref="System.ArgumentNullException"/>
         /// <exception cref="System.InvalidOperationException"/>
         /// <exception cref="System.OperationCanceledException"/>
+        [ItemNotNull]
+        [NotNull]
         [Pure]
-        public static ParallelQuery<XElement> ExtractContentControls(this ParallelQuery<XElement> documents)
+        public static ParallelQuery<XElement> ExtractContentControls([NotNull] this ParallelQuery<XElement> documents)
         {
             return documents.Select(x => x.ExtractContentControls());
         }

@@ -21,7 +21,7 @@
             <exception cref="T:System.IO.DirectoryNotFoundException"/>
             <exception cref="T:System.IO.IOException"/>
             <exception cref="T:System.IO.PathTooLongException"/>
-            <exception cref="!:Security.SecurityException"/>
+            <exception cref="T:System.Security.SecurityException"/>
             <exception cref="T:System.UnauthorizedAccessException"/>
             <exception cref="T:System.IO.FileNotFoundException"/>
             <exception cref="T:System.AggregateException"/>
@@ -36,10 +36,9 @@
             <exception cref="T:System.IO.DirectoryNotFoundException"/>
             <exception cref="T:System.IO.IOException"/>
             <exception cref="T:System.IO.PathTooLongException"/>
-            <exception cref="!:Security.SecurityException"/>
+            <exception cref="T:System.Security.SecurityException"/>
             <exception cref="T:System.UnauthorizedAccessException"/>
             <exception cref="T:System.IO.FileNotFoundException"/>
-            <exception cref="T:System.AggregateException"/>
         </member>
         <member name="M:AD.Questionnaires.TryConvertDocToDocxExtensions.TryConvertDocToDocx(System.Linq.ParallelQuery{AD.IO.FilePath})">
             <summary>
@@ -52,7 +51,7 @@
             <exception cref="T:System.IO.DirectoryNotFoundException"/>
             <exception cref="T:System.IO.IOException"/>
             <exception cref="T:System.IO.PathTooLongException"/>
-            <exception cref="!:Security.SecurityException"/>
+            <exception cref="T:System.Security.SecurityException"/>
             <exception cref="T:System.UnauthorizedAccessException"/>
             <exception cref="T:System.IO.FileNotFoundException"/>
             <exception cref="T:System.AggregateException"/>
@@ -67,10 +66,9 @@
             <exception cref="T:System.IO.DirectoryNotFoundException"/>
             <exception cref="T:System.IO.IOException"/>
             <exception cref="T:System.IO.PathTooLongException"/>
-            <exception cref="!:Security.SecurityException"/>
+            <exception cref="T:System.Security.SecurityException"/>
             <exception cref="T:System.UnauthorizedAccessException"/>
             <exception cref="T:System.IO.FileNotFoundException"/>
-            <exception cref="T:System.AggregateException"/>
         </member>
         <member name="T:AD.Questionnaires.CreateXmlFromOpenXmlExtensions">
             <summary>
@@ -112,6 +110,11 @@
             <exception cref="T:System.ArgumentNullException"/>
             <exception cref="T:System.OperationCanceledException"/>
         </member>
+        <member name="T:AD.Questionnaires.ExtractContentControlsExtensions">
+            <summary>
+            Extension methods to extract content control data from XML.
+            </summary>
+        </member>
         <member name="M:AD.Questionnaires.ExtractContentControlsExtensions.ExtractContentControls(System.Xml.Linq.XElement)">
             <summary>
             Extracts content control data from a single XElement representing the document root of a Microsoft Word document.
@@ -142,6 +145,11 @@
             <exception cref="T:System.InvalidOperationException"/>
             <exception cref="T:System.OperationCanceledException"/>
         </member>
+        <member name="T:AD.Questionnaires.ExtractFormFieldsExtensions">
+            <summary>
+            Extension methods to extract form field data from XML.
+            </summary>
+        </member>
         <member name="M:AD.Questionnaires.ExtractFormFieldsExtensions.ExtractFormFields(System.Xml.Linq.XElement)">
             <summary>
             Extracts form field data from a single XElement representing the document root of a Microsoft Word document.
@@ -167,6 +175,11 @@
             <exception cref="T:System.AggregateException"/>
             <exception cref="T:System.ArgumentException"/>
             <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="T:AD.Questionnaires.QuestionnaireFactory">
+            <summary>
+            Factory class providing a simple entry point for the AD.Questionnaire library.
+            </summary>
         </member>
         <member name="M:AD.Questionnaires.QuestionnaireFactory.ProcessContentControls(AD.IO.DirectoryPath)">
             <summary>

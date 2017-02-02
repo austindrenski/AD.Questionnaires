@@ -31,7 +31,7 @@ namespace AD.Questionnaires
         /// <exception cref="FileNotFoundException"/>
         /// <exception cref="AggregateException"/>
         [ItemCanBeNull]
-        public static IEnumerable<DocxFilePath> TryConvertDocToDocx(this DirectoryPath directoryPath)
+        public static IEnumerable<DocxFilePath> TryConvertDocToDocx([NotNull] this DirectoryPath directoryPath)
         {
             return Directory.EnumerateFiles(directoryPath)
                             .AsParallel()
@@ -52,7 +52,7 @@ namespace AD.Questionnaires
         /// <exception cref="UnauthorizedAccessException"/>
         /// <exception cref="FileNotFoundException"/>
         [ItemCanBeNull]
-        public static IEnumerable<DocxFilePath> TryConvertDocToDocx(this IEnumerable<FilePath> filePaths)
+        public static IEnumerable<DocxFilePath> TryConvertDocToDocx([NotNull] this IEnumerable<FilePath> filePaths)
         {
             return filePaths.Select(x => x.TryConvertDocToDocx());
         }
@@ -72,7 +72,7 @@ namespace AD.Questionnaires
         /// <exception cref="FileNotFoundException"/>
         /// <exception cref="AggregateException"/>
         [ItemCanBeNull]
-        public static ParallelQuery<DocxFilePath> TryConvertDocToDocx(this ParallelQuery<FilePath> filePaths)
+        public static ParallelQuery<DocxFilePath> TryConvertDocToDocx([NotNull] this ParallelQuery<FilePath> filePaths)
         {
             return filePaths.Select(x => x.TryConvertDocToDocx());
         }
@@ -90,7 +90,7 @@ namespace AD.Questionnaires
         /// <exception cref="UnauthorizedAccessException"/>
         /// <exception cref="FileNotFoundException"/>
         [CanBeNull]
-        public static DocxFilePath TryConvertDocToDocx(this FilePath filePath)
+        public static DocxFilePath TryConvertDocToDocx([NotNull] this FilePath filePath)
         {
             string path;
             if (filePath.Extension == ".docx")

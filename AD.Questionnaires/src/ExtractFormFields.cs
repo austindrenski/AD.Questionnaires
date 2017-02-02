@@ -5,6 +5,9 @@ using JetBrains.Annotations;
 
 namespace AD.Questionnaires
 {
+    /// <summary>
+    /// Extension methods to extract form field data from XML.
+    /// </summary>
     [PublicAPI]
     public static class ExtractFormFieldsExtensions
     {
@@ -14,8 +17,9 @@ namespace AD.Questionnaires
         /// <param name="document">The document root element of a Microsoft Word document.</param>
         /// <returns>An XElement whose root is a questionnaire element.</returns>
         /// <exception cref="System.ArgumentNullException"/>
+        [NotNull]
         [Pure]
-        public static XElement ExtractFormFields(this XElement document)
+        public static XElement ExtractFormFields([NotNull] this XElement document)
         {
             XElement questionnaire = new XElement("questionnaire");
             questionnaire.Add(new XElement("fileName", document.Attribute("fileName")?.Value));
@@ -60,8 +64,10 @@ namespace AD.Questionnaires
         /// <param name="documents">XElements that have been simplified for processing. Each XElement in the enumerable should be a document root.</param>
         /// <returns>An enumerable collection of XElements where the root-level element is a questionnaire.</returns>
         /// <exception cref="System.ArgumentNullException"/>
+        [ItemNotNull]
+        [NotNull]
         [Pure]
-        public static IEnumerable<XElement> ExtractFormFields(this IEnumerable<XElement> documents)
+        public static IEnumerable<XElement> ExtractFormFields([NotNull] this IEnumerable<XElement> documents)
         {
             return documents.Select(x => x.ExtractFormFields());
         }
@@ -73,8 +79,10 @@ namespace AD.Questionnaires
         /// <exception cref="System.AggregateException"/>
         /// <exception cref="System.ArgumentException"/>
         /// <exception cref="System.ArgumentNullException"/>
+        [ItemNotNull]
+        [NotNull]
         [Pure]
-        public static IEnumerable<XElement> ExtractFormFields(this ParallelQuery<XElement> documents)
+        public static IEnumerable<XElement> ExtractFormFields([NotNull] this ParallelQuery<XElement> documents)
         {
             return documents.Select(x => x.ExtractFormFields());
         }

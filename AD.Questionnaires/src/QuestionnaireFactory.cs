@@ -30,7 +30,7 @@ namespace AD.Questionnaires
         /// <exception cref="System.IO.PathTooLongException"/>
         /// <exception cref="System.Security.SecurityException"/>
         /// <exception cref="System.UnauthorizedAccessException"/>
-        public static void ProcessContentControls(DirectoryPath directoryPath)
+        public static void ProcessContentControls([NotNull] DirectoryPath directoryPath)
         {
             IEnumerable<DocxFilePath> files = 
                 directoryPath.TryConvertDocToDocx()
@@ -56,7 +56,7 @@ namespace AD.Questionnaires
         /// <exception cref="System.IO.PathTooLongException"/>
         /// <exception cref="System.Security.SecurityException"/>
         /// <exception cref="System.UnauthorizedAccessException"/>
-        public static void ProcessFormFields(DirectoryPath directoryPath)
+        public static void ProcessFormFields([NotNull] DirectoryPath directoryPath)
         {
             IEnumerable<DocxFilePath> files = 
                 directoryPath.TryConvertDocToDocx()
@@ -83,7 +83,7 @@ namespace AD.Questionnaires
         /// <exception cref="System.OperationCanceledException"/>
         /// <exception cref="System.IO.PathTooLongException"/>
         /// <exception cref="System.UnauthorizedAccessException"/>
-        public static void ProcessContentControls(IEnumerable<DocxFilePath> files, DirectoryPath directoryPath)
+        public static void ProcessContentControls([NotNull] IEnumerable<DocxFilePath> files, [NotNull] DirectoryPath directoryPath)
         {
             IEnumerable<XElement> elements =
                 files.AsParallel()
@@ -113,7 +113,7 @@ namespace AD.Questionnaires
         /// <exception cref="System.OperationCanceledException"/>
         /// <exception cref="System.IO.PathTooLongException"/>
         /// <exception cref="System.UnauthorizedAccessException"/>
-        public static void ProcessFormFields(IEnumerable<DocxFilePath> files, DirectoryPath directoryPath)
+        public static void ProcessFormFields([NotNull] IEnumerable<DocxFilePath> files, [NotNull] DirectoryPath directoryPath)
         {
             IEnumerable<XElement> elements =
                 files.AsParallel()
