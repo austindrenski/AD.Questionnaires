@@ -6,6 +6,9 @@ using JetBrains.Annotations;
 
 namespace AD.Questionnaires
 {
+    /// <summary>
+    /// Factory class providing a simple entry point for the AD.Questionnaire library.
+    /// </summary>
     [PublicAPI]
     public static class QuestionnaireFactory
     {
@@ -30,7 +33,8 @@ namespace AD.Questionnaires
         public static void ProcessContentControls(DirectoryPath directoryPath)
         {
             IEnumerable<DocxFilePath> files = 
-                directoryPath.TryConvertDocToDocx();
+                directoryPath.TryConvertDocToDocx()
+                             .Where(x => x != null);
 
             ProcessContentControls(files, directoryPath);
         }
@@ -55,9 +59,10 @@ namespace AD.Questionnaires
         public static void ProcessFormFields(DirectoryPath directoryPath)
         {
             IEnumerable<DocxFilePath> files = 
-                directoryPath.TryConvertDocToDocx();
-
-            ProcessContentControls(files, directoryPath);
+                directoryPath.TryConvertDocToDocx()
+                             .Where(x => x != null);
+            
+            ProcessFormFields(files, directoryPath);
         }
 
         /// <summary>

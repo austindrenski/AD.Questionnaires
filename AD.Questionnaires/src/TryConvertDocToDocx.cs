@@ -26,20 +26,17 @@ namespace AD.Questionnaires
         /// <exception cref="DirectoryNotFoundException"/>
         /// <exception cref="IOException"/>
         /// <exception cref="PathTooLongException"/>
-        /// <exception cref="Security.SecurityException"/>
+        /// <exception cref="System.Security.SecurityException"/>
         /// <exception cref="UnauthorizedAccessException"/>
         /// <exception cref="FileNotFoundException"/>
         /// <exception cref="AggregateException"/>
+        [ItemCanBeNull]
         public static IEnumerable<DocxFilePath> TryConvertDocToDocx(this DirectoryPath directoryPath)
         {
             return Directory.EnumerateFiles(directoryPath)
                             .AsParallel()
                             .Select(x => new FilePath(x))
-                            .Where(x => x.Extension == ".doc" || x.Extension == ".docx")
-                            .Where(x => !x.Contains('~'))
-                            .TryConvertDocToDocx()
-                            .Where(x => x != null)
-                            .ToArray();
+                            .TryConvertDocToDocx();
         }
 
         /// <summary>
@@ -51,10 +48,10 @@ namespace AD.Questionnaires
         /// <exception cref="DirectoryNotFoundException"/>
         /// <exception cref="IOException"/>
         /// <exception cref="PathTooLongException"/>
-        /// <exception cref="Security.SecurityException"/>
+        /// <exception cref="System.Security.SecurityException"/>
         /// <exception cref="UnauthorizedAccessException"/>
         /// <exception cref="FileNotFoundException"/>
-        /// <exception cref="AggregateException"/>
+        [ItemCanBeNull]
         public static IEnumerable<DocxFilePath> TryConvertDocToDocx(this IEnumerable<FilePath> filePaths)
         {
             return filePaths.Select(x => x.TryConvertDocToDocx());
@@ -70,10 +67,11 @@ namespace AD.Questionnaires
         /// <exception cref="DirectoryNotFoundException"/>
         /// <exception cref="IOException"/>
         /// <exception cref="PathTooLongException"/>
-        /// <exception cref="Security.SecurityException"/>
+        /// <exception cref="System.Security.SecurityException"/>
         /// <exception cref="UnauthorizedAccessException"/>
         /// <exception cref="FileNotFoundException"/>
         /// <exception cref="AggregateException"/>
+        [ItemCanBeNull]
         public static ParallelQuery<DocxFilePath> TryConvertDocToDocx(this ParallelQuery<FilePath> filePaths)
         {
             return filePaths.Select(x => x.TryConvertDocToDocx());
@@ -88,19 +86,22 @@ namespace AD.Questionnaires
         /// <exception cref="DirectoryNotFoundException"/>
         /// <exception cref="IOException"/>
         /// <exception cref="PathTooLongException"/>
-        /// <exception cref="Security.SecurityException"/>
+        /// <exception cref="System.Security.SecurityException"/>
         /// <exception cref="UnauthorizedAccessException"/>
         /// <exception cref="FileNotFoundException"/>
-        /// <exception cref="AggregateException"/>
         [CanBeNull]
         public static DocxFilePath TryConvertDocToDocx(this FilePath filePath)
         {
             string path;
-            if (filePath.Extension != ".docx")
+            if (filePath.Extension == ".docx")
             {
                 return filePath;
             }
             if (filePath.Extension != ".doc")
+            {
+                return null;
+            }
+            if (filePath.Contains('~'))
             {
                 return null;
             }
@@ -119,9 +120,9 @@ namespace AD.Questionnaires
                 document?.SaveAs2(path, WdSaveFormat.wdFormatXMLDocument);
                 document?.Close();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                return null;
+                throw new Exception($"An error occured while attempting to save the file '{filePath}' in .docx format.", exception);
             }
             finally
             {
