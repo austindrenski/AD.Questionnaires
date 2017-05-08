@@ -14,3 +14,4 @@ packages/
 *.psm1
 *.sqlite
 *.cache
+*.csproj.user
