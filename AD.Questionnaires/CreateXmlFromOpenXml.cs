@@ -22,28 +22,24 @@ namespace AD.Questionnaires
         /// </summary>
         /// <param name="element">The root element of the XML object being transformed.</param>
         /// <returns>An XElement cleaned of namespaces and attributes.</returns>
-        /// <exception cref="System.ArgumentException"/>
-        /// <exception cref="System.ArgumentNullException"/>
-        [NotNull]
         [Pure]
+        [NotNull]
         public static XElement CreateXmlFromOpenXml([NotNull] this XElement element)
         {
-            XElement newElement = 
-                element.HasElements 
-                    ? 
-                        new XElement(
-                            element.Name.LocalName, 
-                            element.Elements().Select(x => x.CreateXmlFromOpenXml()))
-                    :
-                        new XElement(
-                            element.Name.LocalName, 
-                            element.Attribute(OpenXmlNamespace + "val")?.Value ?? element.Value);
+            XElement newElement =
+                element.HasElements
+                    ? new XElement(
+                        element.Name.LocalName,
+                        element.Elements().Select(x => x.CreateXmlFromOpenXml()))
+                    : new XElement(
+                        element.Name.LocalName,
+                        element.Attribute(OpenXmlNamespace + "val")?.Value ?? element.Value);
 
-            if (element.Attribute("fileName")?.Value != null)
+            if (element.Attribute("fileName") != null)
             {
                 newElement.SetAttributeValue("fileName", element.Attribute("fileName")?.Value);
             }
-            if (element.Attribute(OpenXmlNamespace + "fldCharType")?.Value != null)
+            if (element.Attribute(OpenXmlNamespace + "fldCharType") != null)
             {
                 newElement.SetAttributeValue("fldCharType", element.Attribute(OpenXmlNamespace + "fldCharType")?.Value);
             }
@@ -56,10 +52,9 @@ namespace AD.Questionnaires
         /// </summary>
         /// <param name="elements">The root elements of the XML objects being transformed.</param>
         /// <returns>An XElement cleaned of namespaces and attributes.</returns>
-        /// <exception cref="System.ArgumentNullException"/>
-        [NotNull]
         [Pure]
-        public static IEnumerable<XElement> CreateXmlFromOpenXml(this IEnumerable<XElement> elements)
+        [NotNull]
+        public static IEnumerable<XElement> CreateXmlFromOpenXml([NotNull][ItemNotNull] this IEnumerable<XElement> elements)
         {
             return elements.Select(x => x.CreateXmlFromOpenXml());
         }
@@ -70,12 +65,9 @@ namespace AD.Questionnaires
         /// </summary>
         /// <param name="elements">The root elements of the XML objects being transformed.</param>
         /// <returns>An XElement cleaned of namespaces and attributes.</returns>
-        /// <exception cref="System.AggregateException"/>
-        /// <exception cref="System.ArgumentNullException"/>
-        /// <exception cref="System.OperationCanceledException"/>
-        [NotNull]
         [Pure]
-        public static ParallelQuery<XElement> CreateXmlFromOpenXml(this ParallelQuery<XElement> elements)
+        [NotNull]
+        public static ParallelQuery<XElement> CreateXmlFromOpenXml([NotNull][ItemNotNull] this ParallelQuery<XElement> elements)
         {
             return elements.Select(x => x.CreateXmlFromOpenXml());
         }

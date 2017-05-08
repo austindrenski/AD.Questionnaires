@@ -40,9 +40,8 @@
       <HintPath>..\packages\AD.Xml.1.1.0.6\lib\net461\AD.Xml.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -56,11 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\TryConvertDocToDocx.cs" />
-    <Compile Include="src\CreateXmlFromOpenXml.cs" />
-    <Compile Include="src\ExtractContentControls.cs" />
-    <Compile Include="src\ExtractFormFields.cs" />
-    <Compile Include="src\QuestionnaireFactory.cs" />
+    <Compile Include="TryConvertDocToDocx.cs" />
+    <Compile Include="CreateXmlFromOpenXml.cs" />
+    <Compile Include="ExtractContentControls.cs" />
+    <Compile Include="ExtractFormFields.cs" />
+    <Compile Include="QuestionnaireFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

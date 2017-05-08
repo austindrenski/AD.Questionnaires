@@ -39,9 +39,8 @@
       <HintPath>..\packages\AD.IO.1.1.0.8\lib\net461\AD.IO.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -63,12 +62,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="src\ArrangeUnitTests.cs" />
-    <Compile Include="src\ContentControlQuestionnaireFactoryTests.cs" />
-    <Compile Include="src\DocToDocxFactoryTests.cs" />
-    <Compile Include="src\DocxToXElementFactoryTests.cs" />
-    <Compile Include="src\FormFieldQuestionnaireFactoryTests.cs" />
-    <Compile Include="src\UnitTest1.cs" />
+    <Compile Include="ArrangeUnitTests.cs" />
+    <Compile Include="ContentControlQuestionnaireFactoryTests.cs" />
+    <Compile Include="DocToDocxFactoryTests.cs" />
+    <Compile Include="DocxToXElementFactoryTests.cs" />
+    <Compile Include="FormFieldQuestionnaireFactoryTests.cs" />
+    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

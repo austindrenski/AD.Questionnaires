@@ -11,6 +11,8 @@ namespace ExtractQuestionnaires
         [PublicAPI]
         internal static void Main()
         {
+            Console.Title = "USITC Questionnaire Extraction Tool";
+
             ConsoleKey key = ConsoleKey.Enter;
             while (true)
             {

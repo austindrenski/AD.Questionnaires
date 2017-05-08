@@ -16,16 +16,23 @@ namespace AD.Questionnaires
         /// </summary>
         /// <param name="document">The document root element of a Microsoft Word document.</param>
         /// <returns>An XElement whose root is a questionnaire element.</returns>
-        /// <exception cref="System.ArgumentNullException"/>
-        [NotNull]
         [Pure]
+        [NotNull]
         public static XElement ExtractFormFields([NotNull] this XElement document)
         {
-            XElement questionnaire = new XElement("questionnaire");
-            questionnaire.Add(new XElement("fileName", document.Attribute("fileName")?.Value));
+            XElement questionnaire = 
+                new XElement("questionnaire");
+
+            questionnaire.Add(
+                new XElement(
+                    "fileName", 
+                    document.Attribute("fileName")?
+                            .Value));
+
             foreach (XElement paragraph in document.Descendants("p").Where(x => x.Descendants("ffData").Any()))
             {
                 bool inField = false;
+
                 foreach (XElement child in paragraph.Elements())
                 {
                     if (child.Element("fldChar")?.Attribute("fldCharType")?.Value == "begin")
@@ -42,16 +49,27 @@ namespace AD.Questionnaires
                     }
                     if (child.Descendants("ffData").Any())
                     {
-                        XElement name = new XElement(child.Descendants("ffData").Descendants("name").Single().Value);
+                        XElement name = 
+                            new XElement(
+                                child.Descendants("ffData")
+                                     .Descendants("name")
+                                     .Single()
+                                     .Value);
                         questionnaire.Add(name);
                     }
                     if (child.Descendants("t").Any(x => !string.IsNullOrWhiteSpace(x.Value)))
                     {
-                        ((XElement)questionnaire.LastNode)?.Add(child.Descendants("t").SelectMany(x => x.Value));
+                        ((XElement)questionnaire.LastNode)?.Add(
+                            child.Descendants("t")
+                                 .SelectMany(x => x.Value));
                     }
                     if (child.Descendants("checkBox").Any())
                     {
-                        ((XElement)questionnaire.LastNode)?.Add(child.Descendants("checked").Any() ? "1" : "0");
+                        ((XElement)questionnaire.LastNode)?
+                            .Add(
+                                child.Descendants("checked").Any() 
+                                ? "1" 
+                                : "0");
                     }
                 }
             }
@@ -63,11 +81,10 @@ namespace AD.Questionnaires
         /// </summary>
         /// <param name="documents">XElements that have been simplified for processing. Each XElement in the enumerable should be a document root.</param>
         /// <returns>An enumerable collection of XElements where the root-level element is a questionnaire.</returns>
-        /// <exception cref="System.ArgumentNullException"/>
-        [ItemNotNull]
-        [NotNull]
         [Pure]
-        public static IEnumerable<XElement> ExtractFormFields([NotNull] this IEnumerable<XElement> documents)
+        [NotNull]
+        [ItemNotNull]
+        public static IEnumerable<XElement> ExtractFormFields([NotNull][ItemNotNull] this IEnumerable<XElement> documents)
         {
             return documents.Select(x => x.ExtractFormFields());
         }
@@ -76,13 +93,10 @@ namespace AD.Questionnaires
         /// </summary>
         /// <param name="documents">XElements that have been simplified for processing. Each XElement in the enumerable should be a document root.</param>
         /// <returns>An enumerable collection of XElements where the root-level element is a questionnaire.</returns>
-        /// <exception cref="System.AggregateException"/>
-        /// <exception cref="System.ArgumentException"/>
-        /// <exception cref="System.ArgumentNullException"/>
-        [ItemNotNull]
-        [NotNull]
         [Pure]
-        public static IEnumerable<XElement> ExtractFormFields([NotNull] this ParallelQuery<XElement> documents)
+        [NotNull]
+        [ItemNotNull]
+        public static IEnumerable<XElement> ExtractFormFields([NotNull][ItemNotNull] this ParallelQuery<XElement> documents)
         {
             return documents.Select(x => x.ExtractFormFields());
         }
