@@ -81,9 +81,7 @@ namespace AD.Questionnaires
             try
             {
                 path = Path.ChangeExtension(filePath, ".docx");
-                string temp = Path.GetTempFileName();
-                File.Copy(filePath, temp);
-                Document document = application.Documents.Open(temp);
+                Document document = application.Documents.Open(filePath.ToString(), false, true, false);
                 document?.SaveAs2(path, WdSaveFormat.wdFormatXMLDocument);
                 document?.Close();
             }

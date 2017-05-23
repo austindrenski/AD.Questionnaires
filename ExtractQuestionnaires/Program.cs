@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using AD.IO;
 using AD.Questionnaires;
 using JetBrains.Annotations;
@@ -44,7 +45,7 @@ namespace ExtractQuestionnaires
             try
             {
                 Console.WriteLine(@"Enter path containing questionnaires:");
-                DirectoryPath directory = Console.ReadLine();
+                DirectoryPath directory = Console.ReadLine()?.Trim();
                 Console.WriteLine(@"Content controls (0) or form fields (1)?");
                 string type = Console.ReadLine();
                 Stopwatch sw = new Stopwatch();
@@ -69,6 +70,13 @@ namespace ExtractQuestionnaires
                 sw.Stop();
                 Console.WriteLine();
                 Console.WriteLine($"Extraction completed in {sw.Elapsed.TotalSeconds} seconds.");
+                Console.WriteLine();
+            }
+            catch (AggregateException e)
+            {
+                Console.WriteLine();
+                Console.WriteLine(
+                    $"An error occured during extraction. {e.InnerExceptions.Aggregate(string.Empty, (current, next) => current + next.Message)}");
                 Console.WriteLine();
             }
             catch (Exception e)

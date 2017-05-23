@@ -44,7 +44,7 @@ namespace AD.Questionnaires
                 throw new ArgumentNullException(nameof(directoryPath));
             }
 
-            IEnumerable<DocxFilePath> files = 
+            IEnumerable<DocxFilePath> files =
                 directoryPath.TryConvertDocToDocx()
                              .Where(x => x != null);
             
