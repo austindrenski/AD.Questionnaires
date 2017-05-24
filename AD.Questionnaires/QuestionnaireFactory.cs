@@ -103,8 +103,10 @@ namespace AD.Questionnaires
                      .ExtractFormFields()
                      .ToArray();
 
-            elements.WriteXml(directoryPath + ".xml");
-            elements.WriteDelimited(directoryPath + ".csv");
+
+
+            elements.WriteXml(XmlFilePath.Create(directoryPath + ".xml"));
+            elements.WriteDelimited(DelimitedFilePath.Create(directoryPath + ".csv", '|'));
         }
     }
 }
