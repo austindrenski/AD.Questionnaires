@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using AD.IO;
-using AD.Questionnaires;
+using AD.Questionnaires.Core;
 using JetBrains.Annotations;
 
 namespace ExtractQuestionnaires

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AD.IO" Version="1.2.0.2" />
+    <PackageReference Include="JetBrains.Annotations" Version="11.0.0" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Linq.Parallel">
+      <HintPath>..\..\..\..\.nuget\packages\system.linq.parallel\4.3.0\ref\netstandard1.1\System.Linq.Parallel.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
