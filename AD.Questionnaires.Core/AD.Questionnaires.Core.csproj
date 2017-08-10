@@ -12,10 +12,4 @@
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Linq.Parallel">
-      <HintPath>..\..\..\..\.nuget\packages\system.linq.parallel\4.3.0\ref\netstandard1.1\System.Linq.Parallel.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

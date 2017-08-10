@@ -4,6 +4,29 @@
     <title>USITC Questionnaire API</title>
 </head>
 <body>
+    <h1>
+        USITC Questionnaires API
+    </h1>
+    <p>
+        This API provides functionality to extract questionnaire response data from Microsoft Word documents containing form fields or content controls.
+    </p>
+    <h2>
+        INSTRUCTIONS
+    </h2>
+    <ul>
+        <li>
+            Files must be in '.docx' format.
+        </li>
+        <li>
+            Files must contain either form fields or content controls.
+        </li>
+        <li>
+            The response format (form fields, content controls) are handled by separate endpoints: "/FormFields" and "/ContentControls".
+        </li>
+        <li>
+            The output format can be modified by appending "?format=[FORMAT]" to the URL, where '[FORMAT]' is 'xml', 'json', or 'csv'.
+        </li>
+    </ul>
     <form method="post" enctype="multipart/form-data" asp-controller="Upload" asp-action="Post">
         <div class="form-group">
             <div class="col-md-10">
