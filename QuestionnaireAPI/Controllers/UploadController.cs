@@ -43,13 +43,8 @@ namespace QuestionnairesApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> FormFields([NotNull][ItemNotNull] IEnumerable<IFormFile> files, [FromQuery] string format)
+        public async Task<IActionResult> FormFields([NotNull][ItemNotNull] IEnumerable<IFormFile> files, [FromQuery][CanBeNull] string format)
         {
-            if (files is null)
-            {
-                throw new ArgumentNullException(nameof(files));
-            }
-
             IFormFile[] uploadedFiles = files.ToArray();
 
             if (uploadedFiles.Length == 0)
@@ -85,13 +80,8 @@ namespace QuestionnairesApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ContentControls([NotNull][ItemNotNull] IEnumerable<IFormFile> files, [FromQuery] string format)
+        public async Task<IActionResult> ContentControls([NotNull][ItemNotNull] IEnumerable<IFormFile> files, [CanBeNull][FromQuery] string format)
         {
-            if (files is null)
-            {
-                throw new ArgumentNullException(nameof(files));
-            }
-
             IFormFile[] uploadedFiles = files.ToArray();
 
             if (uploadedFiles.Length == 0)
