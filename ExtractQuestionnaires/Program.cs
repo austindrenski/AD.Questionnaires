@@ -75,8 +75,13 @@ namespace ExtractQuestionnaires
             catch (AggregateException e)
             {
                 Console.WriteLine();
-                Console.WriteLine(
-                    $"An error occured during extraction. {e.InnerExceptions.Aggregate(string.Empty, (current, next) => current + next.Message)}");
+                Console.WriteLine($"An error occured during extraction. {e.Message}");
+
+                foreach (Exception inner in e.InnerExceptions)
+                {
+                    Console.WriteLine(inner.Message);
+                }
+                
                 Console.WriteLine();
             }
             catch (Exception e)

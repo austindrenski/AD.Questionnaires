@@ -96,7 +96,7 @@ namespace AD.Questionnaires.Core
         [Pure]
         [NotNull]
         [ItemNotNull]
-        public static IEnumerable<XElement> ExtractFormFields([NotNull][ItemNotNull] this ParallelQuery<XElement> documents)
+        public static ParallelQuery<XElement> ExtractFormFields([NotNull][ItemNotNull] this ParallelQuery<XElement> documents)
         {
             return documents.Select(x => x.ExtractFormFields());
         }

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using AD.IO;
 using JetBrains.Annotations;
+using Microsoft.Office.Interop.Word;
 
 namespace AD.Questionnaires.Core
 {
@@ -27,10 +30,29 @@ namespace AD.Questionnaires.Core
                 throw new ArgumentNullException(nameof(directoryPath));
             }
 
-            return Directory.EnumerateFiles(directoryPath)
-                            .AsParallel()
-                            .Select(x => new FilePath(x))
-                            .TryConvertDocToDocx();
+            string[] a = Directory.EnumerateFiles(directoryPath).Where(x => !x.Contains('~')).ToArray();
+
+
+            IEnumerable<FilePath> files =
+                Directory.EnumerateFiles(directoryPath)
+                         .Where(x => !x.Contains('~'))
+                         .Select(x => new FilePath(x))
+                         .ToArray();
+
+            ConcurrentBag<DocxFilePath> concurrentBag = new ConcurrentBag<DocxFilePath>();
+            
+            Parallel.ForEach(files, x =>
+            {
+                concurrentBag.Add(x.TryConvertDocToDocx());
+            });
+
+            return concurrentBag;
+
+            //return Directory.EnumerateFiles(directoryPath)
+            //                .Select(x => new FilePath(x))
+            //                .AsParallel()
+            //                .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+            //                .TryConvertDocToDocx();
         }
 
         /// <summary>
@@ -79,11 +101,11 @@ namespace AD.Questionnaires.Core
             }
 
             string path;
-            if (filePath.Extension == ".docx")
+            if (filePath.Extension.ToLower() == ".docx")
             {
                 return filePath;
             }
-            if (filePath.Extension != ".doc")
+            if (filePath.Extension.ToLower() != ".doc")
             {
                 return null;
             }
@@ -96,22 +118,22 @@ namespace AD.Questionnaires.Core
             {
                 return null;
             }
-            //Application application = new Application();
-            //try
-            //{
-            path = Path.ChangeExtension(filePath, ".docx");
-            //    Document document = application.Documents.Open(filePath.ToString(), false, true, false);
-            //    document?.SaveAs2(path, WdSaveFormat.wdFormatXMLDocument);
-            //    document?.Close();
-            //}
-            //catch (Exception exception)
-            //{
-            //    throw new InvalidOperationException($"An error occured while attempting to save the file '{filePath}' in .docx format.", exception);
-            //}
-            //finally
-            //{
-            //    application.Quit(true, WdOriginalFormat.wdOriginalDocumentFormat);
-            //}
+            Application application = new Application();
+            try
+            {
+                path = Path.ChangeExtension(filePath, ".docx");
+                Document document = application.Documents.Open(filePath.ToString(), false, true, false);
+                document?.SaveAs2(path, WdSaveFormat.wdFormatXMLDocument);
+                document?.Close();
+            }
+            catch (Exception exception)
+            {
+                throw new InvalidOperationException($"An error occured while attempting to save the file '{filePath}' in .docx format. {exception.Message}", exception);
+            }
+            finally
+            {
+                application.Quit();
+            }
             return path;
         }
     }

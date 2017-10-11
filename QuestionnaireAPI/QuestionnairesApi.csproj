@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <Authors>Austin Drenski</Authors>
     <Company>Austin Drenski</Company>
     <Description>QuestionnaireApi is a lightweight ASP.NET Core API designed for questionnaire submission and extraction.</Description>
@@ -10,6 +10,7 @@
     <PackageProjectUrl>https://github.com/austindrenski/AD.Questionnaires</PackageProjectUrl>
     <RepositoryUrl>https://github.com/austindrenski/AD.Questionnaires</RepositoryUrl>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <AssemblyName>QuestionnairesApi</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

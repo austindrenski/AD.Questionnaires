@@ -140,6 +140,7 @@ namespace AD.Questionnaires.Core
 
             return
                 files.AsParallel()
+                     .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
                      .ReadAsXml()
                      .CreateXmlFromOpenXml()
                      .ExtractFormFields();
