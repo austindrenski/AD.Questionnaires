@@ -1,10 +1,8 @@
 ﻿using System.IO.Compression;
 using JetBrains.Annotations;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -18,19 +16,17 @@ namespace QuestionnairesApi
     {
         public IConfigurationRoot Configuration { get; }
 
-        private bool IsDevelopment { get; set; }
-
+        public string EnvironmentName { get; }
+        
         public Startup(IHostingEnvironment env)
         {
-            IsDevelopment = env.IsDevelopment();
+            EnvironmentName = env.EnvironmentName;
 
-            IConfigurationBuilder builder =
+            Configuration =
                 new ConfigurationBuilder()
                     .SetBasePath(env.ContentRootPath)
-                    .AddJsonFile($"Properties/appsettings.{env.EnvironmentName}.json", true, true)
-                    .AddEnvironmentVariables();
-
-            Configuration = builder.Build();
+                    .AddEnvironmentVariables()
+                    .Build();
         }
 
         /// <summary>
@@ -39,33 +35,15 @@ namespace QuestionnairesApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services. 
-            services.AddApplicationInsightsTelemetry(Configuration)
-                    .AddApiVersioning(
-                        x =>
-                        {
-                            x.AssumeDefaultVersionWhenUnspecified = true;
-                            x.DefaultApiVersion = new ApiVersion(1, 0);
-                        })
-                    .AddAuthorization(
-                        x =>
-                        {
-                            x.DefaultPolicy = new AuthorizationPolicyBuilder().RequireRole("ITCNET\\ALL_ITC").Build();
-                        })
-                    .AddLogging()
-                    .AddMemoryCache()
-                    .AddResponseCompression(
-                        x =>
-                        {
-                            x.Providers.Add<GzipCompressionProvider>();
-                        })
+            services.AddResponseCompression(
+                        x => { x.Providers.Add<GzipCompressionProvider>(); })
+                    .Configure<GzipCompressionProviderOptions>(
+                        x => { x.Level = CompressionLevel.Fastest; })
                     .AddRouting(
-                        x =>
-                        {
-                            x.LowercaseUrls = true;
-                        })
-                    .AddMvc();
-
-            services.Configure<GzipCompressionProviderOptions>(x => x.Level = CompressionLevel.Fastest);
+                        x => { x.LowercaseUrls = true; })
+                    .AddLogging()
+                    .AddMvc()
+                    .AddXmlSerializerFormatters();
         }
 
         /// <summary>
@@ -73,9 +51,10 @@ namespace QuestionnairesApi
         /// </summary>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IMemoryCache memoryCache)
         {
-            loggerFactory.AddConsole(LogLevel.Information, false);
-
-            app.Use(
+            app.UseMvc()
+               .UseResponseCompression()
+               .UseStaticFiles()
+               .Use(
                    async (context, next) =>
                    {
                        context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
@@ -86,8 +65,7 @@ namespace QuestionnairesApi
                        context.Response.Headers.Remove("X-Powered-By");
                        await next();
                    })
-               .UseStaticFiles()
-               .UseResponseCompression()
+              
                .UseWhen(
                    x => env.IsDevelopment(),
                    x => x.UseDeveloperExceptionPage())
@@ -101,16 +79,9 @@ namespace QuestionnairesApi
                                {
                                    context.Response.StatusCode = 500;
                                    context.Response.ContentType = "text/html";
-                                   await
-                                       context.Response
-                                              .WriteAsync("An internal server error has occured. Contact Austin.Drenski@usitc.gov.");
+                                   await context.Response.WriteAsync("An internal server error has occured. Contact Austin.Drenski@usitc.gov.");
                                });
-                       }))
-               .UseMvc(
-                   x =>
-                   {
-                       x.MapRoute("default", "api/questionnaires/{controller}/{action}");
-                   });
+                       }));
         }
     }
 }

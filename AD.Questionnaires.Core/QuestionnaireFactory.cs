@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using AD.IO;
@@ -25,10 +26,18 @@ namespace AD.Questionnaires.Core
                 throw new ArgumentNullException(nameof(directoryPath));
             }
 
-            IEnumerable<DocxFilePath> files = 
-                directoryPath.TryConvertDocToDocx()
-                             .Where(x => x != null);
+//            IEnumerable<DocxFilePath> files = 
+//                directoryPath.TryConvertDocToDocx()
+//                             .Where(x => x != null);
 
+            IEnumerable<DocxFilePath> files =
+                Directory.EnumerateFiles(directoryPath)
+                         .Where(x => !x.Contains('~'))
+                         .Select(x => new FilePath(x))
+                         .Where(x => x.Extension.Equals(".docx", StringComparison.OrdinalIgnoreCase))
+                         .Select(x => new DocxFilePath(x))
+                         .ToArray();
+            
             ProcessContentControls(files, directoryPath);
         }
 
@@ -44,9 +53,17 @@ namespace AD.Questionnaires.Core
                 throw new ArgumentNullException(nameof(directoryPath));
             }
 
+//            IEnumerable<DocxFilePath> files =
+//                directoryPath.TryConvertDocToDocx()
+//                             .Where(x => x != null);
+            
             IEnumerable<DocxFilePath> files =
-                directoryPath.TryConvertDocToDocx()
-                             .Where(x => x != null);
+                Directory.EnumerateFiles(directoryPath)
+                         .Where(x => !x.Contains('~'))
+                         .Select(x => new FilePath(x))
+                         .Where(x => x.Extension.Equals(".docx", StringComparison.OrdinalIgnoreCase))
+                         .Select(x => new DocxFilePath(x))
+                         .ToArray();
             
             ProcessFormFields(files, directoryPath);
         }

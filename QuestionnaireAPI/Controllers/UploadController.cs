@@ -16,7 +16,6 @@ using Microsoft.Net.Http.Headers;
 namespace QuestionnairesApi.Controllers
 {
     [PublicAPI]
-    [ApiVersion("1.0")]
     [Route("[controller]/[action]")]
     public class UploadController : Controller
     {
