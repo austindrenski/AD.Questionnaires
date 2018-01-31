@@ -21,7 +21,6 @@
         <e p="QuestionnaireFactory.cs" t="Include" />
         <e p="TryConvertDocToDocx.cs" t="Include" />
       </e>
-      <e p="AD.Questionnaires.nuspec" t="Include" />
       <e p="AD.Questionnaires.sln" t="IncludeFlat" />
       <e p="AD.Questionnaires.Tests\AD.Questionnaires.Tests.csproj" t="IncludeRecursive" />
       <e p="ExtractQuestionnaires\ExtractQuestionnaires.csproj" t="IncludeRecursive" />
