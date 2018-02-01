@@ -26,10 +26,6 @@ namespace AD.Questionnaires.Core
                 throw new ArgumentNullException(nameof(directoryPath));
             }
 
-//            IEnumerable<DocxFilePath> files = 
-//                directoryPath.TryConvertDocToDocx()
-//                             .Where(x => x != null);
-
             IEnumerable<DocxFilePath> files =
                 Directory.EnumerateFiles(directoryPath)
                          .Where(x => !x.Contains('~'))
@@ -37,7 +33,7 @@ namespace AD.Questionnaires.Core
                          .Where(x => x.Extension.Equals(".docx", StringComparison.OrdinalIgnoreCase))
                          .Select(x => new DocxFilePath(x))
                          .ToArray();
-            
+
             ProcessContentControls(files, directoryPath);
         }
 
@@ -53,10 +49,6 @@ namespace AD.Questionnaires.Core
                 throw new ArgumentNullException(nameof(directoryPath));
             }
 
-//            IEnumerable<DocxFilePath> files =
-//                directoryPath.TryConvertDocToDocx()
-//                             .Where(x => x != null);
-            
             IEnumerable<DocxFilePath> files =
                 Directory.EnumerateFiles(directoryPath)
                          .Where(x => !x.Contains('~'))
@@ -64,7 +56,7 @@ namespace AD.Questionnaires.Core
                          .Where(x => x.Extension.Equals(".docx", StringComparison.OrdinalIgnoreCase))
                          .Select(x => new DocxFilePath(x))
                          .ToArray();
-            
+
             ProcessFormFields(files, directoryPath);
         }
 
@@ -85,7 +77,7 @@ namespace AD.Questionnaires.Core
                 throw new ArgumentNullException(nameof(directoryPath));
             }
 
-            IEnumerable<XElement> elements = 
+            IEnumerable<XElement> elements =
                 ProcessContentControls(files).ToArray();
 
             elements.WriteXml(directoryPath + ".xml");
@@ -132,7 +124,7 @@ namespace AD.Questionnaires.Core
                 throw new ArgumentNullException(nameof(directoryPath));
             }
 
-            IEnumerable<XElement> elements = 
+            IEnumerable<XElement> elements =
                 ProcessFormFields(files).ToArray();
 
             elements.WriteXml(XmlFilePath.Create(directoryPath + ".xml"));

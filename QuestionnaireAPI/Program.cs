@@ -6,14 +6,26 @@ using Microsoft.Extensions.Configuration;
 
 namespace QuestionnairesApi
 {
+    /// <summary>
+    ///
+    /// </summary>
     [PublicAPI]
     public static class Program
-    {       
+    {
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="args"></param>
         public static void Main([NotNull] [ItemNotNull] string[] args)
         {
             BuildWebHost(args).Run();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         [Pure]
         [NotNull]
         public static IWebHost BuildWebHost([NotNull] [ItemNotNull] string[] args)

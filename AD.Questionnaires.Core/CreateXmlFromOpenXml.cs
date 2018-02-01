@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using AD.Xml;
 using JetBrains.Annotations;
 
 namespace AD.Questionnaires.Core
@@ -14,7 +15,7 @@ namespace AD.Questionnaires.Core
         /// <summary>
         /// Represents the 'w:' prefix seen in raw OpenXML documents. This constant is needed to extract attributes.
         /// </summary>
-        private static readonly XNamespace OpenXmlNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+        private static readonly XNamespace W = XNamespaces.OpenXmlWordprocessingmlMain;
 
         /// <summary>
         /// Transform OpenXML into simplified XML. This includes removing namespaces and most attributes.
@@ -33,15 +34,15 @@ namespace AD.Questionnaires.Core
                         element.Elements().Select(x => x.CreateXmlFromOpenXml()))
                     : new XElement(
                         element.Name.LocalName,
-                        element.Attribute(OpenXmlNamespace + "val")?.Value ?? element.Value);
+                        element.Attribute(W + "val")?.Value ?? element.Value);
 
             if (element.Attribute("fileName") != null)
             {
                 newElement.SetAttributeValue("fileName", element.Attribute("fileName")?.Value);
             }
-            if (element.Attribute(OpenXmlNamespace + "fldCharType") != null)
+            if (element.Attribute(W + "fldCharType") != null)
             {
-                newElement.SetAttributeValue("fldCharType", element.Attribute(OpenXmlNamespace + "fldCharType")?.Value);
+                newElement.SetAttributeValue("fldCharType", element.Attribute(W + "fldCharType")?.Value);
             }
             return newElement;
         }
@@ -54,7 +55,7 @@ namespace AD.Questionnaires.Core
         /// <returns>An XElement cleaned of namespaces and attributes.</returns>
         [Pure]
         [NotNull]
-        public static IEnumerable<XElement> CreateXmlFromOpenXml([NotNull][ItemNotNull] this IEnumerable<XElement> elements)
+        public static IEnumerable<XElement> CreateXmlFromOpenXml([NotNull] [ItemNotNull] this IEnumerable<XElement> elements)
         {
             return elements.Select(x => x.CreateXmlFromOpenXml());
         }
@@ -67,7 +68,7 @@ namespace AD.Questionnaires.Core
         /// <returns>An XElement cleaned of namespaces and attributes.</returns>
         [Pure]
         [NotNull]
-        public static ParallelQuery<XElement> CreateXmlFromOpenXml([NotNull][ItemNotNull] this ParallelQuery<XElement> elements)
+        public static ParallelQuery<XElement> CreateXmlFromOpenXml([NotNull] [ItemNotNull] this ParallelQuery<XElement> elements)
         {
             return elements.Select(x => x.CreateXmlFromOpenXml());
         }

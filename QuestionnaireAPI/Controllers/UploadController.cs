@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using AD.IO;
 using AD.Questionnaires.Core;
-using AD.Xml;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +14,11 @@ using Microsoft.Net.Http.Headers;
 
 namespace QuestionnairesApi.Controllers
 {
+    /// <inheritdoc />
     [PublicAPI]
-    [Route("[controller]/[action]")]
-    public class UploadController : Controller
+    [FormatFilter]
+    [ApiVersion("1.0")]
+    public sealed class UploadController : Controller
     {
         private static readonly StringValues PermittedFormats;
 
@@ -25,24 +26,54 @@ namespace QuestionnairesApi.Controllers
 
         static UploadController()
         {
-            PermittedFormats = new string[] { ".doc", ".docx" };
+            PermittedFormats = new string[] { ".docx" };
             MicrosoftWordDocument = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
         }
 
-        [HttpGet]
-        public IActionResult FormFields()
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>
+        ///
+        /// </returns>
+        [HttpGet("")]
+        public IActionResult Index()
         {
-            return View("~/Views/UploadForm.cshtml");
+            return View("~/Views/Redirect.cshtml");
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>
+        ///
+        /// </returns>
         [HttpGet]
-        public IActionResult ContentControls()
+        public IActionResult Forms()
         {
-            return View("~/Views/UploadForm.cshtml");
+            return View("~/Views/UploadForms.cshtml");
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>
+        ///
+        /// </returns>
+        [HttpGet]
+        public IActionResult Controls()
+        {
+            return View("~/Views/UploadControls.cshtml");
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>
+        ///
+        /// </returns>
         [HttpPost]
-        public async Task<IActionResult> FormFields([NotNull][ItemNotNull] IEnumerable<IFormFile> files, [FromQuery][CanBeNull] string format)
+        public async Task<IActionResult> Forms([NotNull] [ItemNotNull] IEnumerable<IFormFile> files, [FromQuery] [CanBeNull] string format)
         {
             IFormFile[] uploadedFiles = files.ToArray();
 
@@ -75,11 +106,17 @@ namespace QuestionnairesApi.Controllers
 
             IEnumerable<XElement> results = QuestionnaireFactory.ProcessFormFields(inputQueue);
 
-            return Format(results, format);
+            return Ok(results);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>
+        ///
+        /// </returns>
         [HttpPost]
-        public async Task<IActionResult> ContentControls([NotNull][ItemNotNull] IEnumerable<IFormFile> files, [CanBeNull][FromQuery] string format)
+        public async Task<IActionResult> Controls([NotNull] [ItemNotNull] IEnumerable<IFormFile> files, [CanBeNull] [FromQuery] string format)
         {
             IFormFile[] uploadedFiles = files.ToArray();
 
@@ -112,38 +149,7 @@ namespace QuestionnairesApi.Controllers
 
             IEnumerable<XElement> results = QuestionnaireFactory.ProcessContentControls(inputQueue);
 
-            return Format(results, format);
-        }
-
-        /// <summary>
-        /// Formats the collection as an <see cref="IActionResult"/>.
-        /// </summary>
-        /// <param name="items">
-        /// The collection to format.
-        /// </param>
-        /// <param name="format">
-        /// The serialization format.
-        /// </param>
-        /// <returns>
-        /// An <see cref="IActionResult"/> representing the collection.
-        /// </returns>
-        private IActionResult Format([NotNull][ItemNotNull] IEnumerable<XElement> items, [CanBeNull] string format)
-        {
-            switch (format?.ToLower())
-            {
-                case "json":
-                {
-                    return Json(items);
-                }
-                case "xml":
-                {
-                    return Content(items.ToXmlString(), "application/xml");
-                }
-                default:
-                {
-                    return Content(items.ToDelimited(), "text/csv");
-                }
-            }
+            return Ok(results);
         }
 
         /// <summary>

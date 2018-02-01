@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using JetBrains.Annotations;
@@ -12,6 +13,52 @@ namespace AD.Questionnaires.Core
     public static class ExtractFormFieldsExtensions
     {
         /// <summary>
+        ///
+        /// </summary>
+        [NotNull] private const string Checked = "checked";
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull] private const string FieldBegin = "begin";
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull] private const string FieldEnd = "end";
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull] private const string FieldChar = "fldChar";
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull] private const string FieldCharType = "fldCharType";
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull] private const string FieldCheckBox = "checkBox";
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull] private const string FieldData = "ffData";
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull] private const string Paragraph = "p";
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull] private const string Text = "t";
+
+
+        /// <summary>
         /// Extracts form field data from a single XElement representing the document root of a Microsoft Word document.
         /// </summary>
         /// <param name="document">The document root element of a Microsoft Word document.</param>
@@ -20,26 +67,28 @@ namespace AD.Questionnaires.Core
         [NotNull]
         public static XElement ExtractFormFields([NotNull] this XElement document)
         {
-            XElement questionnaire = 
+            if (document is null)
+            {
+                throw new ArgumentNullException(nameof(document));
+            }
+
+            XElement questionnaire =
                 new XElement("questionnaire");
 
             questionnaire.Add(
-                new XElement(
-                    "fileName", 
-                    document.Attribute("fileName")?
-                            .Value));
+                new XElement("fileName", (string) document.Attribute("fileName")));
 
-            foreach (XElement paragraph in document.Descendants("p").Where(x => x.Descendants("ffData").Any()))
+            bool inField = false;
+
+            foreach (XElement paragraph in document.Descendants(Paragraph))
             {
-                bool inField = false;
-
                 foreach (XElement child in paragraph.Elements())
                 {
-                    if (child.Element("fldChar")?.Attribute("fldCharType")?.Value == "begin")
+                    if (FieldBegin == (string) child.Element(FieldChar)?.Attribute(FieldCharType))
                     {
                         inField = true;
                     }
-                    if (child.Element("fldChar")?.Attribute("fldCharType")?.Value == "end")
+                    if (FieldEnd == (string) child.Element(FieldChar)?.Attribute(FieldCharType))
                     {
                         inField = false;
                     }
@@ -47,32 +96,29 @@ namespace AD.Questionnaires.Core
                     {
                         continue;
                     }
-                    if (child.Descendants("ffData").Any())
+                    if (child.Descendants(FieldData).Any())
                     {
-                        XElement name = 
+                        XElement name =
                             new XElement(
-                                child.Descendants("ffData")
-                                     .Descendants("name")
-                                     .Single()
-                                     .Value);
+                                (string) child.Descendants(FieldData)
+                                              .Descendants("name")
+                                              .Single());
+
                         questionnaire.Add(name);
                     }
-                    if (child.Descendants("t").Any(x => !string.IsNullOrWhiteSpace(x.Value)))
+                    if (child.Descendants(Text).Any(x => !string.IsNullOrWhiteSpace(x.Value)))
                     {
-                        ((XElement)questionnaire.LastNode)?.Add(
-                            child.Descendants("t")
-                                 .SelectMany(x => x.Value));
+                        ((XElement) questionnaire.LastNode)?
+                            .Add(child.Descendants(Text).SelectMany(x => x.Value));
                     }
-                    if (child.Descendants("checkBox").Any())
+                    if (child.Descendants(FieldCheckBox).Any())
                     {
-                        ((XElement)questionnaire.LastNode)?
-                            .Add(
-                                child.Descendants("checked").Any() 
-                                ? "1" 
-                                : "0");
+                        ((XElement) questionnaire.LastNode)?
+                            .Add(child.Descendants(Checked).Any());
                     }
                 }
             }
+
             return questionnaire;
         }
 
@@ -84,10 +130,16 @@ namespace AD.Questionnaires.Core
         [Pure]
         [NotNull]
         [ItemNotNull]
-        public static IEnumerable<XElement> ExtractFormFields([NotNull][ItemNotNull] this IEnumerable<XElement> documents)
+        public static IEnumerable<XElement> ExtractFormFields([NotNull] [ItemNotNull] this IEnumerable<XElement> documents)
         {
+            if (documents is null)
+            {
+                throw new ArgumentNullException(nameof(documents));
+            }
+
             return documents.Select(x => x.ExtractFormFields());
         }
+
         /// <summary>
         /// Extracts form field data from an enumerable of simplified XElements representing the document root of a Microsoft Word document.
         /// </summary>
@@ -96,8 +148,13 @@ namespace AD.Questionnaires.Core
         [Pure]
         [NotNull]
         [ItemNotNull]
-        public static ParallelQuery<XElement> ExtractFormFields([NotNull][ItemNotNull] this ParallelQuery<XElement> documents)
+        public static ParallelQuery<XElement> ExtractFormFields([NotNull] [ItemNotNull] this ParallelQuery<XElement> documents)
         {
+            if (documents is null)
+            {
+                throw new ArgumentNullException(nameof(documents));
+            }
+
             return documents.Select(x => x.ExtractFormFields());
         }
     }
