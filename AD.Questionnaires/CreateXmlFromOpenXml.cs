@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using AD.Xml;
 using JetBrains.Annotations;
 
-namespace AD.Questionnaires.Core
+namespace AD.Questionnaires
 {
     /// <summary>
     /// Provides methods to open a Microsoft Word document as an XElement.

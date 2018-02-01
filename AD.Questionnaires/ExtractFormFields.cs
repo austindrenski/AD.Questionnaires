@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using JetBrains.Annotations;
 
-namespace AD.Questionnaires.Core
+namespace AD.Questionnaires
 {
     /// <summary>
     /// Extension methods to extract form field data from XML.

@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using AD.IO;
 using JetBrains.Annotations;
 
-namespace AD.Questionnaires.Core
+namespace AD.Questionnaires
 {
     /// <summary>
     /// Factory class providing a simple entry point for the AD.Questionnaire library.
