@@ -37,7 +37,7 @@
         format = null;
     }
 }
-<form action="/api/questionnaires/upload/forms@(format)" method="POST" enctype="multipart/form-data">
+    <form asp-controller="Upload" asp-action="Forms" asp-for-format="@format" method="POST" enctype="multipart/form-data">
     <div class="form-group">
         <div class="col-md-10">
             <p>Upload one or more files using this form:</p>
