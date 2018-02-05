@@ -66,7 +66,7 @@ namespace AD.Questionnaires
         /// <param name="files">The files from which content control data are extracted.</param>
         /// <param name="directoryPath">The directory to which form field data are written.</param>
         /// <exception cref="ArgumentNullException"/>
-        public static void ProcessContentControls([NotNull][ItemNotNull] IEnumerable<DocxFilePath> files, [NotNull] DirectoryPath directoryPath)
+        public static void ProcessContentControls([NotNull] [ItemNotNull] IEnumerable<DocxFilePath> files, [NotNull] DirectoryPath directoryPath)
         {
             if (files is null)
             {
@@ -93,7 +93,7 @@ namespace AD.Questionnaires
         [Pure]
         [NotNull]
         [ItemNotNull]
-        public static IEnumerable<XElement> ProcessContentControls([NotNull][ItemNotNull] IEnumerable<DocxFilePath> files)
+        public static IEnumerable<XElement> ProcessContentControls([NotNull] IEnumerable<DocxFilePath> files)
         {
             if (files is null)
             {
@@ -113,7 +113,7 @@ namespace AD.Questionnaires
         /// <param name="files">The files from which form field data are extracted.</param>
         /// <param name="directoryPath">The directory to which form field data are written.</param>
         /// <exception cref="ArgumentNullException"/>
-        public static void ProcessFormFields([NotNull][ItemNotNull] IEnumerable<DocxFilePath> files, [NotNull] DirectoryPath directoryPath)
+        public static void ProcessFormFields([NotNull] [ItemNotNull] IEnumerable<DocxFilePath> files, [NotNull] DirectoryPath directoryPath)
         {
             if (files is null)
             {
@@ -140,7 +140,7 @@ namespace AD.Questionnaires
         [Pure]
         [NotNull]
         [ItemNotNull]
-        public static IEnumerable<XElement> ProcessFormFields([NotNull][ItemNotNull] IEnumerable<DocxFilePath> files)
+        public static IEnumerable<XElement> ProcessFormFields([NotNull] [ItemNotNull] IEnumerable<DocxFilePath> files)
         {
             if (files is null)
             {
@@ -149,7 +149,6 @@ namespace AD.Questionnaires
 
             return
                 files.AsParallel()
-                     .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
                      .ReadAsXml()
                      .CreateXmlFromOpenXml()
                      .ExtractFormFields();

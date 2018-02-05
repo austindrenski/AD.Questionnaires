@@ -94,7 +94,7 @@ namespace QuestionnairesApi.Controllers
 
             foreach (IFormFile file in uploadedFiles)
             {
-                DocxFilePath input = CreateTemporaryDocxFile();
+                DocxFilePath input = CreateTemporaryDocxFile(file.FileName);
 
                 using (FileStream fileStream = new FileStream(input, FileMode.Open))
                 {
@@ -137,7 +137,7 @@ namespace QuestionnairesApi.Controllers
 
             foreach (IFormFile file in uploadedFiles)
             {
-                DocxFilePath input = CreateTemporaryDocxFile();
+                DocxFilePath input = CreateTemporaryDocxFile(file.FileName);
 
                 using (FileStream fileStream = new FileStream(input, FileMode.Open))
                 {
@@ -157,9 +157,9 @@ namespace QuestionnairesApi.Controllers
         /// </summary>
         [Pure]
         [NotNull]
-        private static DocxFilePath CreateTemporaryDocxFile()
+        private static DocxFilePath CreateTemporaryDocxFile([NotNull] string fileName)
         {
-            return DocxFilePath.Create(Path.ChangeExtension(Path.GetTempFileName(), "docx"), true);
+            return DocxFilePath.Create(Path.Combine(Path.GetTempPath(), fileName), true);
         }
     }
 }
