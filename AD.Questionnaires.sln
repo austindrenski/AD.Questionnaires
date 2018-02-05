@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitattributes = .gitattributes
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionnairesApi", "src\QuestionnaireAPI\QuestionnairesApi.csproj", "{5A9F9FF1-17DE-4068-985E-394B939213D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionnairesApi", "src\QuestionnairesAPI\QuestionnairesApi.csproj", "{5A9F9FF1-17DE-4068-985E-394B939213D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AD.Questionnaires", "src\AD.Questionnaires\AD.Questionnaires.csproj", "{D50DFC12-765A-4761-8083-EE9CE04BBAEF}"
 EndProject

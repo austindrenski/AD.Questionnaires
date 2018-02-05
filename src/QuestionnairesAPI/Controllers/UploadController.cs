@@ -53,10 +53,15 @@ namespace QuestionnairesApi.Controllers
         ///
         /// </returns>
         [NotNull]
-        [HttpGet]
-        public IActionResult Controls()
+        [HttpPost]
+        public IActionResult Forms([NotNull] [ItemNotNull] IEnumerable<IFormFile> files, [CanBeNull] [FromForm] string format)
         {
-            return View("~/Views/UploadControls.cshtml");
+            if (format != null)
+            {
+                Request.QueryString = Request.QueryString + QueryString.Create(nameof(format), format);
+            }
+
+            return Forms(files);
         }
 
         /// <summary>
@@ -67,8 +72,12 @@ namespace QuestionnairesApi.Controllers
         /// </returns>
         [NotNull]
         [HttpPost]
-        public IActionResult Forms([NotNull] [ItemNotNull] IEnumerable<IFormFile> files, [FromQuery] [CanBeNull] string format)
+        public IActionResult Forms([NotNull] [ItemNotNull] IEnumerable<IFormFile> files)
         {
+            if (files is null)
+            {
+                throw new ArgumentNullException(nameof(files));
+            }
             IFormFile[] uploadedFiles = files.ToArray();
 
             if (uploadedFiles.Length == 0)
@@ -90,9 +99,9 @@ namespace QuestionnairesApi.Controllers
 
             foreach (IFormFile file in uploadedFiles)
             {
-                using (FileStream fileStream = (FileStream) file.OpenReadStream())
+                using (Stream stream = file.OpenReadStream())
                 {
-                    documentQueue.Enqueue(fileStream.ReadAsXml(file.FileName));
+                    documentQueue.Enqueue(stream.ReadAsXml(file.FileName));
                 }
             }
 
@@ -108,9 +117,45 @@ namespace QuestionnairesApi.Controllers
         ///
         /// </returns>
         [NotNull]
-        [HttpPost]
-        public IActionResult Controls([NotNull] [ItemNotNull] IEnumerable<IFormFile> files, [CanBeNull] [FromQuery] string format)
+        [HttpGet]
+        public IActionResult Controls()
         {
+            return View("~/Views/UploadControls.cshtml");
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>
+        ///
+        /// </returns>
+        [NotNull]
+        [HttpPost]
+        public IActionResult Controls([NotNull] [ItemNotNull] IEnumerable<IFormFile> files, [CanBeNull] [FromForm] string format)
+        {
+            if (format != null)
+            {
+                Request.QueryString = Request.QueryString + QueryString.Create(nameof(format), format);
+            }
+
+            return Controls(files);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>
+        ///
+        /// </returns>
+        [NotNull]
+        [HttpPost]
+        public IActionResult Controls([NotNull] [ItemNotNull] IEnumerable<IFormFile> files)
+        {
+            if (files is null)
+            {
+                throw new ArgumentNullException(nameof(files));
+            }
+
             IFormFile[] uploadedFiles = files.ToArray();
 
             if (uploadedFiles.Length == 0)
@@ -132,9 +177,9 @@ namespace QuestionnairesApi.Controllers
 
             foreach (IFormFile file in uploadedFiles)
             {
-                using (FileStream fileStream = (FileStream) file.OpenReadStream())
+                using (Stream stream = file.OpenReadStream())
                 {
-                    documentQueue.Enqueue(fileStream.ReadAsXml(file.FileName));
+                    documentQueue.Enqueue(stream.ReadAsXml(file.FileName));
                 }
             }
 

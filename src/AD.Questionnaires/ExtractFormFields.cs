@@ -82,8 +82,13 @@ namespace AD.Questionnaires
 
             foreach (XElement paragraph in document.Descendants(Paragraph))
             {
+                bool firstParagraph = true;
                 foreach (XElement child in paragraph.Elements())
                 {
+                    if (firstParagraph && inField)
+                    {
+                        firstParagraph = false;
+                    }
                     if (FieldBegin == (string) child.Element(FieldChar)?.Attribute(FieldCharType))
                     {
                         inField = true;
@@ -108,6 +113,12 @@ namespace AD.Questionnaires
                     }
                     if (child.Descendants(Text).Any(x => !string.IsNullOrWhiteSpace(x.Value)))
                     {
+                        if (!firstParagraph)
+                        {
+                            ((XElement) questionnaire.LastNode)?
+                                .Add("\r\n");
+                        }
+
                         ((XElement) questionnaire.LastNode)?
                             .Add(child.Descendants(Text).SelectMany(x => x.Value));
                     }
