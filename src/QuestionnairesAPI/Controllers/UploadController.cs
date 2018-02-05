@@ -61,7 +61,7 @@ namespace QuestionnairesApi.Controllers
                 Request.QueryString = Request.QueryString + QueryString.Create(nameof(format), format);
             }
 
-            return Forms(files);
+            return InternalForms(files);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace QuestionnairesApi.Controllers
         /// </returns>
         [NotNull]
         [HttpPost]
-        public IActionResult Forms([NotNull] [ItemNotNull] IEnumerable<IFormFile> files)
+        private IActionResult InternalForms([NotNull] [ItemNotNull] IEnumerable<IFormFile> files)
         {
             if (files is null)
             {
@@ -138,7 +138,7 @@ namespace QuestionnairesApi.Controllers
                 Request.QueryString = Request.QueryString + QueryString.Create(nameof(format), format);
             }
 
-            return Controls(files);
+            return InternalControls(files);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace QuestionnairesApi.Controllers
         /// </returns>
         [NotNull]
         [HttpPost]
-        public IActionResult Controls([NotNull] [ItemNotNull] IEnumerable<IFormFile> files)
+        private  IActionResult InternalControls([NotNull] [ItemNotNull] IEnumerable<IFormFile> files)
         {
             if (files is null)
             {
