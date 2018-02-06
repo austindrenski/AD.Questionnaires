@@ -20,6 +20,11 @@ namespace AD.Questionnaires
         /// <summary>
         ///
         /// </summary>
+        [NotNull] private const string Default = "default";
+
+        /// <summary>
+        ///
+        /// </summary>
         [NotNull] private const string FieldBegin = "begin";
 
         /// <summary>
@@ -40,12 +45,12 @@ namespace AD.Questionnaires
         /// <summary>
         ///
         /// </summary>
-        [NotNull] private const string FieldCheckBox = "checkBox";
+        [NotNull] private const string CheckBox = "checkBox";
 
         /// <summary>
         ///
         /// </summary>
-        [NotNull] private const string FieldData = "ffData";
+        [NotNull] private const string FormFieldData = "ffData";
 
         /// <summary>
         ///
@@ -56,7 +61,6 @@ namespace AD.Questionnaires
         ///
         /// </summary>
         [NotNull] private const string Text = "t";
-
 
         /// <summary>
         /// Extracts form field data from a single XElement representing the document root of a Microsoft Word document.
@@ -101,12 +105,13 @@ namespace AD.Questionnaires
                     {
                         continue;
                     }
-                    if (child.Descendants(FieldData).Any())
+
+                    if (child.Descendants(FormFieldData).Any())
                     {
                         XElement name =
                             new XElement(
-                                (string) child.Descendants(FieldData)
-                                              .Descendants("name")
+                                (string) child.Descendants(FormFieldData)
+                                              .Elements("name")
                                               .Single());
 
                         questionnaire.Add(name);
@@ -122,28 +127,26 @@ namespace AD.Questionnaires
                         ((XElement) questionnaire.LastNode)?
                             .Add(child.Descendants(Text).SelectMany(x => x.Value));
                     }
-                    if (child.Descendants(FieldCheckBox).Any())
+                    if (!child.Descendants(CheckBox).Any())
                     {
-                        foreach (XElement checkbox in child.Descendants(FieldCheckBox))
-                        {
-                            XElement checkNode = checkbox.Element(Checked);
-                            bool? defaultNode = (bool?) checkbox.Element("default")?.Attribute("val");
+                        continue;
+                    }
 
-                            if (checkNode is null)
-                            {
-                                ((XElement) questionnaire.LastNode)?.Add(defaultNode);
-                            }
-                            else
-                            {
-                                ((XElement) questionnaire.LastNode)?.Add((bool?) checkNode.Attribute("val") ?? true);
-                            }
+                    foreach (XElement checkbox in child.Descendants(CheckBox))
+                    {
+                        if (checkbox.Element(Checked) is XElement checkedNode)
+                        {
+                            ((XElement) questionnaire.LastNode)?.Add(AsBoolean(checkedNode, true));
+                            continue;
                         }
 
-//                        ((XElement) questionnaire.LastNode)?
-//                            .Add(
-//                                child.Descendants(Checked)
-//                                     .All(
-//                                         x => x.Attribute("val") is null || (string) x.Attribute("val") == "true"));
+                        if (checkbox.Element(Default) is XElement defaultNode)
+                        {
+                            ((XElement) questionnaire.LastNode)?.Add(AsBoolean(defaultNode, false));
+                            continue;
+                        }
+
+                        ((XElement) questionnaire.LastNode)?.Add(false);
                     }
                 }
 
@@ -155,6 +158,7 @@ namespace AD.Questionnaires
                 {
                     continue;
                 }
+
                 if (node.Value.Contains("\r\n") && !node.Value.StartsWith("\"") && !node.Value.EndsWith("\""))
                 {
                     node.Value = $"\"{node.Value.Trim('\r', '\n')}\"";
@@ -198,6 +202,42 @@ namespace AD.Questionnaires
             }
 
             return documents.Select(x => x.ExtractFormFields());
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="node">
+        ///
+        /// </param>
+        /// <param name="defaultValue">
+        ///
+        /// </param>
+        /// <returns>
+        ///
+        /// </returns>
+        [Pure]
+        private static bool AsBoolean([CanBeNull] XElement node, bool defaultValue)
+        {
+            switch ((string) node)
+            {
+                case "1":
+                case "on":
+                case "true":
+                {
+                    return true;
+                }
+                case "0":
+                case "off":
+                case "false":
+                {
+                    return false;
+                }
+                default:
+                {
+                    return defaultValue;
+                }
+            }
         }
     }
 }

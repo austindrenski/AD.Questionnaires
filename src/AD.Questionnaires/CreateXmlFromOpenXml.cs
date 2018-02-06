@@ -36,13 +36,13 @@ namespace AD.Questionnaires
                         element.Name.LocalName,
                         element.Attribute(W + "val")?.Value ?? element.Value);
 
-            if (element.Attribute("fileName") != null)
+            if (element.Attribute("fileName") is XAttribute fileName)
             {
-                newElement.SetAttributeValue("fileName", element.Attribute("fileName")?.Value);
+                newElement.SetAttributeValue("fileName", (string) fileName);
             }
-            if (element.Attribute(W + "fldCharType") != null)
+            if (element.Attribute(W + "fldCharType") is XAttribute fieldType)
             {
-                newElement.SetAttributeValue("fldCharType", element.Attribute(W + "fldCharType")?.Value);
+                newElement.SetAttributeValue("fldCharType", (string) fieldType);
             }
             return newElement;
         }
