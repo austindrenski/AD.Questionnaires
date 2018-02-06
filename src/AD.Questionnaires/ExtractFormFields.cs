@@ -124,11 +124,26 @@ namespace AD.Questionnaires
                     }
                     if (child.Descendants(FieldCheckBox).Any())
                     {
-                        ((XElement) questionnaire.LastNode)?
-                            .Add(
-                                child.Descendants(Checked)
-                                     .All(
-                                         x => x.Attribute("val") is null || (string) x.Attribute("val") == "true"));
+                        foreach (XElement checkbox in child.Descendants(FieldCheckBox))
+                        {
+                            XElement checkNode = checkbox.Element(Checked);
+                            bool? defaultNode = (bool?) checkbox.Element("default")?.Attribute("val");
+
+                            if (checkNode is null)
+                            {
+                                ((XElement) questionnaire.LastNode)?.Add(defaultNode);
+                            }
+                            else
+                            {
+                                ((XElement) questionnaire.LastNode)?.Add((bool?) checkNode.Attribute("val") ?? true);
+                            }
+                        }
+
+//                        ((XElement) questionnaire.LastNode)?
+//                            .Add(
+//                                child.Descendants(Checked)
+//                                     .All(
+//                                         x => x.Attribute("val") is null || (string) x.Attribute("val") == "true"));
                     }
                 }
 
