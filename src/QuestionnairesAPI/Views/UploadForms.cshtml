@@ -1,6 +1,9 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
-<!DOCTYPE html>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Upload Form Fields";
+}
+<!doctype html>
 <html>
 <head>
     <title>USITC Questionnaire API</title>
@@ -30,7 +33,10 @@
     <fieldset>
         <legend>Select data output format:</legend>
         <div>
-            <input type="radio" id="json" name="format" value="json" checked/>
+            <input type="radio" id="html" name="format" value="html" checked/>
+            <label for="html">html</label>
+
+            <input type="radio" id="json" name="format" value="json"/>
             <label for="json">json</label>
 
             <input type="radio" id="xml" name="format" value="xml"/>
