@@ -128,6 +128,19 @@ namespace AD.Questionnaires
                             .Add(child.Descendants(Checked).Any());
                     }
                 }
+
+                if (inField || !(questionnaire.LastNode is XElement node))
+                {
+                    continue;
+                }
+                if (node.Value is null)
+                {
+                    continue;
+                }
+                if (node.Value.Contains("\r\n") && !node.Value.StartsWith("\"") && !node.Value.EndsWith("\""))
+                {
+                    node.Value = $"\"{node.Value.Trim('\r', '\n')}\"";
+                }
             }
 
             return questionnaire;
