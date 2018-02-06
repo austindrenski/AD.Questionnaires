@@ -125,7 +125,10 @@ namespace AD.Questionnaires
                     if (child.Descendants(FieldCheckBox).Any())
                     {
                         ((XElement) questionnaire.LastNode)?
-                            .Add(child.Descendants(Checked).Any());
+                            .Add(
+                                child.Descendants(Checked)
+                                     .All(
+                                         x => x.Attribute("val") is null || (string) x.Attribute("val") == "true"));
                     }
                 }
 
