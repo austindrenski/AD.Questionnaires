@@ -43,33 +43,6 @@ namespace AD.Questionnaires
                                     ExtractContent(
                                         x.Element("sdtPr"),
                                         x.Element("sdtContent"))));
-
-//            XElement questionnaire =
-//                new XElement(
-//                    "questionnaire",
-//                    new XElement(
-//                        "fileName",
-//                        (string) document.Attribute("fileName")));
-//            foreach (XElement element in document.Descendants("sdt"))
-//            {
-//                XElement response =
-//                    new XElement(
-//                        element.Element("sdtPr")?.Element("alias")?.Value ?? "",
-//                        element.Descendants("checkbox").Any()
-//                            ? element.Element("sdtContent")?
-//                                     .Descendants("t")
-//                                     .Select(x => x.Value)
-//                                     .Aggregate(false, (current, next) => current || next.Contains("☒"))
-//                                     .ToString()
-//                            : element.Element("sdtContent")?
-//                                     .Descendants("t")
-//                                     .Select(x => x.Value)
-//                                     .Aggregate(string.Empty, (current, next) => current + next));
-//
-//                questionnaire.Add(response);
-//            }
-//
-//            return questionnaire;
         }
 
         /// <summary>

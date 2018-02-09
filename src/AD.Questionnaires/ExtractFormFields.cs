@@ -77,10 +77,11 @@ namespace AD.Questionnaires
             }
 
             XElement questionnaire =
-                new XElement("questionnaire");
-
-            questionnaire.Add(
-                new XElement("fileName", (string) document.Attribute("fileName")));
+                new XElement(
+                    "questionnaire",
+                    new XElement(
+                        "fileName",
+                        (string) document.Attribute("fileName")));
 
             bool inField = false;
 
@@ -93,14 +94,17 @@ namespace AD.Questionnaires
                     {
                         firstParagraph = false;
                     }
+
                     if (FieldBegin == (string) child.Element(FieldChar)?.Attribute(FieldCharType))
                     {
                         inField = true;
                     }
+
                     if (FieldEnd == (string) child.Element(FieldChar)?.Attribute(FieldCharType))
                     {
                         inField = false;
                     }
+
                     if (!inField)
                     {
                         continue;
@@ -116,6 +120,7 @@ namespace AD.Questionnaires
 
                         questionnaire.Add(name);
                     }
+
                     if (child.Descendants(Text).Any(x => !string.IsNullOrWhiteSpace(x.Value)))
                     {
                         if (!firstParagraph)
@@ -127,6 +132,7 @@ namespace AD.Questionnaires
                         ((XElement) questionnaire.LastNode)?
                             .Add(child.Descendants(Text).SelectMany(x => x.Value));
                     }
+
                     if (!child.Descendants(CheckBox).Any())
                     {
                         continue;
@@ -154,6 +160,7 @@ namespace AD.Questionnaires
                 {
                     continue;
                 }
+
                 if (node.Value is null)
                 {
                     continue;
@@ -183,7 +190,7 @@ namespace AD.Questionnaires
                 throw new ArgumentNullException(nameof(documents));
             }
 
-            return documents.Select(x => x.ExtractFormFields());
+            return documents.Select(ExtractFormFields);
         }
 
         /// <summary>
@@ -201,7 +208,7 @@ namespace AD.Questionnaires
                 throw new ArgumentNullException(nameof(documents));
             }
 
-            return documents.Select(x => x.ExtractFormFields());
+            return documents.Select(ExtractFormFields);
         }
 
         /// <summary>

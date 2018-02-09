@@ -31,19 +31,21 @@ namespace AD.Questionnaires
                 element.HasElements
                     ? new XElement(
                         element.Name.LocalName,
-                        element.Elements().Select(x => x.CreateXmlFromOpenXml()))
+                        element.Elements().Select(CreateXmlFromOpenXml))
                     : new XElement(
                         element.Name.LocalName,
-                        element.Attribute(W + "val")?.Value ?? element.Value);
+                        (string) element.Attribute(W + "val") ?? (string) element);
 
             if (element.Attribute("fileName") is XAttribute fileName)
             {
                 newElement.SetAttributeValue("fileName", (string) fileName);
             }
+
             if (element.Attribute(W + "fldCharType") is XAttribute fieldType)
             {
                 newElement.SetAttributeValue("fldCharType", (string) fieldType);
             }
+
             return newElement;
         }
 
@@ -57,7 +59,7 @@ namespace AD.Questionnaires
         [NotNull]
         public static IEnumerable<XElement> CreateXmlFromOpenXml([NotNull] [ItemNotNull] this IEnumerable<XElement> elements)
         {
-            return elements.Select(x => x.CreateXmlFromOpenXml());
+            return elements.Select(CreateXmlFromOpenXml);
         }
 
         /// <summary>
@@ -70,7 +72,7 @@ namespace AD.Questionnaires
         [NotNull]
         public static ParallelQuery<XElement> CreateXmlFromOpenXml([NotNull] [ItemNotNull] this ParallelQuery<XElement> elements)
         {
-            return elements.Select(x => x.CreateXmlFromOpenXml());
+            return elements.Select(CreateXmlFromOpenXml);
         }
     }
 }
