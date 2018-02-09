@@ -1,0 +1,27 @@
+﻿{
+    "surveyId": 1,
+    "respondentId": 1,
+    "responses": [
+        {
+            "questionId": 1,
+            "questionText": "What is your name?",
+            "value": "Austin"
+        },
+        {
+            "questionId": 2,
+            "questionText": "What is today's date?",
+            "value": "2018-02-09"
+        },
+        {
+            "questionId": 3,
+            "questionText": "Did you import apples in 2017?",
+            "value": true
+        },
+        {
+            "questionId": 3,
+            "questionText": "How many tons of apples did you import in 2017?",
+            "value": 10.5,
+            "unit": "tons"
+        }
+    ]
+}

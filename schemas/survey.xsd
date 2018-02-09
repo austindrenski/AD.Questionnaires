@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="survey">
+        <xs:annotation>
+            <xs:documentation>A set of responses to survey questions</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="responses" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>Zero or more response nodes</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="response" minOccurs="0" maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>A response to a survey question</xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:all>
+                                        <xs:element name="value" type="xs:anyType" minOccurs="0">
+                                            <xs:annotation>
+                                                <xs:documentation>The response message</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element name="questionText" type="xs:string" minOccurs="0">
+                                            <xs:annotation>
+                                                <xs:documentation>The text of the question</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element name="units" type="xs:string" minOccurs="0">
+                                            <xs:annotation>
+                                                <xs:documentation>The logical units of the response message value</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                    </xs:all>
+                                    <xs:attribute name="questionId" use="required">
+                                        <xs:annotation>
+                                            <xs:documentation>The unique identifier for a question</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:positiveInteger">
+                                                <xs:minInclusive value="1"/>
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:attribute>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:all>
+            <xs:attribute name="surveyId" use="required">
+                <xs:annotation>
+                    <xs:documentation>The unique identifier for a survey</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:positiveInteger">
+                        <xs:minInclusive value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="respondentId" use="required">
+                <xs:annotation>
+                    <xs:documentation>The unique identifier for a respondent</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:positiveInteger">
+                        <xs:minInclusive value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

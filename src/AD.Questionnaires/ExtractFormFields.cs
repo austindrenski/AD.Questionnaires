@@ -84,25 +84,33 @@ namespace AD.Questionnaires
                         (string) document.Attribute("fileName")));
 
             bool inField = false;
+            bool firstParagraph = true;
 
-            foreach (XElement paragraph in document.Descendants(Paragraph))
+            foreach (XElement paragraph in document.Descendants(Paragraph).Where(x => x.Descendants(FormFieldData).Any()))
             {
-                bool firstParagraph = true;
                 foreach (XElement child in paragraph.Elements())
                 {
-                    if (firstParagraph && inField)
+                    if (child.Element(FieldChar) is XElement fieldChar)
                     {
-                        firstParagraph = false;
-                    }
+                        firstParagraph = true;
 
-                    if (FieldBegin == (string) child.Element(FieldChar)?.Attribute(FieldCharType))
-                    {
-                        inField = true;
-                    }
-
-                    if (FieldEnd == (string) child.Element(FieldChar)?.Attribute(FieldCharType))
-                    {
-                        inField = false;
+                        switch ((string) fieldChar.Attribute(FieldCharType))
+                        {
+                            case FieldBegin:
+                            {
+                                inField = true;
+                                break;
+                            }
+                            case FieldEnd:
+                            {
+                                inField = false;
+                                break;
+                            }
+                            default:
+                            {
+                                break;
+                            }
+                        }
                     }
 
                     if (!inField)
@@ -156,6 +164,8 @@ namespace AD.Questionnaires
                     }
                 }
 
+                firstParagraph = false;
+
                 if (inField || !(questionnaire.LastNode is XElement node))
                 {
                     continue;
@@ -166,9 +176,11 @@ namespace AD.Questionnaires
                     continue;
                 }
 
+                node.Value = node.Value.Trim('\r', '\n');
+
                 if (node.Value.Contains("\r\n") && !node.Value.StartsWith("\"") && !node.Value.EndsWith("\""))
                 {
-                    node.Value = $"\"{node.Value.Trim('\r', '\n')}\"";
+                    node.Value = $"\"{node.Value}\"";
                 }
             }
 

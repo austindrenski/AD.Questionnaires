@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<survey surveyId="1" respondentId="2">
+    <responses>
+        <response questionId="1">
+            <questionText>What is your name?</questionText>
+            <value>Austin</value>
+        </response>
+        <response questionId="2">
+            <questionText>What is today's date?</questionText>
+            <value>2018-02-09</value>
+        </response>
+        <response questionId="3">
+            <questionText>Did you import apples in 2017?</questionText>
+            <value>yes</value>
+        </response>
+        <response questionId="4">
+            <questionText>How many tons of apples did you import in 2017?</questionText>
+            <units>tons</units>
+            <value>10.5</value>
+        </response>
+    </responses>
+</survey>

@@ -15,6 +15,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionnairesApi", "src\Qu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AD.Questionnaires", "src\AD.Questionnaires\AD.Questionnaires.csproj", "{D50DFC12-765A-4761-8083-EE9CE04BBAEF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schemas", "Schemas", "{31A061AD-F7FA-49D7-AD5D-0B0C5709057A}"
+ProjectSection(SolutionItems) = preProject
+	schemas\survey.json = schemas\survey.json
+	schemas\example.json = schemas\example.json
+	schemas\example.xml = schemas\example.xml
+	schemas\survey.xsd = schemas\survey.xsd
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
