@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
         <TargetFramework>netcoreapp2.0</TargetFramework>
-        <UserSecretsId>ac332723-b5e6-47b9-b02d-b6c86026d340</UserSecretsId>
         <LangVersion>latest</LangVersion>
+        <UserSecretsId>ac332723-b5e6-47b9-b02d-b6c86026d340</UserSecretsId>
+        <DocumentationFile>bin\Release\netcoreapp2.0\QuestionnairesApi.xml</DocumentationFile>
     </PropertyGroup>
     <PropertyGroup>
         <AssemblyName>QuestionnairesApi</AssemblyName>
@@ -10,7 +11,6 @@
         <Company>Austin Drenski</Company>
         <Copyright>Copyright (c) 2017 Austin Drenski</Copyright>
         <Description>QuestionnaireApi is designed for questionnaire submission and extraction.</Description>
-        <DocumentationFile>bin\Release\netcoreapp2.0\QuestionnairesApi.xml</DocumentationFile>
         <PackageLicenseUrl>https://github.com/austindrenski/AD.Questionnaires/raw/master/LICENSE</PackageLicenseUrl>
         <PackageProjectUrl>https://github.com/austindrenski/AD.Questionnaires</PackageProjectUrl>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
@@ -36,9 +36,11 @@
         <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0"/>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="wwwroot/css/min"/>
-        <Folder Include="wwwroot/css/min"/>
-        <None Include="wwwroot/css/min/*" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always"/>
-        <None Include="wwwroot/js/min/*" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always"/>
+        <Folder Include="wwwroot/css"/>
+        <Folder Include="wwwroot/js"/>
+        <None Include="wwwroot/min/*">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </None>
     </ItemGroup>
 </Project>

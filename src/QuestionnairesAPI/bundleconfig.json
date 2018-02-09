@@ -1,6 +1,6 @@
 [
     {
-        "outputFileName": "wwwroot/css/min/site.min.css",
+        "outputFileName": "wwwroot/min/site.min.css",
         "inputFiles": [
             "wwwroot/css/site.css"
         ],
@@ -11,7 +11,7 @@
         "sourceMap": false
     },
     {
-        "outputFileName": "wwwroot/js/min/site.min.js",
+        "outputFileName": "wwwroot/min/site.min.js",
         "inputFiles": [
             "wwwroot/js/site.js"
         ],
