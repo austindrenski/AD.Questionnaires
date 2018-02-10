@@ -1,42 +1,22 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Upload Form Fields";
+    ViewData["Title"] = "Upload Content Controls";
 }
-<!doctype html>
-<html>
-<head>
-    <title>USITC Questionnaire API</title>
-</head>
-<body>
 <h1>
-    USITC Questionnaires API
+    Questionnaires API
 </h1>
 <p>
-    This API provides functionality to extract questionnaire response data from Microsoft Word documents containing form fields or content controls.
+    This API provides functionality to extract questionnaire response data from Microsoft Word documents (.docx) containing content controls.
 </p>
-<h2>
-    INSTRUCTIONS
-</h2>
-<ul>
-    <li>
-        Files must be in '.docx' format.
-    </li>
-    <li>
-        Files must contain either form fields or content controls.
-    </li>
-    <li>
-        The response format (form fields, content controls) are handled by separate endpoints: "/forms" and "/controls".
-    </li>
-</ul>
 <form asp-controller="Upload" asp-action="Controls" method="post" enctype="multipart/form-data">
-    <p>Select data output format:</p>
-    <div class="form-group">
-        <div class="col-md-10">
+    <fieldset>
+        <legend>Select data output format:</legend>
+        <div>
             <input type="radio" id="html" name="format" value="html" checked/>
             <label for="html">html</label>
 
-            <input type="radio" id="json" name="format" value="json" checked/>
+            <input type="radio" id="json" name="format" value="json"/>
             <label for="json">json</label>
 
             <input type="radio" id="xml" name="format" value="xml"/>
@@ -50,19 +30,17 @@
 
             <input type="radio" id="tsv" name="format" value="tsv"/>
             <label for="tsv">tsv (\t)</label>
-
         </div>
-        <div class="col-md-10">
-            <p>Upload one or more files using this form:</p>
-            <input type="file" name="files" multiple/>
-        </div>
+    </fieldset>
 
+    <div class="col-md-10">
+        <p>Upload one or more files using this form:</p>
+        <input type="file" name="files" multiple/>
     </div>
+
     <div class="form-group">
         <div class="col-md-10">
             <button type="submit">Upload</button>
         </div>
     </div>
 </form>
-</body>
-</html>

@@ -3,32 +3,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Upload Form Fields";
 }
-<!doctype html>
-<html>
-<head>
-    <title>USITC Questionnaire API</title>
-</head>
-<body>
 <h1>
-    USITC Questionnaires API
+    Questionnaires API
 </h1>
 <p>
-    This API provides functionality to extract questionnaire response data from Microsoft Word documents containing form fields or content controls.
+    This API provides functionality to extract questionnaire response data from Microsoft Word documents (.docx) containing content controls.
 </p>
-<h2>
-    INSTRUCTIONS
-</h2>
-<ul>
-    <li>
-        Files must be in '.docx' format.
-    </li>
-    <li>
-        Files must contain either form fields or content controls.
-    </li>
-    <li>
-        The response format (form fields, content controls) are handled by separate endpoints: "/forms" and "/controls".
-    </li>
-</ul>
 <form asp-controller="Upload" asp-action="Forms" method="post" enctype="multipart/form-data">
     <fieldset>
         <legend>Select data output format:</legend>
@@ -64,5 +44,3 @@
         </div>
     </div>
 </form>
-</body>
-</html>

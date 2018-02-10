@@ -1,5 +1,6 @@
 ﻿using System;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 
 namespace QuestionnairesApi.Models
 {
@@ -58,6 +59,26 @@ namespace QuestionnairesApi.Models
             Value = value;
             QuestionText = questionText;
             Units = units;
+        }
+
+        /// <summary>
+        /// Returns an indented JSON representation of the contents of this <see cref="Response"/>.
+        /// </summary>
+        [Pure]
+        [NotNull]
+        public override string ToString()
+        {
+            return Serialize(true);
+        }
+
+        /// <summary>
+        /// Returns a JSON representation of the contents of this <see cref="Response"/>.
+        /// </summary>
+        [Pure]
+        [NotNull]
+        public string Serialize(bool indent)
+        {
+            return JsonConvert.SerializeObject(this, indent ? Formatting.Indented : Formatting.None);
         }
     }
 }
