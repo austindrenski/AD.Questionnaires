@@ -13,39 +13,6 @@ namespace AD.Questionnaires
     public static class ExtractContentControlsExtensions
     {
         /// <summary>
-        /// Extracts content control data from a single XElement representing the document root of a Microsoft Word document.
-        /// </summary>
-        /// <param name="document">
-        /// The document root element of a Microsoft Word document.
-        /// </param>
-        /// <returns>
-        /// An XElement whose root is a questionnaire element.
-        /// </returns>
-        /// <exception cref="ArgumentNullException"/>
-        [Pure]
-        [NotNull]
-        public static XElement ExtractContentControls([NotNull] this XElement document)
-        {
-            if (document is null)
-            {
-                throw new ArgumentNullException(nameof(document));
-            }
-
-            return
-                new XElement(
-                    "questionnaire",
-                    new XElement(
-                        "fileName",
-                        (string) document.Attribute("fileName")),
-                    document.Descendants("sdt")
-                            .Select(
-                                x =>
-                                    ExtractContent(
-                                        x.Element("sdtPr"),
-                                        x.Element("sdtContent"))));
-        }
-
-        /// <summary>
         /// Extracts content control data from an enumerable of simplified XElements representing the document root of a Microsoft Word document.
         /// </summary>
         /// <param name="documents">
@@ -89,6 +56,35 @@ namespace AD.Questionnaires
             }
 
             return documents.Select(x => x.ExtractContentControls());
+        }
+
+        /// <summary>
+        /// Extracts content control data from a single XElement representing the document root of a Microsoft Word document.
+        /// </summary>
+        /// <param name="document">
+        /// The document root element of a Microsoft Word document.
+        /// </param>
+        /// <returns>
+        /// An XElement whose root is a questionnaire element.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"/>
+        [Pure]
+        [NotNull]
+        public static XElement ExtractContentControls([NotNull] this XElement document)
+        {
+            if (document is null)
+            {
+                throw new ArgumentNullException(nameof(document));
+            }
+
+            return
+                new XElement(
+                    "questionnaire",
+                    new XElement(
+                        "fileName",
+                        (string) document.Attribute("fileName")),
+                    document.Descendants("sdt")
+                            .Select(x => ExtractContent(x.Element("sdtPr"), x.Element("sdtContent"))));
         }
 
         /// <summary>

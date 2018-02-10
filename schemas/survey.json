@@ -1,60 +1,61 @@
 {
-    "$schema": "http://json-schema.org/schema",
-    "title": "Survey",
-    "description": "A set of responses to survey questions",
-    "type": "object",
-    "properties": {
-        "surveyId": {
-            "type": "integer",
-            "description": "The unique identifier for a survey",
-            "minimum": 1
-        },
-        "respondentId": {
-            "type": "integer",
-            "description": "The unique identifier for a respondent",
-            "minimum": 1
-        },
-        "responses": {
-            "type": "array",
-            "items": {
-                "title": "response",
-                "description": "A response to a survey question",
-                "type": "object",
-                "properties": {
-                    "questionId": {
-                        "type": "integer",
-                        "description": "The unique identifier for a question",
-                        "minimum": 1
-                    },
-                    "value": {
-                        "type": [
-                            "boolean",
-                            "integer",
-                            "number",
-                            "object",
-                            "string"
-                        ],
-                        "description": "The response message"
-                    },
-                    "questionText": {
-                        "type": "string",
-                        "description": "The text of the question"
-                    },
-                    "units": {
-                        "type": "string",
-                        "description": "The logical units of the response message value"
-                    }
-                },
-                "required": [
-                    "questionId"
-                ]
-            },
-            "minItems": 0,
-            "uniqueItems": true
-        }
+  "$schema": "http://json-schema.org/schema",
+  "title": "Survey",
+  "description": "A set of responses to survey questions",
+  "type": "object",
+  "properties": {
+    "surveyId": {
+      "type": "integer",
+      "description": "The unique identifier for a survey",
+      "minimum": 1
     },
-    "required": [
-        "surveyId",
-        "respondentId"
-    ]
+    "respondentId": {
+      "type": "integer",
+      "description": "The unique identifier for a respondent",
+      "minimum": 1
+    },
+    "responses": {
+      "type": "array",
+      "description": "The responses of the specified respondent to the specified survey",
+      "items": {
+        "title": "response",
+        "description": "A response to a survey question",
+        "type": "object",
+        "properties": {
+          "questionId": {
+            "type": "integer",
+            "description": "The unique identifier for a question",
+            "minimum": 1
+          },
+          "value": {
+            "type": [
+              "boolean",
+              "integer",
+              "number",
+              "object",
+              "string"
+            ],
+            "description": "The response value"
+          },
+          "questionText": {
+            "type": "string",
+            "description": "The text of the question"
+          },
+          "units": {
+            "type": "string",
+            "description": "The logical units of the response value"
+          }
+        },
+        "required": [
+          "questionId"
+        ]
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "surveyId",
+    "respondentId"
+  ]
 }
