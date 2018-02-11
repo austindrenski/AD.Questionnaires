@@ -5,7 +5,7 @@ platform:
   - Any CPU
 
 install:
-  - mkdir src/QuestionnairesAPI/wwwroot/min
+  - pwsh: mkdir src/QuestionnairesAPI/wwwroot/min
 
 build_script:
-  - cmd: dotnet build --configuration Release
+  - pwsh: dotnet build --configuration Release
