@@ -89,7 +89,7 @@ namespace QuestionnairesApi
                             x.Conventions.Add(new KebabControllerModelConvention());
                             x.FormatterMappings.SetMediaTypeMappingForFormat("xml", "application/xml");
 //                            x.FormatterMappings.SetMediaTypeMappingForFormat("html", "text/html");
-                            x.FormatterMappings.SetMediaTypeMappingForFormat("xhtml", "text/xhtml");
+//                            x.FormatterMappings.SetMediaTypeMappingForFormat("xhtml", "text/xhtml");
                             x.FormatterMappings.SetMediaTypeMappingForFormat("csv", "text/csv");
                             x.FormatterMappings.SetMediaTypeMappingForFormat("psv", "text/psv");
                             x.FormatterMappings.SetMediaTypeMappingForFormat("tsv", "text/tsv");

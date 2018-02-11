@@ -1,46 +1,58 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using QuestionnairesApi.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Upload Form Fields";
 }
-<h1>
+<h2>
     Questionnaires API
-</h1>
+</h2>
 <p>
-    This API provides functionality to extract questionnaire response data from Microsoft Word documents (.docx) containing content controls.
+    This API provides functionality to extract questionnaire response data from Microsoft Word documents (.docx) containing form fields.
 </p>
 <form asp-controller="Upload" asp-action="Forms" method="post" enctype="multipart/form-data">
-    <fieldset>
-        <legend>Select data output format:</legend>
-        <div>
-            <input type="radio" id="html" name="format" value="html" checked/>
-            <label for="html">html</label>
 
-            <input type="radio" id="json" name="format" value="json"/>
-            <label for="json">json</label>
-
-            <input type="radio" id="xml" name="format" value="xml"/>
-            <label for="xml">xml</label>
-
-            <input type="radio" id="csv" name="format" value="csv"/>
-            <label for="csv">csv (,)</label>
-
-            <input type="radio" id="psv" name="format" value="psv"/>
-            <label for="psv">psv (|)</label>
-
-            <input type="radio" id="tsv" name="format" value="tsv"/>
-            <label for="tsv">tsv (\t)</label>
-        </div>
-    </fieldset>
-
-    <div class="col-md-10">
-        <p>Upload one or more files using this form:</p>
-        <input type="file" name="files" multiple/>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-outline-secondary active">
+            <input type="radio" id="html" name="format" value="html" checked>
+            html
+        </label>
+        <label class="btn btn-outline-secondary">
+            <input type="radio" id="json" name="format" value="json">
+            json
+        </label>
+        <label class="btn btn-outline-secondary">
+            <input type="radio" id="xml" name="format" value="xml">
+            xml
+        </label>
+        <label class="btn btn-outline-secondary">
+            <input type="radio" id="csv" name="format" value="csv">
+            csv (,)
+        </label>
+        <label class="btn btn-outline-secondary">
+            <input type="radio" id="psv" name="format" value="psv">
+            psv (|)
+        </label>
+        <label class="btn btn-outline-secondary">
+            <input type="radio" id="tsv" name="format" value="tsv">
+            tsv (\t)
+        </label>
     </div>
 
-    <div class="form-group">
-        <div class="col-md-10">
-            <button type="submit">Upload</button>
+    <div class="input-group mb-3">
+        <div class="custom-file">
+            <input id="files" name="files" type="file" class="custom-file-input" multiple>
+            <label class="custom-file-label" for="files">Choose files</label>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="submit">Upload</button>
         </div>
     </div>
+
+    <ul id="file-names"></ul>
+
 </form>
+@if (ViewData["Table"] is IEnumerable<Survey> surveys)
+{
+    @await Html.PartialAsync("SurveyTablePartial", surveys)
+}

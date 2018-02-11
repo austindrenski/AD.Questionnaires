@@ -9,7 +9,7 @@
 
         <title>@ViewData["Title"]</title>
 
-        <link rel="icon" type="image/x-icon" href="~/favicon.ico" sizes="32x32">
+        <link rel="icon" type="image/x-icon" href="~/assets/favicon.ico" sizes="32x32">
 
         <environment include="Development">
             <link rel="stylesheet"
@@ -21,10 +21,6 @@
                   type="text/css"
                   href="~/css/bootstrap-4.0.0.css"
                   asp-append-version="true"/>
-
-            <script src="~/js/site.js"
-                    asp-append-version="true">
-            </script>
         </environment>
 
         <environment include="Production">
@@ -66,6 +62,10 @@
             <script src="~/js/bootstrap-4.0.0.js"
                     asp-append-version="true">
             </script>
+
+            <script src="~/js/site.js"
+                    asp-append-version="true">
+            </script>
         </environment>
         <environment include="Production">
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -83,6 +83,10 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
                     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
                     crossorigin="anonymous"
+                    asp-append-version="true">
+            </script>
+
+            <script src="~/min/site.min.js"
                     asp-append-version="true">
             </script>
         </environment>

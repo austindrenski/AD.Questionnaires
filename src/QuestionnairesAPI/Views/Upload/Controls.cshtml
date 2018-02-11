@@ -4,9 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Upload Content Controls";
 }
-<h1>
+<h2>
     Questionnaires API
-</h1>
+</h2>
 <p>
     This API provides functionality to extract questionnaire response data from Microsoft Word documents (.docx) containing content controls.
 </p>
@@ -39,19 +39,18 @@
         </label>
     </div>
 
-    <div>
-        <p>Upload one or more files using this form:</p>
-        <input class="btn btn-outline-secondary" type="file" name="files" multiple/>
+    <div class="input-group mb-3">
+        <div class="custom-file">
+            <input id="files" name="files" type="file" class="custom-file-input" multiple>
+            <label class="custom-file-label" for="files">Choose files</label>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="submit">Upload</button>
+        </div>
     </div>
 
-    <div class="custom-file">
-        <label class="custom-file-label" for="files">Choose file</label>
-        <input type="file" class="custom-file-input" id="files">
-    </div>
+    <ul id="file-names"></ul>
 
-    <div>
-        <button class="btn btn-outline-primary" type="submit">Upload</button>
-    </div>
 </form>
 @if (ViewData["Table"] is IEnumerable<Survey> surveys)
 {
