@@ -11,7 +11,7 @@ $('.custom-file-input').change(
 
         for (let i = 0; i < files.length; i++) {
 
-            let listItem = document.createElement('li');
+            const listItem = document.createElement('li');
 
             listItem.appendChild(document.createTextNode(files[i].name));
 
