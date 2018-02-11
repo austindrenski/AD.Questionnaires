@@ -4,5 +4,8 @@ image:
 platform:
   - Any CPU
 
+before_build:
+  - cmd: mkdir src/QuestionnairesAPI/wwwroot/min
+
 build_script:
   - cmd: dotnet build --configuration Release
