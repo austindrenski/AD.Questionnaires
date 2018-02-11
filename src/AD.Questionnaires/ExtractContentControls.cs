@@ -114,7 +114,7 @@ namespace AD.Questionnaires
                 throw new ArgumentNullException(nameof(sdtContent));
             }
 
-            string tag = (string) sdtPr.Element("tag");
+            string tag = (string) sdtPr.Element("tag") ?? "noTag";
 
             if (sdtPr.Element("date") != null)
             {

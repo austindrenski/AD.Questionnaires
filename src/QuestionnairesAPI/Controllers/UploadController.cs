@@ -9,6 +9,7 @@ using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
+using QuestionnairesApi.Models;
 
 namespace QuestionnairesApi.Controllers
 {
@@ -30,7 +31,7 @@ namespace QuestionnairesApi.Controllers
         [HttpGet("")]
         public IActionResult Index()
         {
-            return View("~/Views/Redirect.cshtml");
+            return View();
         }
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace QuestionnairesApi.Controllers
         [HttpGet]
         public IActionResult Forms()
         {
-            return View("~/Views/UploadForms.cshtml");
+            return View();
         }
 
         /// <summary>
@@ -78,6 +79,7 @@ namespace QuestionnairesApi.Controllers
             {
                 throw new ArgumentNullException(nameof(files));
             }
+
             IFormFile[] uploadedFiles = files.ToArray();
 
             if (uploadedFiles.Length == 0)
@@ -120,7 +122,7 @@ namespace QuestionnairesApi.Controllers
         [HttpGet]
         public IActionResult Controls()
         {
-            return View("~/Views/UploadControls.cshtml");
+            return View();
         }
 
         /// <summary>
@@ -149,7 +151,7 @@ namespace QuestionnairesApi.Controllers
         /// </returns>
         [NotNull]
         [HttpPost]
-        private  IActionResult InternalControls([NotNull] [ItemNotNull] IEnumerable<IFormFile> files)
+        private IActionResult InternalControls([NotNull] [ItemNotNull] IEnumerable<IFormFile> files)
         {
             if (files is null)
             {
@@ -179,13 +181,19 @@ namespace QuestionnairesApi.Controllers
             {
                 using (Stream stream = file.OpenReadStream())
                 {
-                    documentQueue.Enqueue(stream.ReadAsXml(file.FileName));
+                    documentQueue.Enqueue(stream.ReadAsXml(file.FileName, "customXml/item1.xml"));
                 }
             }
 
-            IEnumerable<XElement> results = QuestionnaireFactory.ProcessContentControls(documentQueue);
+//            IEnumerable<XElement> results = QuestionnaireFactory.ProcessContentControls(documentQueue);
+            IEnumerable<XElement> results = documentQueue;
 
-            return Ok(results);
+            if (Request.Query["format"] == "html")
+            {
+                ViewData["Table"] = Survey.CreateEnumerable(results);
+            }
+
+            return Request.Query["format"] == "html" ? View() : (IActionResult) Ok(results);
         }
     }
 }

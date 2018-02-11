@@ -88,7 +88,7 @@ namespace QuestionnairesApi
                         {
                             x.Conventions.Add(new KebabControllerModelConvention());
                             x.FormatterMappings.SetMediaTypeMappingForFormat("xml", "application/xml");
-                            x.FormatterMappings.SetMediaTypeMappingForFormat("html", "text/html");
+//                            x.FormatterMappings.SetMediaTypeMappingForFormat("html", "text/html");
                             x.FormatterMappings.SetMediaTypeMappingForFormat("xhtml", "text/xhtml");
                             x.FormatterMappings.SetMediaTypeMappingForFormat("csv", "text/csv");
                             x.FormatterMappings.SetMediaTypeMappingForFormat("psv", "text/psv");
@@ -96,6 +96,10 @@ namespace QuestionnairesApi
                             x.ModelMetadataDetailsProviders.Add(new KebabBindingMetadataProvider());
                             x.OutputFormatters.Add(new XmlOutputFormatter());
                             x.OutputFormatters.Add(new DelimitedOutputFormatter());
+//                            x.OutputFormatters.Add(
+//                                new HtmlOutputFormatter<IEnumerable<Survey>>(
+//                                    "Views/Table.cshtml",
+//                                    (c, o) => Survey.CreateEnumerable((IEnumerable<XElement>) o)));
                             x.RespectBrowserAcceptHeader = true;
                         })
                     .AddJsonOptions(
@@ -112,7 +116,7 @@ namespace QuestionnairesApi
                             x.IncludeXmlComments($"{Path.Combine(ApplicationEnvironment.ApplicationBasePath, nameof(QuestionnairesApi))}.xml");
                             x.IgnoreObsoleteActions();
                             x.IgnoreObsoleteProperties();
-                            x.SwaggerDoc("v1", new Info { Title = "USTIC Questionnaires API", Version = "v1" });
+                            x.SwaggerDoc("v1", new Info { Title = "Questionnaires API", Version = "v1" });
                             x.OperationFilter<SwaggerOptionalFilter>();
                         });
         }
@@ -143,11 +147,11 @@ namespace QuestionnairesApi
                    x =>
                    {
                        x.RoutePrefix = "docs";
-                       x.DocumentTitle("USITC Questionnaires API Documentation");
+                       x.DocumentTitle("Questionnaires API Documentation");
                        x.InjectStylesheet("swagger-ui/swagger.css");
                        x.ShowJsonEditor();
                        x.ShowRequestHeaders();
-                       x.SwaggerEndpoint("v1/swagger.json", "USITC Questionnaires API Documentation");
+                       x.SwaggerEndpoint("v1/swagger.json", "Questionnaires API Documentation");
                    })
                .UseMvc();
         }

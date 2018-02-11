@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 
@@ -59,6 +61,40 @@ namespace QuestionnairesApi.Models
             Value = value;
             QuestionText = questionText;
             Units = units;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="elements"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        [Pure]
+        [NotNull]
+        [ItemNotNull]
+        public static IEnumerable<Response> CreateEnumerable([NotNull] [ItemNotNull] IEnumerable<XElement> elements)
+        {
+            if (elements is null)
+            {
+                throw new ArgumentNullException(nameof(elements));
+            }
+
+            foreach (XElement element in elements)
+            {
+                XAttribute questionId = element.Attribute("questionId");
+
+                if (questionId is null)
+                {
+                    throw new ArgumentException("Malformed XML encountered.");
+                }
+
+                yield return
+                    new Response(
+                        (int) questionId,
+                        (string) element.Element("value"),
+                        (string) element.Element("questionText"),
+                        (string) element.Element("units"));
+            }
         }
 
         /// <summary>

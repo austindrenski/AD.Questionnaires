@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 
@@ -49,6 +50,37 @@ namespace QuestionnairesApi.Models
             SurveyId = surveyId;
             RespondentId = respondentId;
             Responses = responses;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="elements"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        [Pure]
+        [NotNull]
+        [ItemNotNull]
+        public static IEnumerable<Survey> CreateEnumerable([NotNull] [ItemNotNull] IEnumerable<XElement> elements)
+        {
+            if (elements is null)
+            {
+                throw new ArgumentNullException(nameof(elements));
+            }
+
+            foreach (XElement element in elements)
+            {
+                XAttribute surveyId = element.Attribute("surveyId");
+                XAttribute respondentId = element.Attribute("respondentId");
+                IEnumerable<XElement> responses = element.Element("responses")?.Elements();
+
+                if (surveyId is null || respondentId is null || responses is null)
+                {
+                    throw new ArgumentException("Malformed XML encountered.");
+                }
+
+                yield return new Survey((int) surveyId, (int) respondentId, Response.CreateEnumerable(responses));
+            }
         }
 
         /// <summary>

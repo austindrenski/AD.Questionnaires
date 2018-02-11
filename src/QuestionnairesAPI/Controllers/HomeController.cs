@@ -19,7 +19,7 @@ namespace QuestionnairesApi.Controllers
         [HttpGet("")]
         public IActionResult Index()
         {
-            return View("~/Views/Redirect.cshtml");
+            return View("~/Views/Upload/Index.cshtml");
         }
     }
 }

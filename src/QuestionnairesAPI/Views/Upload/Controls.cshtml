@@ -1,0 +1,59 @@
+@using QuestionnairesApi.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Upload Content Controls";
+}
+<h1>
+    Questionnaires API
+</h1>
+<p>
+    This API provides functionality to extract questionnaire response data from Microsoft Word documents (.docx) containing content controls.
+</p>
+<form asp-controller="Upload" asp-action="Controls" method="post" enctype="multipart/form-data">
+
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-outline-secondary active">
+            <input type="radio" id="html" name="format" value="html" checked>
+            html
+        </label>
+        <label class="btn btn-outline-secondary">
+            <input type="radio" id="json" name="format" value="json">
+            json
+        </label>
+        <label class="btn btn-outline-secondary">
+            <input type="radio" id="xml" name="format" value="xml">
+            xml
+        </label>
+        <label class="btn btn-outline-secondary">
+            <input type="radio" id="csv" name="format" value="csv">
+            csv (,)
+        </label>
+        <label class="btn btn-outline-secondary">
+            <input type="radio" id="psv" name="format" value="psv">
+            psv (|)
+        </label>
+        <label class="btn btn-outline-secondary">
+            <input type="radio" id="tsv" name="format" value="tsv">
+            tsv (\t)
+        </label>
+    </div>
+
+    <div>
+        <p>Upload one or more files using this form:</p>
+        <input class="btn btn-outline-secondary" type="file" name="files" multiple/>
+    </div>
+
+    <div class="custom-file">
+        <label class="custom-file-label" for="files">Choose file</label>
+        <input type="file" class="custom-file-input" id="files">
+    </div>
+
+    <div>
+        <button class="btn btn-outline-primary" type="submit">Upload</button>
+    </div>
+</form>
+@if (ViewData["Table"] is IEnumerable<Survey> surveys)
+{
+    @await Html.PartialAsync("SurveyTablePartial", surveys)
+}

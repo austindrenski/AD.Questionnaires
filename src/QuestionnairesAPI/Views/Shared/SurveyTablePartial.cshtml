@@ -1,0 +1,29 @@
+﻿@using QuestionnairesApi.Models
+@model IEnumerable<Survey>
+<div id="survey-tables">
+    @foreach (Survey survey in Model)
+    {
+        <table class="table table-sm table-striped">
+            <caption>(Survey ID, Respondent ID): (@survey.SurveyId, @survey.RespondentId)</caption>
+            <thead>
+                <tr>
+                    <th>Question ID</th>
+                    <th>Response</th>
+                    <th>Question Text</th>
+                    <th>Units</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Response response in survey.Responses)
+                {
+                    <tr>
+                        <td>@response.QuestionId</td>
+                        <td>@response.Value</td>
+                        <td>@response.QuestionText</td>
+                        <td>@response.Units</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

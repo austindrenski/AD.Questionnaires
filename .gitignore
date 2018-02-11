@@ -3,3 +3,5 @@ obj/
 packages/
 .idea/**/*
 wwwroot/
+!wwwroot/css/site.css
+!wwwroot/js/site.js

@@ -63,6 +63,7 @@ namespace QuestionnairesApi.OutputFormatters
             {
                 throw new ArgumentNullException(nameof(view));
             }
+
             if (modelFactory is null)
             {
                 throw new ArgumentNullException(nameof(modelFactory));
@@ -91,20 +92,21 @@ namespace QuestionnairesApi.OutputFormatters
                 throw new ArgumentNullException(nameof(context));
             }
 
-            IRazorViewEngine razorViewEngine = context.HttpContext.RequestServices.GetService<IRazorViewEngine>();
-            ITempDataProvider tempDataProvider = context.HttpContext.RequestServices.GetService<ITempDataProvider>();
-            ViewEngineResult viewEngineResult = razorViewEngine.GetView(_view, _view, false);
-
-            if (!viewEngineResult.Success)
-            {
-                throw new FileNotFoundException(_view);
-            }
-
             ActionContext actionContext =
                 new ActionContext(
                     context.HttpContext,
                     context.HttpContext.GetRouteData(),
                     new ActionDescriptor());
+
+            IRazorViewEngine razorViewEngine = context.HttpContext.RequestServices.GetService<IRazorViewEngine>();
+            ITempDataProvider tempDataProvider = context.HttpContext.RequestServices.GetService<ITempDataProvider>();
+
+            ViewEngineResult viewEngineResult = razorViewEngine.FindView(actionContext, _view, false);
+
+            if (!viewEngineResult.Success)
+            {
+                throw new FileNotFoundException(_view);
+            }
 
             ViewDataDictionary viewDataDictionary =
                 new ViewDataDictionary<T>(new EmptyModelMetadataProvider(), new ModelStateDictionary())
@@ -113,9 +115,7 @@ namespace QuestionnairesApi.OutputFormatters
                 };
 
             TempDataDictionary tempDataDictionary =
-                new TempDataDictionary(
-                    context.HttpContext,
-                    tempDataProvider);
+                new TempDataDictionary(context.HttpContext, tempDataProvider);
 
             using (StringWriter writer = new StringWriter())
             {
