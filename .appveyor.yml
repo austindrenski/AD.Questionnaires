@@ -1,14 +1,8 @@
-before_build:
-- appveyor-retry dotnet restore -v Minimal
-
-build_script:
-  - dotnet build QuestionnairesApi/QuestionnairesApi.csproj
-
-configuration:
-  - Release
-
-environment:
-  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+image:
+  - Visual Studio 2017
 
 platform:
   - Any CPU
+
+build_script:
+  - cmd: dotnet build --configuration Release
