@@ -3,23 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E49B5AD6-BD10-4C1B-96A7-7FC86483183B}"
-	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-		README.md = README.md
-		.appveyor.yml = .appveyor.yml
-		.gitattributes = .gitattributes
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionnairesApi", "src\QuestionnairesAPI\QuestionnairesApi.csproj", "{5A9F9FF1-17DE-4068-985E-394B939213D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AD.Questionnaires", "src\AD.Questionnaires\AD.Questionnaires.csproj", "{D50DFC12-765A-4761-8083-EE9CE04BBAEF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schemas", "Schemas", "{31A061AD-F7FA-49D7-AD5D-0B0C5709057A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sln", "sln", "{86B88213-5F91-47F4-9C30-8D55DD34578D}"
 ProjectSection(SolutionItems) = preProject
-	schemas\survey.json = schemas\survey.json
+	.appveyor.yml = .appveyor.yml
+	.gitattributes = .gitattributes
+	.gitignore = .gitignore
+	README.md = README.md
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BE0D7B00-7A20-440E-A39B-11DF80C32646}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{ECABE2D3-C8DE-4874-AB97-106C91BC7E32}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "schemas", "schemas", "{26706281-2D42-4821-A024-A122683E5E17}"
+ProjectSection(SolutionItems) = preProject
 	schemas\example.json = schemas\example.json
 	schemas\example.xml = schemas\example.xml
+	schemas\survey.json = schemas\survey.json
 	schemas\survey.xsd = schemas\survey.xsd
 EndProjectSection
 EndProject
@@ -40,5 +44,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D50DFC12-765A-4761-8083-EE9CE04BBAEF} = {BE0D7B00-7A20-440E-A39B-11DF80C32646}
+		{5A9F9FF1-17DE-4068-985E-394B939213D9} = {BE0D7B00-7A20-440E-A39B-11DF80C32646}
 	EndGlobalSection
 EndGlobal

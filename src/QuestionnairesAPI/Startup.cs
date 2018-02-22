@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using AD.ApiExtensions.Conventions;
+using AD.ApiExtensions.Filters;
+using AD.ApiExtensions.OutputFormatters;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,9 +14,6 @@ using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using QuestionnairesApi.Conventions;
-using QuestionnairesApi.Extensions;
-using QuestionnairesApi.OutputFormatters;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace QuestionnairesApi
@@ -117,7 +117,7 @@ namespace QuestionnairesApi
                             x.IgnoreObsoleteActions();
                             x.IgnoreObsoleteProperties();
                             x.SwaggerDoc("v1", new Info { Title = "Questionnaires API", Version = "v1" });
-                            x.OperationFilter<SwaggerOptionalFilter>();
+                            x.OperationFilter<SwaggerOptionalOperationFilter>();
                         });
         }
 

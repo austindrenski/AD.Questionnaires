@@ -8,7 +8,6 @@ using AD.Questionnaires;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
 using QuestionnairesApi.Models;
 
 namespace QuestionnairesApi.Controllers
@@ -19,7 +18,7 @@ namespace QuestionnairesApi.Controllers
     [ApiVersion("1.0")]
     public sealed class UploadController : Controller
     {
-        private static readonly StringValues PermittedFormats = ".docx";
+        [NotNull] private const string PermittedFormats = ".docx";
 
         /// <summary>
         ///
@@ -92,7 +91,7 @@ namespace QuestionnairesApi.Controllers
                 return BadRequest("Invalid file length.");
             }
 
-            if (uploadedFiles.Any(x => !PermittedFormats.Contains(Path.GetExtension(x.FileName), StringComparer.OrdinalIgnoreCase)))
+            if (uploadedFiles.Any(x => !string.Equals(PermittedFormats, Path.GetExtension(x.FileName), StringComparison.OrdinalIgnoreCase)))
             {
                 return BadRequest("Invalid file format.");
             }
@@ -170,7 +169,7 @@ namespace QuestionnairesApi.Controllers
                 return BadRequest("Invalid file length.");
             }
 
-            if (uploadedFiles.Any(x => !PermittedFormats.Contains(Path.GetExtension(x.FileName), StringComparer.OrdinalIgnoreCase)))
+            if (uploadedFiles.Any(x => !string.Equals(PermittedFormats, Path.GetExtension(x.FileName), StringComparison.OrdinalIgnoreCase)))
             {
                 return BadRequest("Invalid file format.");
             }
