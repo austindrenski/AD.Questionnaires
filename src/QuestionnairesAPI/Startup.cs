@@ -86,7 +86,7 @@ namespace QuestionnairesApi
                     .AddMvc(
                         x =>
                         {
-                            x.Conventions.Add(new KebabControllerModelConvention());
+                            x.Conventions.Add(new KebabControllerModelConvention("home"));
                             x.FormatterMappings.SetMediaTypeMappingForFormat("xml", "application/xml");
 //                            x.FormatterMappings.SetMediaTypeMappingForFormat("html", "text/html");
 //                            x.FormatterMappings.SetMediaTypeMappingForFormat("xhtml", "text/xhtml");
