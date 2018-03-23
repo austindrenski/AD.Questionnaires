@@ -102,13 +102,18 @@ namespace QuestionnairesApi.Controllers
             {
                 using (Stream stream = file.OpenReadStream())
                 {
-                    documentQueue.Enqueue(stream.ReadAsXml(file.FileName));
+                    documentQueue.Enqueue(stream.ReadAsXml("word/document.xml", file.FileName));
                 }
             }
 
             IEnumerable<XElement> results = QuestionnaireFactory.ProcessFormFields(documentQueue);
 
-            return Ok(results);
+            if (Request.Query["format"] == "html")
+            {
+                ViewData["Table"] = ConstructSurveys(results);
+            }
+
+            return Request.Query["format"] == "html" ? View() : (IActionResult) Ok(results);
         }
 
         /// <summary>
@@ -176,23 +181,59 @@ namespace QuestionnairesApi.Controllers
 
             Queue<XElement> documentQueue = new Queue<XElement>(uploadedFiles.Length);
 
+// TODO: this uses the experimental custom XML style.
+//            foreach (IFormFile file in uploadedFiles)
+//            {
+//                using (Stream stream = file.OpenReadStream())
+//                {
+//                    documentQueue.Enqueue(stream.ReadAsXml(file.FileName, "customXml/item1.xml"));
+//                }
+//            }
+//
+//            IEnumerable<XElement> results = documentQueue;
+//
+//            if (Request.Query["format"] == "html")
+//            {
+//                ViewData["Table"] = Survey.CreateEnumerable(results);
+//            }
+//            return Request.Query["format"] == "html" ? View() : (IActionResult) Ok(results);
+
             foreach (IFormFile file in uploadedFiles)
             {
                 using (Stream stream = file.OpenReadStream())
                 {
-                    documentQueue.Enqueue(stream.ReadAsXml(file.FileName, "customXml/item1.xml"));
+                    documentQueue.Enqueue(stream.ReadAsXml("word/document.xml", file.FileName));
                 }
             }
 
-//            IEnumerable<XElement> results = QuestionnaireFactory.ProcessContentControls(documentQueue);
-            IEnumerable<XElement> results = documentQueue;
+            IEnumerable<XElement> results = QuestionnaireFactory.ProcessContentControls(documentQueue);
 
             if (Request.Query["format"] == "html")
             {
-                ViewData["Table"] = Survey.CreateEnumerable(results);
+                ViewData["Table"] = ConstructSurveys(results);
             }
 
             return Request.Query["format"] == "html" ? View() : (IActionResult) Ok(results);
+        }
+
+        [Pure]
+        [NotNull]
+        [ItemNotNull]
+        private IEnumerable<Survey> ConstructSurveys([NotNull] [ItemNotNull] IEnumerable<XElement> source)
+        {
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            return
+                source.Select(
+                    x =>
+                        new Survey(
+                            default,
+                            default,
+                            x.Elements()
+                             .Select((y, i) => new Response(i, y.Value, y.Name.LocalName, default))));
         }
     }
 }

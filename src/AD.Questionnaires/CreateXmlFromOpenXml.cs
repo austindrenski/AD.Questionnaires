@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using AD.Xml;
@@ -27,6 +28,11 @@ namespace AD.Questionnaires
         [NotNull]
         public static XElement CreateXmlFromOpenXml([NotNull] this XElement element)
         {
+            if (element is null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
             XElement newElement =
                 element.HasElements
                     ? new XElement(
@@ -59,6 +65,11 @@ namespace AD.Questionnaires
         [NotNull]
         public static IEnumerable<XElement> CreateXmlFromOpenXml([NotNull] [ItemNotNull] this IEnumerable<XElement> elements)
         {
+            if (elements is null)
+            {
+                throw new ArgumentNullException(nameof(elements));
+            }
+
             return elements.Select(CreateXmlFromOpenXml);
         }
 
@@ -72,6 +83,11 @@ namespace AD.Questionnaires
         [NotNull]
         public static ParallelQuery<XElement> CreateXmlFromOpenXml([NotNull] [ItemNotNull] this ParallelQuery<XElement> elements)
         {
+            if (elements is null)
+            {
+                throw new ArgumentNullException(nameof(elements));
+            }
+
             return elements.Select(CreateXmlFromOpenXml);
         }
     }

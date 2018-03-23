@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using AD.ApiExtensions.Conventions;
 using AD.ApiExtensions.Filters;
 using AD.ApiExtensions.OutputFormatters;
@@ -86,16 +87,16 @@ namespace QuestionnairesApi
                     .AddMvc(
                         x =>
                         {
-                            x.Conventions.Add(new KebabControllerModelConvention("home"));
+                            x.Conventions.Add(new KebabControllerModelConvention());
+                            x.FormatterMappings.SetMediaTypeMappingForFormat("html", "text/html");
                             x.FormatterMappings.SetMediaTypeMappingForFormat("xml", "application/xml");
-//                            x.FormatterMappings.SetMediaTypeMappingForFormat("html", "text/html");
-//                            x.FormatterMappings.SetMediaTypeMappingForFormat("xhtml", "text/xhtml");
                             x.FormatterMappings.SetMediaTypeMappingForFormat("csv", "text/csv");
                             x.FormatterMappings.SetMediaTypeMappingForFormat("psv", "text/psv");
                             x.FormatterMappings.SetMediaTypeMappingForFormat("tsv", "text/tsv");
                             x.ModelMetadataDetailsProviders.Add(new KebabBindingMetadataProvider());
                             x.OutputFormatters.Add(new XmlOutputFormatter());
                             x.OutputFormatters.Add(new DelimitedOutputFormatter());
+// TODO: supports experimental custom XML style
 //                            x.OutputFormatters.Add(
 //                                new HtmlOutputFormatter<IEnumerable<Survey>>(
 //                                    "Views/Table.cshtml",
