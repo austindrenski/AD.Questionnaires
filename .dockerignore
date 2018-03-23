@@ -1,9 +1,0 @@
-bin/
-obj/
-packages/
-.idea/
-.vscode/
-wwwroot/
-!QuestionnairesApi/wwwroot/css/site.css
-!QuestionnairesApi/wwwroot/js/site.js
-*.DotSettings.user
