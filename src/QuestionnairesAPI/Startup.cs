@@ -94,8 +94,8 @@ namespace QuestionnairesApi
                             x.FormatterMappings.SetMediaTypeMappingForFormat("psv", "text/psv");
                             x.FormatterMappings.SetMediaTypeMappingForFormat("tsv", "text/tsv");
                             x.ModelMetadataDetailsProviders.Add(new KebabBindingMetadataProvider());
-                            x.OutputFormatters.Add(new XmlOutputFormatter());
-                            x.OutputFormatters.Add(new DelimitedOutputFormatter());
+                            x.OutputFormatters.Add(new XmlOutputFormatter2());
+                            x.OutputFormatters.Add(new DelimitedOutputFormatter2());
 // TODO: supports experimental custom XML style
 //                            x.OutputFormatters.Add(
 //                                new HtmlOutputFormatter<IEnumerable<Survey>>(

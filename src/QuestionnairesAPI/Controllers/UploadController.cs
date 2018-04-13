@@ -8,6 +8,7 @@ using AD.Questionnaires;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using QuestionnairesApi.Models;
 
 namespace QuestionnairesApi.Controllers
@@ -18,7 +19,7 @@ namespace QuestionnairesApi.Controllers
     [ApiVersion("1.0")]
     public sealed class UploadController : Controller
     {
-        [NotNull] private const string PermittedFormats = ".docx";
+        private static readonly StringValues PermittedFormats = new string[] { ".docx", ".docm" };
 
         /// <summary>
         ///
@@ -53,6 +54,19 @@ namespace QuestionnairesApi.Controllers
         ///
         /// </returns>
         [NotNull]
+        [HttpGet]
+        public IActionResult Controls()
+        {
+            return View();
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>
+        ///
+        /// </returns>
+        [NotNull]
         [HttpPost]
         [RequestSizeLimit(250_000_000)]
         public IActionResult Forms([NotNull] [ItemNotNull] IEnumerable<IFormFile> files, [CanBeNull] [FromForm] string format)
@@ -63,19 +77,6 @@ namespace QuestionnairesApi.Controllers
             }
 
             return InternalForms(files);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns>
-        ///
-        /// </returns>
-        [NotNull]
-        [HttpGet]
-        public IActionResult Controls()
-        {
-            return View();
         }
 
         /// <summary>
@@ -124,7 +125,7 @@ namespace QuestionnairesApi.Controllers
                 return BadRequest("Invalid file length.");
             }
 
-            if (uploadedFiles.Any(x => !string.Equals(PermittedFormats, Path.GetExtension(x.FileName), StringComparison.OrdinalIgnoreCase)))
+            if (uploadedFiles.Any(x => !PermittedFormats.Contains(Path.GetExtension(x.FileName), StringComparer.OrdinalIgnoreCase)))
             {
                 return BadRequest("Invalid file format.");
             }
@@ -135,7 +136,7 @@ namespace QuestionnairesApi.Controllers
             {
                 using (Stream stream = file.OpenReadStream())
                 {
-                    documentQueue.Enqueue(stream.ReadAsXml("word/document.xml", file.FileName));
+                    documentQueue.Enqueue(stream.ReadXml("word/document.xml", file.FileName));
                 }
             }
 
@@ -176,7 +177,7 @@ namespace QuestionnairesApi.Controllers
                 return BadRequest("Invalid file length.");
             }
 
-            if (uploadedFiles.Any(x => !string.Equals(PermittedFormats, Path.GetExtension(x.FileName), StringComparison.OrdinalIgnoreCase)))
+            if (uploadedFiles.Any(x => !PermittedFormats.Contains(Path.GetExtension(x.FileName), StringComparer.OrdinalIgnoreCase)))
             {
                 return BadRequest("Invalid file format.");
             }
@@ -204,7 +205,7 @@ namespace QuestionnairesApi.Controllers
             {
                 using (Stream stream = file.OpenReadStream())
                 {
-                    documentQueue.Enqueue(stream.ReadAsXml("word/document.xml", file.FileName));
+                    documentQueue.Enqueue(stream.ReadXml("word/document.xml", file.FileName));
                 }
             }
 
