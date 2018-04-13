@@ -54,6 +54,7 @@ namespace QuestionnairesApi.Controllers
         /// </returns>
         [NotNull]
         [HttpPost]
+        [RequestSizeLimit(250_000_000)]
         public IActionResult Forms([NotNull] [ItemNotNull] IEnumerable<IFormFile> files, [CanBeNull] [FromForm] string format)
         {
             if (format != null)
@@ -62,6 +63,38 @@ namespace QuestionnairesApi.Controllers
             }
 
             return InternalForms(files);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>
+        ///
+        /// </returns>
+        [NotNull]
+        [HttpGet]
+        public IActionResult Controls()
+        {
+            return View();
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>
+        ///
+        /// </returns>
+        [NotNull]
+        [HttpPost]
+        [RequestSizeLimit(250_000_000)]
+        public IActionResult Controls([NotNull] [ItemNotNull] IEnumerable<IFormFile> files, [CanBeNull] [FromForm] string format)
+        {
+            if (format != null)
+            {
+                Request.QueryString = Request.QueryString + QueryString.Create(nameof(format), format);
+            }
+
+            return InternalControls(files);
         }
 
         /// <summary>
@@ -114,37 +147,6 @@ namespace QuestionnairesApi.Controllers
             }
 
             return Request.Query["format"] == "html" ? View() : (IActionResult) Ok(results);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns>
-        ///
-        /// </returns>
-        [NotNull]
-        [HttpGet]
-        public IActionResult Controls()
-        {
-            return View();
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns>
-        ///
-        /// </returns>
-        [NotNull]
-        [HttpPost]
-        public IActionResult Controls([NotNull] [ItemNotNull] IEnumerable<IFormFile> files, [CanBeNull] [FromForm] string format)
-        {
-            if (format != null)
-            {
-                Request.QueryString = Request.QueryString + QueryString.Create(nameof(format), format);
-            }
-
-            return InternalControls(files);
         }
 
         /// <summary>
