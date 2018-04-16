@@ -147,7 +147,7 @@ namespace QuestionnairesApi.Controllers
                 ViewData["Table"] = ConstructSurveys(results);
             }
 
-            return Request.Query["format"] == "html" ? View() : (IActionResult) Ok(results);
+            return Request.Query["format"] == "html" ? View() : (IActionResult) Ok(new XDocument(new XElement("root", results)));
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace QuestionnairesApi.Controllers
                 ViewData["Table"] = ConstructSurveys(results);
             }
 
-            return Request.Query["format"] == "html" ? View() : (IActionResult) Ok(results);
+            return Request.Query["format"] == "html" ? View() : (IActionResult) Ok(new XDocument(new XElement("root", results)));
         }
 
         [Pure]

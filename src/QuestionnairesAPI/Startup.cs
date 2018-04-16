@@ -23,7 +23,7 @@ namespace QuestionnairesApi
     ///
     /// </summary>
     [PublicAPI]
-    public class Startup
+    public class Startup : IStartup
     {
         /// <summary>
         ///
@@ -60,15 +60,17 @@ namespace QuestionnairesApi
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
-        public void ConfigureServices([NotNull] IServiceCollection services)
+        public IServiceProvider ConfigureServices([NotNull] IServiceCollection services)
         {
             if (services is null)
             {
                 throw new ArgumentNullException(nameof(services));
             }
 
-            // Add framework services.
-            services.AddApiVersioning(
+            return
+                // Add framework services.
+                services
+                    .AddApiVersioning(
                         x =>
                         {
                             x.AssumeDefaultVersionWhenUnspecified = true;
@@ -84,6 +86,16 @@ namespace QuestionnairesApi
                             x.Cookie.HttpOnly = true;
                             x.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
                         })
+                    .AddSwaggerGen(
+                        x =>
+                        {
+                            x.DescribeAllEnumsAsStrings();
+                            x.IncludeXmlComments($"{Path.Combine(ApplicationEnvironment.ApplicationBasePath, nameof(QuestionnairesApi))}.xml");
+                            x.IgnoreObsoleteActions();
+                            x.IgnoreObsoleteProperties();
+                            x.SwaggerDoc("v1", new Info { Title = "Questionnaires API", Version = "v1" });
+                            x.OperationFilter<SwaggerOptionalOperationFilter>();
+                        })
                     .AddMvc(
                         x =>
                         {
@@ -94,8 +106,8 @@ namespace QuestionnairesApi
                             x.FormatterMappings.SetMediaTypeMappingForFormat("psv", "text/psv");
                             x.FormatterMappings.SetMediaTypeMappingForFormat("tsv", "text/tsv");
                             x.ModelMetadataDetailsProviders.Add(new KebabBindingMetadataProvider());
-                            x.OutputFormatters.Add(new XmlOutputFormatter2());
-                            x.OutputFormatters.Add(new DelimitedOutputFormatter2());
+                            x.OutputFormatters.Add(new XmlOutputFormatter());
+                            x.OutputFormatters.Add(new DelimitedOutputFormatter());
 // TODO: supports experimental custom XML style
 //                            x.OutputFormatters.Add(
 //                                new HtmlOutputFormatter<IEnumerable<Survey>>(
@@ -110,16 +122,7 @@ namespace QuestionnairesApi
                             x.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
                         })
                     .Services
-                    .AddSwaggerGen(
-                        x =>
-                        {
-                            x.DescribeAllEnumsAsStrings();
-                            x.IncludeXmlComments($"{Path.Combine(ApplicationEnvironment.ApplicationBasePath, nameof(QuestionnairesApi))}.xml");
-                            x.IgnoreObsoleteActions();
-                            x.IgnoreObsoleteProperties();
-                            x.SwaggerDoc("v1", new Info { Title = "Questionnaires API", Version = "v1" });
-                            x.OperationFilter<SwaggerOptionalOperationFilter>();
-                        });
+                    .BuildServiceProvider();
         }
 
         /// <summary>
@@ -135,25 +138,25 @@ namespace QuestionnairesApi
             app.Use(
                    async (context, next) =>
                    {
+                       context.Response.Headers.Add("Server", string.Empty);
                        context.Response.Headers.Add("referrer-policy", "no-referrer");
                        context.Response.Headers.Add("x-content-type-options", "nosniff");
                        context.Response.Headers.Add("x-frame-options", "deny");
                        context.Response.Headers.Add("x-xss-protection", "1; mode=block");
                        await next();
                    })
-               .UseResponseCompression()
                .UseStaticFiles()
                .UseSwagger(x => x.RouteTemplate = "docs/{documentName}/swagger.json")
                .UseSwaggerUI(
                    x =>
                    {
                        x.RoutePrefix = "docs";
-                       x.DocumentTitle("Questionnaires API Documentation");
-                       x.InjectStylesheet("swagger-ui/swagger.css");
-                       x.ShowJsonEditor();
-                       x.ShowRequestHeaders();
+                       x.DocumentTitle = "Questionnaires API Documentation";
+                       x.HeadContent = "Questionnaires API Documentation";
+                       x.DocExpansion(DocExpansion.None);
                        x.SwaggerEndpoint("v1/swagger.json", "Questionnaires API Documentation");
                    })
+               .UseResponseCompression()
                .UseMvc();
         }
     }
