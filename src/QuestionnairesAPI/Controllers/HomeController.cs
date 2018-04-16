@@ -16,10 +16,11 @@ namespace QuestionnairesApi.Controllers
         /// <returns>
         ///
         /// </returns>
-        [HttpGet("")]
+        [NotNull]
+        [HttpGet]
         public IActionResult Index()
         {
-            return View("~/Views/Upload/Index.cshtml");
+            return View();
         }
     }
 }

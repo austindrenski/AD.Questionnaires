@@ -1,8 +1,8 @@
 ﻿using System.IO;
+using AD.ApiExtensions.Configuration;
 using JetBrains.Annotations;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
 
 namespace QuestionnairesApi
 {
@@ -24,24 +24,17 @@ namespace QuestionnairesApi
         /// <summary>
         ///
         /// </summary>
-        /// <param name="args"></param>
         /// <returns></returns>
         [Pure]
         [NotNull]
-        public static IWebHost BuildWebHost([NotNull] [ItemNotNull] string[] args)
+        public static IWebHost BuildWebHost(StringValues args)
         {
-            IConfigurationRoot configuration =
-                new ConfigurationBuilder()
-                    .AddCommandLine(args)
-                    .Build();
-
             return
-                WebHost.CreateDefaultBuilder(args)
-                       .UseHttpSys()
-                       .UseConfiguration(configuration)
-                       .UseContentRoot(Directory.GetCurrentDirectory())
-                       .UseStartup<Startup>()
-                       .Build();
+                new WebHostBuilder()
+                    .UseContentRoot(Directory.GetCurrentDirectory())
+                    .UseStartup<Startup>(args)
+                    .UseHttpSys()
+                    .Build();
         }
     }
 }

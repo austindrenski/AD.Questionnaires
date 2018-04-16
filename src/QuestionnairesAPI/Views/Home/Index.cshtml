@@ -1,0 +1,19 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Questionnaire API</title>
+    </head>
+    <body>
+        <h1>
+            Questionnaires API
+        </h1>
+        <div>
+            <a asp-controller="Upload" asp-action="Forms">Upload questionnaires with (legacy) form fields.</a>
+        </div>
+        <div>
+            <a asp-controller="Upload" asp-action="Controls">Upload questionnaires with content controls.</a>
+        </div>
+    </body>
+</html>

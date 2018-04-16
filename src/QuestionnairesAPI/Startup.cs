@@ -2,9 +2,10 @@
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using AD.ApiExtensions.Configuration;
 using AD.ApiExtensions.Conventions;
 using AD.ApiExtensions.Filters;
-using AD.ApiExtensions.OutputFormatters;
+using AD.ApiExtensions.Primitives;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -28,33 +30,25 @@ namespace QuestionnairesApi
         /// <summary>
         ///
         /// </summary>
-        public IConfigurationRoot Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         /// <summary>
         ///
         /// </summary>
-        public string EnvironmentName { get; }
+        private string EnvironmentName => Configuration["environment"];
 
         /// <summary>
         ///
         /// </summary>
-        /// <param name="environment"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public Startup([NotNull] IHostingEnvironment environment)
+        /// <exception cref="ArgumentNullException" />
+        public Startup([NotNull] IConfiguration configuration)
         {
-            if (environment is null)
+            if (configuration is null)
             {
-                throw new ArgumentNullException(nameof(environment));
+                throw new ArgumentNullException(nameof(configuration));
             }
 
-            EnvironmentName = environment.EnvironmentName;
-
-            Configuration =
-                new ConfigurationBuilder()
-                    .SetBasePath(environment.ContentRootPath)
-                    .AddEnvironmentVariables()
-                    .AddUserSecrets<Startup>()
-                    .Build();
+            Configuration = configuration;
         }
 
         /// <summary>
@@ -70,6 +64,7 @@ namespace QuestionnairesApi
             return
                 // Add framework services.
                 services
+                    .AddLogging(x => x.AddConsole())
                     .AddApiVersioning(
                         x =>
                         {
@@ -93,33 +88,33 @@ namespace QuestionnairesApi
                             x.IncludeXmlComments($"{Path.Combine(ApplicationEnvironment.ApplicationBasePath, nameof(QuestionnairesApi))}.xml");
                             x.IgnoreObsoleteActions();
                             x.IgnoreObsoleteProperties();
+                            x.MapType<GroupingValues<string, string>>(() => new Schema { Type = "string" });
                             x.SwaggerDoc("v1", new Info { Title = "Questionnaires API", Version = "v1" });
                             x.OperationFilter<SwaggerOptionalOperationFilter>();
                         })
                     .AddMvc(
                         x =>
                         {
+                            x.AddDelimitedOutputFormatter();
+                            x.AddXmlOutputFormatter();
                             x.Conventions.Add(new KebabControllerModelConvention());
                             x.FormatterMappings.SetMediaTypeMappingForFormat("html", "text/html");
-                            x.FormatterMappings.SetMediaTypeMappingForFormat("xml", "application/xml");
-                            x.FormatterMappings.SetMediaTypeMappingForFormat("csv", "text/csv");
-                            x.FormatterMappings.SetMediaTypeMappingForFormat("psv", "text/psv");
-                            x.FormatterMappings.SetMediaTypeMappingForFormat("tsv", "text/tsv");
                             x.ModelMetadataDetailsProviders.Add(new KebabBindingMetadataProvider());
-                            x.OutputFormatters.Add(new XmlOutputFormatter());
-                            x.OutputFormatters.Add(new DelimitedOutputFormatter());
+//                            x.ModelMetadataDetailsProviders.Add(new RequiredBindingMetadataProvider());
+                            x.RespectBrowserAcceptHeader = true;
+
 // TODO: supports experimental custom XML style
 //                            x.OutputFormatters.Add(
 //                                new HtmlOutputFormatter<IEnumerable<Survey>>(
 //                                    "Views/Table.cshtml",
 //                                    (c, o) => Survey.CreateEnumerable((IEnumerable<XElement>) o)));
-                            x.RespectBrowserAcceptHeader = true;
                         })
                     .AddJsonOptions(
                         x =>
                         {
-                            x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
+                            x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                             x.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
+                            x.SerializerSettings.ContractResolver = new KebabContractResolver();
                         })
                     .Services
                     .BuildServiceProvider();

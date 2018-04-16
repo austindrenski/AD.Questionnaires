@@ -28,7 +28,6 @@ namespace QuestionnairesApi.Controllers
         ///
         /// </returns>
         [NotNull]
-        [HttpGet("")]
         public IActionResult Index()
         {
             return View();
@@ -105,7 +104,6 @@ namespace QuestionnairesApi.Controllers
         ///
         /// </returns>
         [NotNull]
-        [HttpPost]
         private IActionResult InternalForms([NotNull] [ItemNotNull] IEnumerable<IFormFile> files)
         {
             if (files is null)
@@ -142,12 +140,7 @@ namespace QuestionnairesApi.Controllers
 
             IEnumerable<XElement> results = QuestionnaireFactory.ProcessFormFields(documentQueue);
 
-            if (Request.Query["format"] == "html")
-            {
-                ViewData["Table"] = ConstructSurveys(results);
-            }
-
-            return Request.Query["format"] == "html" ? View() : (IActionResult) Ok(new XDocument(new XElement("root", results)));
+            return Request.Query["format"] == "html" ? View(ConstructSurveys(results)) : (IActionResult) Ok(results);
         }
 
         /// <summary>
@@ -157,7 +150,6 @@ namespace QuestionnairesApi.Controllers
         ///
         /// </returns>
         [NotNull]
-        [HttpPost]
         private IActionResult InternalControls([NotNull] [ItemNotNull] IEnumerable<IFormFile> files)
         {
             if (files is null)
@@ -189,17 +181,11 @@ namespace QuestionnairesApi.Controllers
 //            {
 //                using (Stream stream = file.OpenReadStream())
 //                {
-//                    documentQueue.Enqueue(stream.ReadAsXml(file.FileName, "customXml/item1.xml"));
+//                    documentQueue.Enqueue(stream.ReadXml(file.FileName, "customXml/item1.xml"));
 //                }
 //            }
 //
-//            IEnumerable<XElement> results = documentQueue;
-//
-//            if (Request.Query["format"] == "html")
-//            {
-//                ViewData["Table"] = Survey.CreateEnumerable(results);
-//            }
-//            return Request.Query["format"] == "html" ? View() : (IActionResult) Ok(results);
+//            return Request.Query["format"] == "html" ? View(Survey.CreateEnumerable(documentQueue)) : (IActionResult) Ok(documentQueue);
 
             foreach (IFormFile file in uploadedFiles)
             {
@@ -211,12 +197,7 @@ namespace QuestionnairesApi.Controllers
 
             IEnumerable<XElement> results = QuestionnaireFactory.ProcessContentControls(documentQueue);
 
-            if (Request.Query["format"] == "html")
-            {
-                ViewData["Table"] = ConstructSurveys(results);
-            }
-
-            return Request.Query["format"] == "html" ? View() : (IActionResult) Ok(new XDocument(new XElement("root", results)));
+            return Request.Query["format"] == "html" ? View(ConstructSurveys(results)) : (IActionResult) Ok(results);
         }
 
         [Pure]
