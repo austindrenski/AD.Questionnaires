@@ -32,7 +32,7 @@ namespace AD.Questionnaires
                 throw new ArgumentNullException(nameof(documents));
             }
 
-            return documents.Select(x => x.ExtractContentControls());
+            return documents.Select(ExtractContentControls);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace AD.Questionnaires
                 throw new ArgumentNullException(nameof(documents));
             }
 
-            return documents.Select(x => x.ExtractContentControls());
+            return documents.Select(ExtractContentControls);
         }
 
         /// <summary>
@@ -77,14 +77,24 @@ namespace AD.Questionnaires
                 throw new ArgumentNullException(nameof(document));
             }
 
+            XElement investigation = new XElement("Investigation", (string) document.Attribute("Investigation"));
+            XElement phase = new XElement("Phase", (string) document.Attribute("Phase"));
+            XElement role = new XElement("Role", (string) document.Attribute("Role"));
+            XElement respondentId = new XElement("RespondentId", (string) document.Attribute("RespondentId"));
+
             return
                 new XElement(
-                    "questionnaire",
-                    new XElement(
-                        "fileName",
-                        (string) document.Attribute("fileName")),
+                    "Questionnaire",
+                    new XElement("FileName", (string) document.Attribute("FileName")),
                     document.Descendants("sdt")
-                            .Select(x => ExtractContent(x.Element("sdtPr"), x.Element("sdtContent"))));
+                            .Select(x =>
+                                 new XElement("Response",
+                                     investigation,
+                                     phase,
+                                     role,
+                                     respondentId,
+                                     new XElement("Content",
+                                         ExtractContent(x.Element("sdtPr"), x.Element("sdtContent"))))));
         }
 
         /// <summary>

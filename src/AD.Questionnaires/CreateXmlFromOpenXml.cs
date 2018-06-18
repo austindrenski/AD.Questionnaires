@@ -42,9 +42,9 @@ namespace AD.Questionnaires
                         element.Name.LocalName,
                         (string) element.Attribute(W + "val") ?? (string) element);
 
-            if (element.Attribute("fileName") is XAttribute fileName)
+            if (element.Attribute("FileName") is XAttribute fileName)
             {
-                newElement.SetAttributeValue("fileName", (string) fileName);
+                newElement.SetAttributeValue("FileName", (string) fileName);
             }
 
             if (element.Attribute(W + "fldCharType") is XAttribute fieldType)

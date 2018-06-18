@@ -3,17 +3,14 @@
     <LangVersion>latest</LangVersion>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup>
     <DefineConstants>JETBRAINS_ANNOTATIONS</DefineConstants>
     <DocumentationFile>bin/Release/$(TargetFramework)/QuestionnairesApi.xml</DocumentationFile>
     <RuntimeIdentifiers>win81-x64;win10-x64;rhel.7-x64</RuntimeIdentifiers>
   </PropertyGroup>
-
   <PropertyGroup>
     <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
   </PropertyGroup>
-
   <PropertyGroup>
     <AssemblyName>QuestionnairesApi</AssemblyName>
     <Authors>Austin Drenski</Authors>
@@ -25,7 +22,6 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/austindrenski/AD.Questionnaires</RepositoryUrl>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="AD.ApiExtensions" Version="1.1.102" />
     <PackageReference Include="AD.IO" Version="1.5.36" />
@@ -38,15 +34,12 @@
     <PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
     <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\AD.Questionnaires\AD.Questionnaires.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.6.362" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Update="wwwroot/assets/**/*" CopyToOutputDirectory="true" CopyToPublishDirectory="Always" />
     <Content Update="wwwroot/min/**/*" CopyToOutputDirectory="true" CopyToPublishDirectory="Always" />

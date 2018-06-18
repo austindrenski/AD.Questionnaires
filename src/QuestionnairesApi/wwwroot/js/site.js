@@ -1,24 +1,33 @@
-$('.custom-file-input').change(
-    function () {
+$('.custom-file').change(customFileInputLabel);
+$('#file-upload').change(fileUploadList);
 
-        const fileNames = document.getElementById("file-names");
+function customFileInputLabel() {
+    const files = $(this).find('.custom-file-input').first().prop('files');
+    const label = $(this).find('.custom-file-label').first();
 
-        for (let child; child = fileNames.firstChild;) {
-            fileNames.removeChild(child);
+    switch (files.length) {
+        case 0: {
+            label.text(label.attr('placeholder'));
+            return;
         }
-
-        const files = this.files;
-
-        for (let i = 0; i < files.length; i++) {
-
-            const listItem = document.createElement('li');
-
-            listItem.appendChild(document.createTextNode(files[i].name));
-
-            fileNames.appendChild(listItem);
+        case 1: {
+            label.text(files[0].name);
+            return;
         }
+        default: {
+            label.text(`${files.length} files selected`);
+            return;
+        }
+    }
+}
 
-        $(this).next()
-               .after()
-               .text(`${files.length} files selected`);
-    });
+function fileUploadList() {
+    const names = $('#file-names').first();
+    const files = $('#files').prop('files');
+
+    names.empty();
+
+    for (let i = 0; i < files.length; i++) {
+        names.append(`<li>${files[i].name}</li>`);
+    }
+}

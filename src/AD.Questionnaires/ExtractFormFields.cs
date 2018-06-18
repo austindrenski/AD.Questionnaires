@@ -80,8 +80,8 @@ namespace AD.Questionnaires
                 new XElement(
                     "questionnaire",
                     new XElement(
-                        "fileName",
-                        (string) document.Attribute("fileName")));
+                        "FileName",
+                        (string) document.Attribute("FileName")));
 
             bool inField = false;
             bool firstParagraph = true;
