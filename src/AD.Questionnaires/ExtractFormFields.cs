@@ -171,11 +171,6 @@ namespace AD.Questionnaires
                     continue;
                 }
 
-                if (node.Value is null)
-                {
-                    continue;
-                }
-
                 node.Value = node.Value.Trim('\r', '\n');
 
                 if (node.Value.Contains("\r\n") && !node.Value.StartsWith("\"") && !node.Value.EndsWith("\""))

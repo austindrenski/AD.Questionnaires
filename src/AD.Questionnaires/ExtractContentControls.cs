@@ -101,17 +101,11 @@ namespace AD.Questionnaires
         /// </returns>
         /// <exception cref="ArgumentNullException"/>
         [Pure]
-        [NotNull]
-        private static XElement ExtractContent([NotNull] XElement sdtPr, [NotNull] XElement sdtContent)
+        private static XElement ExtractContent([CanBeNull] XElement sdtPr, [CanBeNull] XElement sdtContent)
         {
             if (sdtPr is null)
             {
-                throw new ArgumentNullException(nameof(sdtPr));
-            }
-
-            if (sdtContent is null)
-            {
-                throw new ArgumentNullException(nameof(sdtContent));
+                return null;
             }
 
             string tag = (string) sdtPr.Element("tag") ?? "noTag";

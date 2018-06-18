@@ -28,10 +28,7 @@ namespace QuestionnairesApi.Controllers
         ///
         /// </returns>
         [NotNull]
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
 
         /// <summary>
         ///
@@ -41,10 +38,7 @@ namespace QuestionnairesApi.Controllers
         /// </returns>
         [NotNull]
         [HttpGet]
-        public IActionResult Forms()
-        {
-            return View();
-        }
+        public IActionResult Forms() => View();
 
         /// <summary>
         ///
@@ -54,10 +48,7 @@ namespace QuestionnairesApi.Controllers
         /// </returns>
         [NotNull]
         [HttpGet]
-        public IActionResult Controls()
-        {
-            return View();
-        }
+        public IActionResult Controls() => View();
 
         /// <summary>
         ///

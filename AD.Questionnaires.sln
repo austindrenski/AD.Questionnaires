@@ -10,11 +10,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sln", "sln", "{86B88213-5F91-47F4-9C30-8D55DD34578D}"
 ProjectSection(SolutionItems) = preProject
 	.appveyor.yml = .appveyor.yml
-	.gitattributes = .gitattributes
 	.gitignore = .gitignore
 	README.md = README.md
-	Dockerfile = Dockerfile
-	.dockerignore = .dockerignore
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BE0D7B00-7A20-440E-A39B-11DF80C32646}"
