@@ -1,4 +1,4 @@
-$('.custom-file').change(customFileInputLabel);
+﻿$('.custom-file').change(customFileInputLabel);
 $('#file-upload').change(fileUploadList);
 
 function customFileInputLabel() {
@@ -30,4 +30,10 @@ function fileUploadList() {
     for (let i = 0; i < files.length; i++) {
         names.append(`<li>${files[i].name}</li>`);
     }
+}
+
+function stylesheetRowCheck() {
+    document.getElementById('stylesheet-row').hidden =
+        !(document.getElementById('html').checked || document.getElementById('md').checked);
+
 }

@@ -3,41 +3,23 @@
     <LangVersion>latest</LangVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup>
     <DefineConstants>JETBRAINS_ANNOTATIONS</DefineConstants>
     <DocumentationFile>bin/Release/$(TargetFramework)/AD.Questionnaires.xml</DocumentationFile>
   </PropertyGroup>
-
-  <PropertyGroup>
-    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <AssemblyVersion />
-    <FileVersion />
-    <Version />
-  </PropertyGroup>
-
   <PropertyGroup>
     <Authors>Austin Drenski</Authors>
     <Company>Austin Drenski</Company>
     <Copyright>Copyright (c) 2017 Austin Drenski</Copyright>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageLicenseUrl>https://github.com/austindrenski/AD.Questionnaires/blob/master/LICENSE</PackageLicenseUrl>
+    <Description>QuestionnaireApi is designed for questionnaire submission and extraction.</Description>
+    <PackageLicenseUrl>https://github.com/austindrenski/AD.Questionnaires/raw/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/austindrenski/AD.Questionnaires</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/austindrenski/AD.Questionnaires</RepositoryUrl>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="AD.IO" Version="1.5.36" />
-    <PackageReference Include="AD.Xml" Version="1.4.18" />
-    <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="2.5.0" />
-    <PackageReference Include="System.Collections" Version="4.3.0" />
-    <PackageReference Include="System.Runtime" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
-    <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
+    <PackageReference Include="AD.IO" Version="2.0.0.2" PrivateAssets="None" />
+    <PackageReference Include="AD.Xml" Version="2.0.0.21" PrivateAssets="None" />
+    <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" PrivateAssets="All" />
   </ItemGroup>
 </Project>

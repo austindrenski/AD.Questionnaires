@@ -8,88 +8,83 @@ using AD.Questionnaires;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json.Linq;
-using QuestionnairesApi.Models;
+using QuestionnairesAPI.Models;
 
-namespace QuestionnairesApi.Controllers
+namespace QuestionnairesAPI.Controllers
 {
-    /// <inheritdoc />
     /// <summary>
-    ///
+    /// Provides endpoints to upload and extract response data.
     /// </summary>
     [PublicAPI]
     [FormatFilter]
+    [Route("[controller]")]
     [ApiVersion("1.0")]
     public sealed class UploadController : Controller
     {
-        private static readonly StringValues PermittedFormats = new string[] { ".docx", ".docm" };
+        [NotNull] static readonly string[] PermittedFormats = new string[] { ".docx", ".docm" };
 
         /// <summary>
-        ///
+        /// Returns the webpage with an upload form for documents.
         /// </summary>
         /// <returns>
-        ///
+        /// The index razor view.
         /// </returns>
-        [Pure]
-        [NotNull]
-        [HttpGet]
-        public IActionResult Index() => View();
+        [HttpGet("")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ViewResult Index() => View();
 
         /// <summary>
-        ///
+        /// Returns the webpage with an upload form for documents with form fields.
         /// </summary>
         /// <returns>
-        ///
+        /// The forms razor view.
         /// </returns>
-        [Pure]
-        [NotNull]
-        [HttpGet]
-        public IActionResult Forms() => View();
+        [HttpGet("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ViewResult Forms() => View();
 
         /// <summary>
-        ///
+        /// Returns the webpage with an upload form for documents with content controls.
         /// </summary>
         /// <returns>
-        ///
+        /// The controls razor view.
         /// </returns>
-        [Pure]
-        [NotNull]
-        [HttpGet]
-        public IActionResult Controls() => View();
+        [HttpGet("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ViewResult Controls() => View();
 
         /// <summary>
-        ///
+        /// Receives file uploads from the user.
         /// </summary>
+        /// <param name="files">The collection of files submitted by POST request.</param>
+        /// <param name="format">The format to produce.</param>
         /// <returns>
-        ///
+        /// The extracted response data.
         /// </returns>
-        [Pure]
-        [NotNull]
-        [HttpPost]
+        /// <exception cref="ArgumentNullException"><paramref name="files"/></exception>
+        [HttpPost("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [RequestSizeLimit(250_000_000)]
-        public IActionResult Forms([CanBeNull] [ItemNotNull] IEnumerable<IFormFile> files, [CanBeNull] [FromForm] string format)
+        public IActionResult Forms(
+            [NotNull] [ItemNotNull] IEnumerable<IFormFile> files,
+            [CanBeNull] [FromForm] string format)
         {
             if (files is null)
-            {
-                return BadRequest("No files uploaded.");
-            }
+                throw new ArgumentNullException(nameof(files));
 
             IFormFile[] uploadedFiles = files.ToArray();
 
             if (uploadedFiles.Length == 0)
-            {
                 return BadRequest("No files uploaded.");
-            }
 
             if (uploadedFiles.Any(x => x.Length == 0))
             {
                 foreach (IFormFile f in uploadedFiles)
                 {
                     if (f.Length == 0)
-                    {
                         ModelState.AddModelError(f.FileName, "Invalid file length.");
-                    }
                 }
 
                 return BadRequest("Invalid file length.");
@@ -100,54 +95,49 @@ namespace QuestionnairesApi.Controllers
                 foreach (IFormFile f in uploadedFiles)
                 {
                     if (!PermittedFormats.Contains(Path.GetExtension(f.FileName), StringComparer.OrdinalIgnoreCase))
-                    {
                         ModelState.AddModelError(f.FileName, "Invalid file format.");
-                    }
                 }
 
                 return BadRequest("Invalid file format.");
             }
 
             if (format != null)
-            {
                 Request.QueryString = Request.QueryString + QueryString.Create(nameof(format), format);
-            }
 
             return InternalForms(uploadedFiles);
         }
 
         /// <summary>
-        ///
+        /// Receives file uploads from the user.
         /// </summary>
+        /// <param name="files">The collection of files submitted by POST request.</param>
+        /// <param name="format">The format to produce.</param>
         /// <returns>
-        ///
+        /// The extracted response data.
         /// </returns>
-        [Pure]
-        [NotNull]
-        [HttpPost]
+        /// <exception cref="ArgumentNullException"><paramref name="files"/></exception>
+        [HttpPost("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [RequestSizeLimit(250_000_000)]
-        public IActionResult Controls([CanBeNull] [ItemNotNull] IEnumerable<IFormFile> files, [CanBeNull] [FromForm] string format)
+        public IActionResult Controls(
+            [CanBeNull] [ItemNotNull] IEnumerable<IFormFile> files,
+            [CanBeNull] [FromForm] string format)
         {
-            if (files is null)
-            {
+            if (files == null)
                 return BadRequest("No files uploaded.");
-            }
 
             IFormFile[] uploadedFiles = files.ToArray();
 
             if (uploadedFiles.Length == 0)
-            {
                 return BadRequest("No files uploaded.");
-            }
 
             if (uploadedFiles.Any(x => x.Length == 0))
             {
                 foreach (IFormFile f in uploadedFiles)
                 {
                     if (f.Length == 0)
-                    {
                         ModelState.AddModelError(f.FileName, "Invalid file length.");
-                    }
                 }
 
                 return BadRequest("Invalid file length.");
@@ -158,31 +148,28 @@ namespace QuestionnairesApi.Controllers
                 foreach (IFormFile f in uploadedFiles)
                 {
                     if (!PermittedFormats.Contains(Path.GetExtension(f.FileName), StringComparer.OrdinalIgnoreCase))
-                    {
                         ModelState.AddModelError(f.FileName, "Invalid file format.");
-                    }
                 }
 
                 return BadRequest("Invalid file format.");
             }
 
             if (format != null)
-            {
                 Request.QueryString = Request.QueryString + QueryString.Create(nameof(format), format);
-            }
 
             return InternalControls(uploadedFiles);
         }
 
         /// <summary>
-        ///
+        /// Processes form field data.
         /// </summary>
+        /// <param name="files">The collection of files submitted by POST request.</param>
         /// <returns>
-        ///
+        /// The extracted response data.
         /// </returns>
         [Pure]
         [NotNull]
-        private IActionResult InternalForms([NotNull] [ItemNotNull] IFormFile[] files)
+        IActionResult InternalForms([NotNull] [ItemNotNull] IFormFile[] files)
         {
             Queue<XElement> documentQueue = new Queue<XElement>(files.Length);
 
@@ -200,27 +187,17 @@ namespace QuestionnairesApi.Controllers
         }
 
         /// <summary>
-        ///
+        /// Processes content control data.
         /// </summary>
+        /// <param name="files">The collection of files submitted by POST request.</param>
         /// <returns>
-        ///
+        /// The extracted response data.
         /// </returns>
         [Pure]
         [NotNull]
-        private IActionResult InternalControls([NotNull] [ItemNotNull] IFormFile[] files)
+        IActionResult InternalControls([NotNull] [ItemNotNull] IFormFile[] files)
         {
             Queue<XElement> documentQueue = new Queue<XElement>(files.Length);
-
-// TODO: this uses the experimental custom XML style.
-//            foreach (IFormFile file in files)
-//            {
-//                using (Stream stream = file.OpenReadStream())
-//                {
-//                    documentQueue.Enqueue(stream.ReadXml(file.FileName, "customXml/item1.xml"));
-//                }
-//            }
-//
-//            return Request.Query["format"] == "html" ? View(Survey.CreateEnumerable(documentQueue)) : (IActionResult) Ok(documentQueue);
 
             foreach (IFormFile file in files)
             {
@@ -237,17 +214,16 @@ namespace QuestionnairesApi.Controllers
 
         [Pure]
         [NotNull]
-        [LinqTunnel]
         [ItemNotNull]
         [CollectionAccess(CollectionAccessType.Read)]
-        private IEnumerable<ResponseModel> ConstructSurveys([CanBeNull] [ItemCanBeNull] IEnumerable<XElement> questionnaires)
+        static IEnumerable<ResponseModel> ConstructSurveys([CanBeNull] [ItemCanBeNull] IEnumerable<XElement> questionnaires)
         {
-            if (questionnaires is null)
+            if (questionnaires == null)
                 yield break;
 
             foreach (XElement questionnaire in questionnaires)
             {
-                if (questionnaire is null)
+                if (questionnaire == null)
                     continue;
 
                 foreach (XElement response in questionnaire.Elements())
@@ -262,12 +238,6 @@ namespace QuestionnairesApi.Controllers
                             Question = (int) response.Element("Question"),
                             Content = new JObject { response.Element("Content") }
                         };
-
-//                yield return
-//                    new Survey(
-//                        default,
-//                        default,
-//                        element.Elements().Select((y, i) => new Response(i, y.Value, y.Name.LocalName, default)));
                 }
             }
         }

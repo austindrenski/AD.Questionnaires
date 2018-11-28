@@ -16,22 +16,23 @@ namespace AD.Questionnaires
         /// <summary>
         /// Represents the 'w:' prefix seen in raw OpenXML documents. This constant is needed to extract attributes.
         /// </summary>
-        private static readonly XNamespace W = XNamespaces.OpenXmlWordprocessingmlMain;
+        [NotNull] static readonly XNamespace W = XNamespaces.OpenXmlWordprocessingmlMain;
 
         /// <summary>
         /// Transform OpenXML into simplified XML. This includes removing namespaces and most attributes.
         /// This method traverses the XML in a tail-recursive manner. Do not call this method on any element other than the root element.
         /// </summary>
         /// <param name="element">The root element of the XML object being transformed.</param>
-        /// <returns>An XElement cleaned of namespaces and attributes.</returns>
+        /// <returns>
+        /// An XElement cleaned of namespaces and attributes.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="element"/></exception>
         [Pure]
         [NotNull]
         public static XElement CreateXmlFromOpenXml([NotNull] this XElement element)
         {
-            if (element is null)
-            {
+            if (element == null)
                 throw new ArgumentNullException(nameof(element));
-            }
 
             XElement newElement =
                 element.HasElements
@@ -43,14 +44,10 @@ namespace AD.Questionnaires
                         (string) element.Attribute(W + "val") ?? (string) element);
 
             if (element.Attribute("FileName") is XAttribute fileName)
-            {
                 newElement.SetAttributeValue("FileName", (string) fileName);
-            }
 
             if (element.Attribute(W + "fldCharType") is XAttribute fieldType)
-            {
                 newElement.SetAttributeValue("fldCharType", (string) fieldType);
-            }
 
             return newElement;
         }
@@ -60,15 +57,16 @@ namespace AD.Questionnaires
         /// This method traverses the XML in a tail-recursive manner. Do not call this method on any element other than the root element.
         /// </summary>
         /// <param name="elements">The root elements of the XML objects being transformed.</param>
-        /// <returns>An XElement cleaned of namespaces and attributes.</returns>
+        /// <returns>
+        /// An XElement cleaned of namespaces and attributes.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="elements"/></exception>
         [Pure]
         [NotNull]
         public static IEnumerable<XElement> CreateXmlFromOpenXml([NotNull] [ItemNotNull] this IEnumerable<XElement> elements)
         {
-            if (elements is null)
-            {
+            if (elements == null)
                 throw new ArgumentNullException(nameof(elements));
-            }
 
             return elements.Select(CreateXmlFromOpenXml);
         }
@@ -78,15 +76,16 @@ namespace AD.Questionnaires
         /// This method traverses the XML in a tail-recursive manner. Do not call this method on any element other than the root element.
         /// </summary>
         /// <param name="elements">The root elements of the XML objects being transformed.</param>
-        /// <returns>An XElement cleaned of namespaces and attributes.</returns>
+        /// <returns>
+        /// An XElement cleaned of namespaces and attributes.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="elements"/></exception>
         [Pure]
         [NotNull]
         public static ParallelQuery<XElement> CreateXmlFromOpenXml([NotNull] [ItemNotNull] this ParallelQuery<XElement> elements)
         {
-            if (elements is null)
-            {
+            if (elements == null)
                 throw new ArgumentNullException(nameof(elements));
-            }
 
             return elements.Select(CreateXmlFromOpenXml);
         }

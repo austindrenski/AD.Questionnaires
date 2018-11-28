@@ -13,20 +13,10 @@ environment:
   nuget:
     secure: lAOgXBlidUDKDMFlDJInIUO7K9vZc4FHLP715QyBp1gP9KFNQjntN70Jo6gi4+bA
 
-version: 1.4.{build}
-
-dotnet_csproj:
-  patch: true
-  file: '**\*.csproj'
-  version: '{version}'
-  package_version: '{version}'
-  assembly_version: '{version}'
-
-install:
-  - pwsh: mkdir src/QuestionnairesAPI/wwwroot/min
+version: 1.5.0.{build}
 
 build_script:
-  - pwsh: dotnet build --configuration Release
+  - pwsh: dotnet pack src/AD.Questionnaires --configuration Release
 
 on_success:
   - pwsh: dotnet nuget push src/AD.Questionnaires/bin/release/AD.Questionnaires.${env:appveyor_build_version}.nupkg --source https://www.nuget.org/api/v2/package --api-key ${env:nuget}

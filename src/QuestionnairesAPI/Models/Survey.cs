@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 
-namespace QuestionnairesApi.Models
+namespace QuestionnairesAPI.Models
 {
     /// <summary>
     /// A set of responses to survey questions.
@@ -31,21 +31,13 @@ namespace QuestionnairesApi.Models
         /// <summary>
         /// A set of responses to survey questions.
         /// </summary>
-        /// <param name="surveyId">
-        /// The unique identifier for a survey.
-        /// </param>
-        /// <param name="respondentId">
-        /// The unique identifier for a respondent.
-        /// </param>
-        /// <param name="responses">
-        /// The responses of the specified respondent to the specified survey.
-        /// </param>
+        /// <param name="surveyId">The unique identifier for a survey.</param>
+        /// <param name="respondentId">The unique identifier for a respondent.</param>
+        /// <param name="responses">The responses of the specified respondent to the specified survey.</param>
         public Survey(int surveyId, int respondentId, [NotNull] [ItemNotNull] IEnumerable<Response> responses)
         {
-            if (responses is null)
-            {
+            if (responses == null)
                 throw new ArgumentNullException(nameof(responses));
-            }
 
             SurveyId = surveyId;
             RespondentId = respondentId;
@@ -63,10 +55,8 @@ namespace QuestionnairesApi.Models
         [ItemNotNull]
         public static IEnumerable<Survey> CreateEnumerable([NotNull] [ItemNotNull] IEnumerable<XElement> elements)
         {
-            if (elements is null)
-            {
+            if (elements == null)
                 throw new ArgumentNullException(nameof(elements));
-            }
 
             foreach (XElement element in elements)
             {
@@ -74,10 +64,8 @@ namespace QuestionnairesApi.Models
                 XAttribute respondentId = element.Attribute("respondentId");
                 IEnumerable<XElement> responses = element.Element("responses")?.Elements();
 
-                if (surveyId is null || respondentId is null || responses is null)
-                {
+                if (surveyId == null || respondentId == null || responses == null)
                     throw new ArgumentException("Malformed XML encountered.");
-                }
 
                 yield return new Survey((int) surveyId, (int) respondentId, Response.CreateEnumerable(responses));
             }
@@ -88,19 +76,13 @@ namespace QuestionnairesApi.Models
         /// </summary>
         [Pure]
         [NotNull]
-        public override string ToString()
-        {
-            return Serialize(true);
-        }
+        public override string ToString() => Serialize(true);
 
         /// <summary>
         /// Returns a JSON representation of the contents of this <see cref="Response"/>.
         /// </summary>
         [Pure]
         [NotNull]
-        public string Serialize(bool indent)
-        {
-            return JsonConvert.SerializeObject(this, indent ? Formatting.Indented : Formatting.None);
-        }
+        public string Serialize(bool indent) => JsonConvert.SerializeObject(this, indent ? Formatting.Indented : Formatting.None);
     }
 }

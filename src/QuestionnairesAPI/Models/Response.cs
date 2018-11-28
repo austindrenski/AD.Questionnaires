@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 
-namespace QuestionnairesApi.Models
+namespace QuestionnairesAPI.Models
 {
     /// <summary>
     /// A response to a survey question
@@ -38,24 +38,14 @@ namespace QuestionnairesApi.Models
         /// <summary>
         /// A response to a survey question.
         /// </summary>
-        /// <param name="questionId">
-        /// The unique identifier for a question.
-        /// </param>
-        /// <param name="value">
-        /// The response value.
-        /// </param>
-        /// <param name="questionText">
-        /// The text of the question.
-        /// </param>
-        /// <param name="units">
-        /// The logical units of the response value
-        /// </param>
+        /// <param name="questionId">The unique identifier for a question.</param>
+        /// <param name="value">The response value.</param>
+        /// <param name="questionText">The text of the question.</param>
+        /// <param name="units">The logical units of the response value</param>
         public Response(int questionId, [NotNull] string value, [CanBeNull] string questionText, [CanBeNull] string units)
         {
-            if (value is null)
-            {
+            if (value == null)
                 throw new ArgumentNullException(nameof(value));
-            }
 
             QuestionId = questionId;
             Value = value;
@@ -74,19 +64,15 @@ namespace QuestionnairesApi.Models
         [ItemNotNull]
         public static IEnumerable<Response> CreateEnumerable([NotNull] [ItemNotNull] IEnumerable<XElement> elements)
         {
-            if (elements is null)
-            {
+            if (elements == null)
                 throw new ArgumentNullException(nameof(elements));
-            }
 
             foreach (XElement element in elements)
             {
                 XAttribute questionId = element.Attribute("questionId");
 
-                if (questionId is null)
-                {
+                if (questionId == null)
                     throw new ArgumentException("Malformed XML encountered.");
-                }
 
                 yield return
                     new Response(
@@ -102,19 +88,13 @@ namespace QuestionnairesApi.Models
         /// </summary>
         [Pure]
         [NotNull]
-        public override string ToString()
-        {
-            return Serialize(true);
-        }
+        public override string ToString() => Serialize(true);
 
         /// <summary>
         /// Returns a JSON representation of the contents of this <see cref="Response"/>.
         /// </summary>
         [Pure]
         [NotNull]
-        public string Serialize(bool indent)
-        {
-            return JsonConvert.SerializeObject(this, indent ? Formatting.Indented : Formatting.None);
-        }
+        public string Serialize(bool indent) => JsonConvert.SerializeObject(this, indent ? Formatting.Indented : Formatting.None);
     }
 }

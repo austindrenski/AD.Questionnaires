@@ -15,22 +15,21 @@ namespace AD.Questionnaires
         /// <summary>
         /// Extracts content control data from an enumerable of simplified XElements representing the document root of a Microsoft Word document.
         /// </summary>
-        /// <param name="documents">
-        /// XElements that have been simplified for processing. Each XElement in the enumerable should be a document root.
-        /// </param>
+        /// <param name="documents">XElements that have been simplified for processing.</param>
         /// <returns>
         /// An enumerable collection of XElements where the root-level element is a questionnaire.
         /// </returns>
-        /// <exception cref="ArgumentNullException"/>
+        /// <remarks>
+        /// Each XElement in the enumerable should be a document root.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="documents"/></exception>
         [Pure]
         [NotNull]
         [ItemNotNull]
         public static IEnumerable<XElement> ExtractContentControls([NotNull] [ItemNotNull] this IEnumerable<XElement> documents)
         {
-            if (documents is null)
-            {
+            if (documents == null)
                 throw new ArgumentNullException(nameof(documents));
-            }
 
             return documents.Select(ExtractContentControls);
         }
@@ -38,22 +37,21 @@ namespace AD.Questionnaires
         /// <summary>
         /// Extracts content control data from an enumerable of simplified XElements representing the document root of a Microsoft Word document.
         /// </summary>
-        /// <param name="documents">
-        /// XElements that have been simplified for processing. Each XElement in the enumerable should be a document root.
-        /// </param>
+        /// <param name="documents">XElements that have been simplified for processing.</param>
         /// <returns>
         /// An enumerable collection of XElements where the root-level element is a questionnaire.
         /// </returns>
-        /// <exception cref="ArgumentNullException"/>
+        /// <remarks>
+        /// Each XElement in the enumerable should be a document root.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="documents"/></exception>
         [Pure]
         [NotNull]
         [ItemNotNull]
         public static ParallelQuery<XElement> ExtractContentControls([NotNull] [ItemNotNull] this ParallelQuery<XElement> documents)
         {
-            if (documents is null)
-            {
+            if (documents == null)
                 throw new ArgumentNullException(nameof(documents));
-            }
 
             return documents.Select(ExtractContentControls);
         }
@@ -61,21 +59,17 @@ namespace AD.Questionnaires
         /// <summary>
         /// Extracts content control data from a single XElement representing the document root of a Microsoft Word document.
         /// </summary>
-        /// <param name="document">
-        /// The document root element of a Microsoft Word document.
-        /// </param>
+        /// <param name="document">The document root element of a Microsoft Word document.</param>
         /// <returns>
         /// An XElement whose root is a questionnaire element.
         /// </returns>
-        /// <exception cref="ArgumentNullException"/>
+        /// <exception cref="ArgumentNullException"><paramref name="document"/></exception>
         [Pure]
         [NotNull]
         public static XElement ExtractContentControls([NotNull] this XElement document)
         {
-            if (document is null)
-            {
+            if (document == null)
                 throw new ArgumentNullException(nameof(document));
-            }
 
             XElement investigation = new XElement("Investigation", (string) document.Attribute("Investigation"));
             XElement phase = new XElement("Phase", (string) document.Attribute("Phase"));
@@ -88,52 +82,40 @@ namespace AD.Questionnaires
                     new XElement("FileName", (string) document.Attribute("FileName")),
                     document.Descendants("sdt")
                             .Select(x =>
-                                 new XElement("Response",
-                                     investigation,
-                                     phase,
-                                     role,
-                                     respondentId,
-                                     new XElement("Content",
-                                         ExtractContent(x.Element("sdtPr"), x.Element("sdtContent"))))));
+                                new XElement("Response",
+                                    investigation,
+                                    phase,
+                                    role,
+                                    respondentId,
+                                    new XElement("Content",
+                                        ExtractContent(x.Element("sdtPr"), x.Element("sdtContent"))))));
         }
 
         /// <summary>
         /// Extracts content control data from within a w:sdt node.
         /// </summary>
-        /// <param name="sdtPr">
-        /// The w:sdtPr node.
-        /// </param>
-        /// <param name="sdtContent">
-        /// The w:sdtContent node.
-        /// </param>
+        /// <param name="sdtPr">The w:sdtPr node.</param>
+        /// <param name="sdtContent">The w:sdtContent node.</param>
         /// <returns>
         /// An XElement with the name and value.
         /// </returns>
-        /// <exception cref="ArgumentNullException"/>
         [Pure]
-        private static XElement ExtractContent([CanBeNull] XElement sdtPr, [CanBeNull] XElement sdtContent)
+        [CanBeNull]
+        static XElement ExtractContent([CanBeNull] XElement sdtPr, [CanBeNull] XElement sdtContent)
         {
-            if (sdtPr is null)
-            {
+            if (sdtPr == null)
                 return null;
-            }
 
             string tag = (string) sdtPr.Element("tag") ?? "noTag";
 
             if (sdtPr.Element("date") != null)
-            {
                 return new XElement(tag, (DateTime) sdtPr.Attribute("fullDate"));
-            }
 
             if (sdtPr.Element("checkbox") != null)
-            {
                 return new XElement(tag, sdtPr.Element("checked") != null);
-            }
 
             if (sdtPr.Element("text") != null || sdtPr.Element("comboBox") != null || sdtPr.Element("dropDownList") != null)
-            {
                 return new XElement(tag, (string) sdtContent);
-            }
 
             return new XElement(tag, (string) sdtContent);
         }

@@ -1,9 +1,13 @@
 ﻿bin/
 obj/
 packages/
+client/
 .idea/
 .vscode/
 wwwroot/
-!QuestionnairesApi/wwwroot/css/site.css
-!QuestionnairesApi/wwwroot/js/site.js
+!src/QuestionnairesAPI/wwwroot/css/site.css
+!src/QuestionnairesAPI/wwwroot/js/site.js
+!src/QuestionnairesAPI/wwwroot/docs/swagger-ui/swagger.css
 *.DotSettings.user
+*.pdf
+*.html

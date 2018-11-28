@@ -15,18 +15,15 @@ namespace AD.Questionnaires
         /// <summary>
         /// Extracts content control data from each file and writes to the specified directory.
         /// </summary>
-        /// <param name="documents">
-        /// The OpenXML documents from which content control data are extracted.
-        /// </param>
+        /// <param name="documents">The OpenXML documents from which content control data are extracted.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="documents"/></exception>
         [Pure]
         [NotNull]
         [ItemNotNull]
         public static IEnumerable<XElement> ProcessContentControls([NotNull] IEnumerable<XElement> documents)
         {
-            if (documents is null)
-            {
+            if (documents == null)
                 throw new ArgumentNullException(nameof(documents));
-            }
 
             return
                 documents.AsParallel()
@@ -37,18 +34,15 @@ namespace AD.Questionnaires
         /// <summary>
         /// Extracts form field data from each file.
         /// </summary>
-        /// <param name="documents">
-        /// The OpenXML documents from which form field data are extracted.
-        /// </param>
+        /// <param name="documents">The OpenXML documents from which form field data are extracted.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="documents"/></exception>
         [Pure]
         [NotNull]
         [ItemNotNull]
         public static IEnumerable<XElement> ProcessFormFields([NotNull] [ItemNotNull] IEnumerable<XElement> documents)
         {
-            if (documents is null)
-            {
+            if (documents == null)
                 throw new ArgumentNullException(nameof(documents));
-            }
 
             return
                 documents.AsParallel()

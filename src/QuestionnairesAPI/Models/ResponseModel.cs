@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 
-namespace QuestionnairesApi.Models
+namespace QuestionnairesAPI.Models
 {
     /// <summary>
     /// Represents a response by questionnaire, question, and respondent.
